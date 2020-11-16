@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
-import Nav from '../../components/nav/mainNav'
-import Menu from '../../components/nav/topNav'
+import Nav from '../nav/side/mainNav'
+import Menu from '../nav/top/topNav'
 
-function ViberHome() {
+interface Props {
+    children: React.ReactNode
+}
+
+const template: React.FC<Props> = function ({ children }) {
     return (
         <div style={{
             width: "100%",
@@ -14,10 +18,11 @@ function ViberHome() {
             backgroundColor: "#0E0E10",
             // filter: "invert(100%)"
         }}>
+            {children}
             <Nav />
             <Menu />
         </div>
     )
 }
 
-export default ViberHome
+export default template

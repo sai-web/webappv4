@@ -2,7 +2,10 @@ import React, { useState, useRef } from 'react'
 import Base from '../../components/auth/baseline'
 import { closeOnOutwardClick, createInput, redirectLinks } from '../../utils/auth'
 
+import Loader from '../../components/AppLoader'
+
 const Login: React.FC = () => {
+    const [displayLoader, setDisplayLoader] = useState<boolean>(false)
     const [selectedUsername, setSelectUsername] = useState<boolean>(false)
     const [selectedPassword, setSelectPassword] = useState<boolean>(false)
 
@@ -39,15 +42,19 @@ const Login: React.FC = () => {
     }
 
     return (
-        <Base
-            header="Welcome back"
-            subHeader="We're so excited to see you again"
-            height="400px"
-            buttonName="Login"
-            redirectURL="/auth/login"
-            inputs={inputs}
-            redirectLinks={links}
-        />
+        <>
+            <Base
+                header="Welcome back"
+                subHeader="We're so excited to see you again"
+                height="400px"
+                buttonName="Login"
+                redirectURL="/app"
+                inputs={inputs}
+                redirectLinks={links}
+                loaderState={setDisplayLoader}
+            />
+            {displayLoader ? <Loader /> : ""}
+        </>
     )
 }
 

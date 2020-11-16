@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import type { AppProps } from 'next/app'
 
 import { AnimatePresence } from 'framer-motion'
+
+import '../styles/sideNav.css'
+import '../styles/topNav.css'
 
 function Main({ Component, pageProps }: AppProps) {
   return (

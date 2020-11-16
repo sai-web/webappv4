@@ -1,0 +1,10 @@
+.side-navigation-container:hover{
+    background-color: #26262C;
+}
+
+.subscribed-channel-filters{
+    color:white
+}
+.subscribed-channel-filters:hover{
+    color:grey
+}

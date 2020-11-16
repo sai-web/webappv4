@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 import Router from 'next/router'
 
@@ -10,9 +11,10 @@ interface Props {
     redirectURL: string
     inputs: () => JSX.Element
     redirectLinks: () => JSX.Element
+    loaderState?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const base: React.FC<Props> = ({ header, subHeader, height, buttonName, redirectURL, inputs, redirectLinks }: Props) => {
+const base: React.FC<Props> = ({ header, subHeader, height, buttonName, redirectURL, inputs, redirectLinks, loaderState }: Props) => {
     return (
         <div style={{
             position: "absolute",
@@ -60,24 +62,29 @@ const base: React.FC<Props> = ({ header, subHeader, height, buttonName, redirect
                     </h4>
                 </div>
                 {inputs()}
-                <button style={{
-                    width: "calc(100% - 60px)",
-                    height: "40px",
-                    backgroundColor: "#4B6DFF",
-                    fontFamily: "Roboto Condensed",
-                    fontSize: "17px",
-                    color: "white",
-                    borderWidth: "0",
-                    borderRadius: "20px",
-                    marginTop: "15px",
-                    outline: "none"
-                }}
+                <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    style={{
+                        width: "calc(100% - 60px)",
+                        height: "40px",
+                        backgroundColor: "#4B6DFF",
+                        fontFamily: "Roboto Condensed",
+                        fontSize: "17px",
+                        color: "white",
+                        borderWidth: "0",
+                        borderRadius: "20px",
+                        marginTop: "15px",
+                        outline: "none"
+                    }}
                     onClick={() => {
-                        Router.push(redirectURL)
+                        loaderState !== undefined ? loaderState(true) : ""
+                        setTimeout(() => {
+                            Router.push(redirectURL)
+                        }, 6000)
                     }}
                 >
                     {buttonName}
-                </button>
+                </motion.button>
                 {redirectLinks()}
             </div>
         </div>

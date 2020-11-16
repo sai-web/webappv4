@@ -1,65 +1,6 @@
 import React from 'react'
 
-const ChannelClassificationCss = {
-    fontFamily: "sans-serif",
-    fontSize: "12px",
-    color: "whitesmoke",
-    marginLeft: "5px"
-}
-
-const ContentClassificationCss = {
-    fontFamily: "sans-serif",
-    fontSize: "13px",
-    color: "whitesmoke"
-}
-
-interface PageModeProps {
-    name: string
-    logo: JSX.Element
-}
-const PageModes: React.FC<PageModeProps> = ({ name, logo }: PageModeProps) => {
-    return (
-        <div style={{
-            display: "flex",
-            alignItems: "center"
-        }}>
-            {logo}
-            <h4 style={ChannelClassificationCss}>
-                {name}
-            </h4>
-        </div>
-    )
-}
-
-interface MainModeProps {
-    name: string
-}
-
-const MainModes: React.FC<MainModeProps> = ({ name }: MainModeProps) => {
-    return (
-        <h4 style={ContentClassificationCss}>
-            {name}
-        </h4>
-    )
-}
-
-interface UserModeProps {
-    name: string
-}
-
-const UserModes: React.FC<UserModeProps> = ({ name: UserModeProps }) => {
-    return (
-        <span
-            className="material-icons"
-            style={{
-                fontSize: "15px",
-                color: "white"
-            }}
-        >
-            {name}
-        </span>
-    )
-}
+import { MainModes, PageModes, UserModes } from './components'
 
 function extendedMenu() {
     return (
@@ -72,7 +13,8 @@ function extendedMenu() {
             backgroundColor: "#18181B",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            userSelect: "none"
         }}>
             <div style={{
                 display: "flex",
@@ -104,9 +46,9 @@ function extendedMenu() {
                 justifyContent: "space-between",
                 alignItems: "center"
             }}>
-                <PageModes name="Channel" logo={<i className="fa fa-user" style={{ color: "white", fontSize: "10px" }}></i>} />
-                <PageModes name="Community" logo={<i className="fa fa-users" style={{ color: "white", fontSize: "10px" }}></i>} />
-                <PageModes name="Content" logo={<span className="material-icons" style={{ color: "white", fontSize: "12px" }}>bookmark</span>} />
+                <PageModes name="Channel" logo={<i className="fa fa-user" style={{ fontSize: "10px" }}></i>} />
+                <PageModes name="Community" logo={<i className="fa fa-users" style={{ fontSize: "10px" }}></i>} />
+                <PageModes name="Content" logo={<span className="material-icons" style={{ fontSize: "12px" }}>bookmark</span>} />
             </div>
             <div style={{
                 display: "flex",

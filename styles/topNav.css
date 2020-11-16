@@ -1,0 +1,18 @@
+.page-mode-items{
+    color:whitesmoke
+}
+.page-mode-items:hover{
+    color:grey
+}
+.main-mode-items{
+    color:whitesmoke
+}
+.main-mode-items:hover{
+    color:#0071ff
+}
+.user-mode-items{
+    color:white
+}
+.user-mode-items:hover{
+    color:grey
+}
