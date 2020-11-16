@@ -18,9 +18,19 @@ export const PageModes: React.FC<PageModeProps> = ({ name, logo }) => {
     )
 }
 
-export const MainModes: React.FC<MainModeProps> = ({ name }) => {
+export const MainModes: React.FC<MainModeProps> = ({ name, color, setMainProps }) => {
     return (
-        <motion.h4 className="main-mode-items" style={ContentClassificationCss} whileTap={{ scale: 0.9 }}>
+        <motion.h4
+            className="main-mode-items"
+            style={{ ...ContentClassificationCss, color }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setMainProps([
+                name === "Browse",
+                name === "Live",
+                name === "Esports",
+                name === "Music"
+            ])}
+        >
             {name}
         </motion.h4>
     )

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { MainModes, PageModes, UserModes } from './components'
 
 function extendedMenu() {
+    const [MainProp, setMainProp] = useState<Array<boolean>>([false, false, false, false])
+
     return (
         <nav style={{
             width: "100%",
@@ -33,10 +35,10 @@ function extendedMenu() {
                         objectFit: "cover"
                     }}
                 />
-                <MainModes name="Browse" />
-                <MainModes name="Live" />
-                <MainModes name="Esports" />
-                <MainModes name="Music" />
+                <MainModes name="Browse" color={MainProp[0] ? "#0071ff" : undefined} setMainProps={setMainProp} />
+                <MainModes name="Live" color={MainProp[1] ? "#0071ff" : undefined} setMainProps={setMainProp} />
+                <MainModes name="Esports" color={MainProp[2] ? "#0071ff" : undefined} setMainProps={setMainProp} />
+                <MainModes name="Music" color={MainProp[3] ? "#0071ff" : undefined} setMainProps={setMainProp} />
             </div>
             <div style={{
                 display: "flex",
