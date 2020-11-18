@@ -1,22 +1,30 @@
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
-import { MainModes, PageModes, UserModes } from './components'
+import { MainModes, UserModes } from './components'
 
-function extendedMenu() {
+interface Props {
+    pageModes: JSX.Element
+    width: string
+}
+
+function extendedMenu({ pageModes, width }: Props) {
     const [MainProp, setMainProp] = useState<Array<boolean>>([false, false, false, false])
 
     return (
         <nav style={{
             width: "100%",
             height: "40px",
-            position: "absolute",
+            position: "fixed",
             top: "0",
             left: "0",
             backgroundColor: "#18181B",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            userSelect: "none"
+            userSelect: "none",
+            zIndex: 1
         }}>
             <div style={{
                 display: "flex",
@@ -26,15 +34,20 @@ function extendedMenu() {
                 justifyContent: "space-between",
                 alignItems: "center"
             }}>
-                <img
-                    src="/viber.png"
-                    alt="app-logo"
-                    style={{
-                        width: "45px",
-                        height: "inherit",
-                        objectFit: "cover"
-                    }}
-                />
+                <Link href='/app'>
+                    <motion.img
+                        src="/viber.png"
+                        alt="app-logo"
+                        whileHover={{ filter: "invert(50%)" }}
+                        whileTap={{ scale: 0.9 }}
+                        style={{
+                            width: "45px",
+                            height: "inherit",
+                            objectFit: "cover",
+                            cursor: "pointer"
+                        }}
+                    />
+                </Link>
                 <MainModes name="Browse" color={MainProp[0] ? "#0071ff" : undefined} setMainProps={setMainProp} />
                 <MainModes name="Live" color={MainProp[1] ? "#0071ff" : undefined} setMainProps={setMainProp} />
                 <MainModes name="Esports" color={MainProp[2] ? "#0071ff" : undefined} setMainProps={setMainProp} />
@@ -43,14 +56,12 @@ function extendedMenu() {
             <div style={{
                 display: "flex",
                 height: "inherit",
-                width: "250px",
+                width,
                 margin: "0",
                 justifyContent: "space-between",
                 alignItems: "center"
             }}>
-                <PageModes name="Channel" logo={<i className="fa fa-user" style={{ fontSize: "10px" }}></i>} />
-                <PageModes name="Community" logo={<i className="fa fa-users" style={{ fontSize: "10px" }}></i>} />
-                <PageModes name="Content" logo={<span className="material-icons" style={{ fontSize: "12px" }}>bookmark</span>} />
+                {pageModes}
             </div>
             <div style={{
                 display: "flex",

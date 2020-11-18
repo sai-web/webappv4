@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion'
 
 import '../styles/sideNav.css'
 import '../styles/topNav.css'
+import '../styles/home.css'
 
 function Main({ Component, pageProps }: AppProps) {
   return (
