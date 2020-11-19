@@ -10,6 +10,7 @@ export interface PageModeProps {
 export interface MainModeProps {
     name: string
     color?: string
+    url: string
     setMainProps: React.Dispatch<React.SetStateAction<Array<boolean>>>
 }
 

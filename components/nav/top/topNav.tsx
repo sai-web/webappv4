@@ -48,10 +48,10 @@ function extendedMenu({ pageModes, width }: Props) {
                         }}
                     />
                 </Link>
-                <MainModes name="Browse" color={MainProp[0] ? "#0071ff" : undefined} setMainProps={setMainProp} />
-                <MainModes name="Live" color={MainProp[1] ? "#0071ff" : undefined} setMainProps={setMainProp} />
-                <MainModes name="Esports" color={MainProp[2] ? "#0071ff" : undefined} setMainProps={setMainProp} />
-                <MainModes name="Music" color={MainProp[3] ? "#0071ff" : undefined} setMainProps={setMainProp} />
+                <MainModes name="Browse" color={MainProp[0] ? "#0071ff" : undefined} url="/app/browse" setMainProps={setMainProp} />
+                <MainModes name="Live" color={MainProp[1] ? "#0071ff" : undefined} url="/app/live" setMainProps={setMainProp} />
+                <MainModes name="Esports" color={MainProp[2] ? "#0071ff" : undefined} url="/app/esports" setMainProps={setMainProp} />
+                <MainModes name="Music" color={MainProp[3] ? "#0071ff" : undefined} url="/app/music" setMainProps={setMainProp} />
             </div>
             <div style={{
                 display: "flex",

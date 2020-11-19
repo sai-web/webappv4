@@ -1,4 +1,6 @@
 import React from 'react'
+import Link from 'next/link'
+
 import { motion } from 'framer-motion'
 import { MainModeProps, PageModeProps, UserModeProps } from './interface'
 import { ChannelClassificationCss, ContentClassificationCss } from '../../../utils/app/topNav'
@@ -29,21 +31,23 @@ export const PageModes: React.FC<PageModeProps> = ({ name, logo, color, pos, set
     )
 }
 
-export const MainModes: React.FC<MainModeProps> = ({ name, color, setMainProps }) => {
+export const MainModes: React.FC<MainModeProps> = ({ name, color, url, setMainProps }) => {
     return (
-        <motion.h4
-            className="main-mode-items"
-            style={{ ...ContentClassificationCss, color }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setMainProps([
-                name === "Browse",
-                name === "Live",
-                name === "Esports",
-                name === "Music"
-            ])}
-        >
-            {name}
-        </motion.h4>
+        <Link href={url}>
+            <motion.h4
+                className="main-mode-items"
+                style={{ ...ContentClassificationCss, color }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setMainProps([
+                    name === "Browse",
+                    name === "Live",
+                    name === "Esports",
+                    name === "Music"
+                ])}
+            >
+                {name}
+            </motion.h4>
+        </Link>
     )
 }
 

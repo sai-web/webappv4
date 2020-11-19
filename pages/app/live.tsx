@@ -3,11 +3,6 @@ import React, { useState } from 'react'
 import { PageModes } from '../../components/nav/top/components'
 import Template from '../../components/app/template'
 
-import Carousel from '../../components/home/carousel'
-import Content from '../../components/home/mainContent'
-
-import { CarouselData, mainContentData } from '../../components/home/fakeData/home'
-
 const Pages: React.FC<{ PageArr: Array<boolean>, setPageMode: React.Dispatch<React.SetStateAction<Array<boolean>>> }> = ({ PageArr, setPageMode }: { PageArr: Array<boolean>, setPageMode: React.Dispatch<React.SetStateAction<Array<boolean>>> }) => {
     return (
         <>
@@ -18,29 +13,20 @@ const Pages: React.FC<{ PageArr: Array<boolean>, setPageMode: React.Dispatch<Rea
     )
 }
 
-function ViberHome() {
+function Live() {
     const [Modes, setPageMode] = useState<Array<boolean>>([false, false, false])
     return (
         <Template PageMode={<Pages PageArr={Modes} setPageMode={setPageMode} />} width="250px" >
             <div style={{
                 width: "100%",
-                height: "300px",
-                overflowX: "hidden",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
+                height: "200px",
+                position: "absolute",
+                top: "0"
             }}>
-                <Carousel Data={CarouselData} />
-            </div>
-            <div style={{
-                display: "flex",
-                flexWrap: "wrap",
-                marginTop: "30px"
-            }}>
-                <Content mainContentData={mainContentData} />
+                <h4 style={{ fontFamily: "Poppins", color: "white", fontSize: "40px", lineHeight: "0", marginLeft: "50px" }}>Live</h4>
             </div>
         </Template>
     )
 }
 
-export default ViberHome
+export default Live
