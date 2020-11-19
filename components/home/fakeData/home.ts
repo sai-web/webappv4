@@ -60,7 +60,7 @@ export const mainContentData = [
         thumbnail: 'https://i.ytimg.com/vi/SC7lLm6QAb8/maxresdefault.jpg',
         creator: 'Devon crawford',
         title: 'coding a scalable backend service for my webapp',
-        link: ''
+        link: 'https://www.youtube.com/watch?v=SC7lLm6QAb8'
     },
     {
         thumbnail: 'https://i.ytimg.com/vi/YmWMi1kVCG8/maxresdefault.jpg',
