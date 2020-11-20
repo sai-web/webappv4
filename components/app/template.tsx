@@ -7,9 +7,10 @@ interface Props {
     PageMode: JSX.Element
     width: string
     children: React.ReactNode
+    page: string
 }
 
-const template: React.FC<Props> = function ({ PageMode, width, children }) {
+const template: React.FC<Props> = function ({ PageMode, width, children, page }) {
     return (
         <div className="main-content-div" style={{
             width: "100%",
@@ -33,7 +34,7 @@ const template: React.FC<Props> = function ({ PageMode, width, children }) {
                 {children}
             </div>
             <Nav />
-            <Menu pageModes={PageMode} width={width} />
+            <Menu pageModes={PageMode} width={width} page={page} />
         </div>
     )
 }
