@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
-import { albums } from '../../../components/home/fakeData/music'
-import Arrow from '../../../utils/home/arrows'
+import { albums } from '../../fakeData/music'
+import Arrow from '../../../../utils/home/arrows'
 
 import { Albumn } from './albumnCard'
 

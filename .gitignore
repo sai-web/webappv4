@@ -1,5 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#vscode counter
+.VSCodeCounter
+
+#next js env variables
+next-env.d.ts
+
 # dependencies
 /node_modules
 /.pnp

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
-import Arrow from '../../../utils/home/arrows'
+import Arrow from '../../../../utils/home/arrows'
 import { GameCard } from './gameCard'
-import { games } from '../fakeData/esports'
+import { games } from '../../fakeData/esports'
 
 const gameSpliceSize = 8
 type gameSplice = {

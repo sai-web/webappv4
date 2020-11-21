@@ -3,8 +3,8 @@ import React from 'react'
 import { music } from '../../../components/home/fakeData/music'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
-import { Overlay } from '../../../components/home/music/overlay'
-import { AllTracks } from '../../../components/home/music/tracks'
+import { Overlay } from '../../../components/home/music/tracks/overlay'
+import { AllTracks } from '../../../components/home/music/tracks/tracks'
 import Template from '../../../components/app/template'
 
 const Pages: React.FC = () => {

@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { categories } from '../../../components/home/fakeData/browse'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
-import { Filter } from '../../../components/home/browse/filter'
-import { AllCategories } from '../../../components/home/browse/categoriesRender'
+import { Filter } from '../../../components/home/browse/categories/filter'
+import { AllCategories } from '../../../components/home/browse/categories/categoriesRender'
 import Template from '../../../components/app/template'
 
 const Pages: React.FC = () => {

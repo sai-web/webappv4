@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Albumns } from '../../../components/home/music/albumnRender'
-import { AlbumnSet } from '../../../components/home/music/albumnSet'
+import { Albumns } from '../../../components/home/music/albumn/albumnRender'
+import { AlbumnSet } from '../../../components/home/music/albumn/albumnSet'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'

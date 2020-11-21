@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Games } from '../../../components/home/esports/games'
+import { Games } from '../../../components/home/esports/streams/games'
 import { PageModes } from '../../../components/nav/top/components/pageMode'
-import { Overlay } from '../../../components/home/esports/overlay'
-import { StreamSet } from '../../../components/home/esports/StreamSet'
+import { Overlay } from '../../../components/home/esports/streams/overlay'
+import { StreamSet } from '../../../components/home/esports/streams/StreamSet'
 import Template from '../../../components/app/template'
 
 const Pages: React.FC = () => {
