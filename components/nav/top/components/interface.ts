@@ -3,6 +3,7 @@ export interface PageModeProps {
     name: string
     logo: JSX.Element
     page: string
+    url: string
 }
 
 export interface MainModeProps {

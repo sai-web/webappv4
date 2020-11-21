@@ -42,6 +42,9 @@ export const Games: React.FC = () => {
                             gameSpliced.map((group, index) => {
                                 return (
                                     <motion.div
+                                        initial={{
+                                            x: -300
+                                        }}
                                         animate={{
                                             x: xValue
                                         }}
@@ -78,8 +81,8 @@ export const Games: React.FC = () => {
                 name="keyboard_arrow_right"
                 positioning={{ right: "40px", top: "267px" }}
                 callback={() => setPosition(state => {
-                    if (state !== -2020) return state - 980
-                    return -2020
+                    if (state !== -(980 * 2)) return state - 980
+                    return -(980 * 2)
                 })}
             />
 

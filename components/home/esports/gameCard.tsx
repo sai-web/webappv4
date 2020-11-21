@@ -13,14 +13,6 @@ interface Props {
 export const GameCard: React.FC<Props> = ({ game }) => {
     return (
         <motion.div
-            initial={{ scale: 0.9 }}
-            animate={{
-                scale: 1
-            }}
-            transition={{
-                type: 'spring',
-                bounce: 0.35
-            }}
             whileTap={{ scale: 0.9 }}
             style={{
                 width: "230px",
