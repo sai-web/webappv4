@@ -8,3 +8,7 @@
 .subscribed-channel-filters:hover{
     color:grey
 }
+
+.creators:hover{
+    background-color: #282828;
+}

@@ -26,8 +26,8 @@ export const MainCard: React.FC<Props> = ({ thumbnail, title, link }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     position: "relative",
-                    width: "410px",
-                    height: "420px",
+                    width: "400px",
+                    height: "400px",
                     overflow: "hidden",
                     borderRadius: "20px",
                     cursor: "pointer"
