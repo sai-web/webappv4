@@ -1,0 +1,13 @@
+.spotify-tracks:hover .track-overlay{
+    display: flex;
+}
+.track-overlay{
+    display: none;
+}
+
+.music-albumns{
+    background-color: #181818;
+}
+.music-albumns:hover{
+    background-color: #282828;
+}
