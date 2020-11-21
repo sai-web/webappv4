@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Games } from '../../../components/home/esports/games'
 import { PageModes } from '../../../components/nav/top/components/pageMode'
@@ -9,8 +9,8 @@ import Template from '../../../components/app/template'
 const Pages: React.FC = () => {
     return (
         <>
-            <PageModes name="Live" page="Live" logo={<i className="fa fa-bullseye" style={{ fontSize: "13px" }}></i>} />
-            <PageModes name="Clips" page="Live" logo={<span className="material-icons" style={{ fontSize: "15px" }}>insert_link</span>} />
+            <PageModes name="Live" page="Live" url="/app/esports/live" logo={<i className="fa fa-bullseye" style={{ fontSize: "13px" }}></i>} />
+            <PageModes name="Clips" page="Live" url="/app/esports/clips" logo={<span className="material-icons" style={{ fontSize: "15px" }}>insert_link</span>} />
         </>
     )
 }

@@ -10,8 +10,8 @@ import Template from '../../../components/app/template'
 const Pages: React.FC = () => {
     return (
         <>
-            <PageModes name="Tracks" page="Tracks" logo={<span className="material-icons" style={{ fontSize: "15px" }}>track_changes</span>} />
-            <PageModes name="Albums" page="Tracks" logo={<span className="material-icons" style={{ fontSize: "15px" }}>album</span>} />
+            <PageModes name="Tracks" page="Tracks" url="/app/music/tracks" logo={<span className="material-icons" style={{ fontSize: "15px" }}>track_changes</span>} />
+            <PageModes name="Albums" page="Tracks" url="/app/music/albums" logo={<span className="material-icons" style={{ fontSize: "15px" }}>album</span>} />
         </>
     )
 }
