@@ -14,7 +14,7 @@ export const AlbumnCard: React.FC<Props> = ({ thumbnail, title, link }) => {
                 className="spotify-tracks"
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
-                whileHover={{ scale: 1.1, borderRadius: "10px" }}
+                whileHover={{ scale: 1.1, borderRadius: "15px" }}
                 whileTap={{ scale: 0.9 }}
                 transition={{
                     type: "spring",
