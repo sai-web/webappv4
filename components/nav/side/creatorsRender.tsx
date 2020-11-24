@@ -72,7 +72,7 @@ export const CreatorsRender: React.FC<Props> = ({ renderCreators }) => {
                                         fontSize: "15px",
                                         lineHeight: "0"
                                     }}>
-                                        {creator.name.length > 10 ? creator.name.slice(0, 50) + '...' : creator.name}
+                                        {creator.name.length > 15 ? creator.name.slice(0, 15) + '...' : creator.name}
                                     </h4>
                                     <h4 style={{
                                         fontFamily: "sans-serif",

@@ -29,7 +29,7 @@ export const AppManager: React.FC<{ page: string }> = ({ page }) => {
                     }}
                 />
             </Link>
-            <MainModes name="Browse" url="/app/browse/categories" page={page} />
+            <MainModes name="Browse" url="/app/browse/creators" page={page} />
             <MainModes name="Esports" url="/app/esports/live" page={page} />
             <MainModes name="Music" url="/app/music/tracks" page={page} />
         </div>

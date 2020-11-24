@@ -33,7 +33,7 @@ export const Filter: React.FC<Props> = ({ setRenderCategory, categories }) => {
                     borderWidth: "0",
                     paddingLeft: "10px",
                     fontSize: "13px",
-                    color: "grey",
+                    color: "white",
                     outline: "none"
                 }}
                 onChange={e => {
