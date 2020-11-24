@@ -22,7 +22,7 @@ export const TopClips: React.FC<Props> = ({ clips }) => {
                 clips.map((clip, index) => {
                     return (
                         <motion.div
-                            className="creators"
+                            className="top-clips"
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
                             whileTap={{ scale: 0.9 }}
