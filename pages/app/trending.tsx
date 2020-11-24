@@ -16,7 +16,7 @@ const Pages: React.FC = () => {
 function TwitchContent() {
     return (
         <Template PageMode={<Pages />} width="320px" page="home" >
-
+            <h4 style={{ fontFamily: "Poppins", color: "white", fontSize: "40px", lineHeight: "0", marginLeft: "50px", position: "absolute" }}>Trending</h4>
         </Template>
     )
 }

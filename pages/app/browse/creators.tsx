@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Overlay } from '../../../components/home/browse/creators/overlay'
+import { Filter } from '../../../components/home/browse/creators/filter'
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
 
@@ -17,28 +18,7 @@ function Creators() {
     return (
         <Template PageMode={<Pages />} width="180px" page="Browse" >
             <Overlay />
-            <div style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "20px"
-            }}>
-                <input
-                    type="text"
-                    placeholder="Search"
-                    style={{
-                        width: "500px",
-                        height: "30px",
-                        borderRadius: "5px",
-                        borderWidth: "0",
-                        paddingLeft: "10px",
-                        backgroundColor: "#464649",
-                        color: "white",
-                        outline: "none"
-                    }}
-                />
-            </div>
+            <Filter />
         </Template>
     )
 }

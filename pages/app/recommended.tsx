@@ -16,7 +16,7 @@ const Pages: React.FC = () => {
 function YoutubeContent() {
     return (
         <Template PageMode={<Pages />} width="320px" page="home" >
-            <h4>Youtube</h4>
+            <h4 style={{ fontFamily: "Poppins", color: "white", fontSize: "40px", lineHeight: "0", marginLeft: "50px", position: "absolute" }}>Recommended</h4>
         </Template>
     )
 }
