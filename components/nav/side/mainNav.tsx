@@ -25,9 +25,9 @@ function navigationMenu() {
                 flexDirection: "column",
                 justifyContent: "space-evenly"
             }}>
-                <NavigationPages name="Channel" logo="person" />
-                <NavigationPages name="Favourite" logo="favorite" />
-                <NavigationPages name="Subscription Manager" logo="drag_indicator" />
+                <NavigationPages name="Channel" logo="person" link="/app/channel/@me" />
+                <NavigationPages name="Favourite" logo="favorite" link="/app/fav/favourite" />
+                <NavigationPages name="Subscription Manager" logo="drag_indicator" link="/app/subscribed/subscription-manager" />
             </div>
             <Filter />
         </nav>
