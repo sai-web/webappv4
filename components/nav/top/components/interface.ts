@@ -14,4 +14,5 @@ export interface MainModeProps {
 
 export interface UserModeProps {
     name: string
+    size: string
 }

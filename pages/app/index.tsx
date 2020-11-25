@@ -15,7 +15,7 @@ const Pages: React.FC = () => {
         <>
             <PageModes name="Subscriptions" page="Subscriptions" url="/app/" logo={<i className="fa fa-user" style={{ fontSize: "10px" }}></i>} />
             <PageModes name="Trending" page="Subscriptions" url="/app/trending" logo={<span className="material-icons" style={{ fontSize: "15px" }}>local_fire_department</span>} />
-            <PageModes name="Recommended" page="Subscriptions" url="/app/recommended" logo={<span className="material-icons" style={{ fontSize: "15px" }}>layers</span>} />
+            <PageModes name="Recommended" page="Subscriptions" url="/app/recommended/streams" logo={<span className="material-icons" style={{ fontSize: "15px" }}>layers</span>} />
         </>
     )
 }
