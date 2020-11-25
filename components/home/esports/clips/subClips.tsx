@@ -35,6 +35,12 @@ export const SubClips: React.FC<Props> = ({ clips }) => {
                                     width: "200px",
                                     cursor: "pointer"
                                 }}
+                                initial={{ scale: 0.9 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    bounce: 0.35
+                                }}
                                 whileTap={{ scale: 0.9 }}
                             />
                             <h4 style={{
