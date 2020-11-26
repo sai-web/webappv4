@@ -26,6 +26,12 @@ export const AllTracks: React.FC<Props> = ({ tracks }) => {
                             className="spotify-tracks"
                             whileHover={{ borderRadius: "10px", scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
+                            initial={{ scale: 0.9 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                type: "spring",
+                                bounce: 0.35
+                            }}
                             style={{
                                 margin: "10px",
                                 position: "relative",
@@ -35,15 +41,9 @@ export const AllTracks: React.FC<Props> = ({ tracks }) => {
                             }}
                         >
                             <a href={track.link} target="blank">
-                                <motion.img
+                                <img
                                     src={track.thumbnail}
                                     alt={track.title}
-                                    initial={{ scale: 0.9 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{
-                                        type: "spring",
-                                        bounce: 0.35
-                                    }}
                                     style={{ width: "200px" }}
                                 />
                                 <div

@@ -3,7 +3,11 @@ import { NavigationPages } from './components'
 
 import { Filter } from './creatorFilter'
 
-function navigationMenu() {
+interface Props {
+    page: string
+}
+
+const navigationMenu: React.FC<Props> = ({ page }) => {
     return (
         <nav
             style={{
@@ -25,9 +29,9 @@ function navigationMenu() {
                 flexDirection: "column",
                 justifyContent: "space-evenly"
             }}>
-                <NavigationPages name="Channel" logo="person" link="/app/channel/@me" />
-                <NavigationPages name="Favourite" logo="favorite" link="/app/fav/favourite" />
-                <NavigationPages name="Subscription Manager" logo="drag_indicator" link="/app/subscribed/subscription-manager" />
+                <NavigationPages name="Channel" logo="person" link="/app/channel/@me" page={page} />
+                <NavigationPages name="Favourite" logo="favorite" link="/app/fav/favourite" page={page} />
+                <NavigationPages name="Subscription Manager" logo="drag_indicator" link="/app/subscribed/subscription-manager" page={page} />
             </div>
             <Filter />
         </nav>

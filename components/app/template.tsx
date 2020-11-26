@@ -33,7 +33,7 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page })
             }}>
                 {children}
             </div>
-            <Nav />
+            <Nav page={page} />
             <Menu pageModes={PageMode} width={width} page={page} />
         </div>
     )

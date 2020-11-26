@@ -4,7 +4,7 @@ import { NavigationPageProps } from './interface'
 
 import Link from 'next/link'
 
-export const NavigationPages: React.FC<NavigationPageProps> = ({ name, logo, link }) => {
+export const NavigationPages: React.FC<NavigationPageProps> = ({ name, logo, link, page }) => {
     return (
         <Link href={link}>
             <motion.div
@@ -13,7 +13,8 @@ export const NavigationPages: React.FC<NavigationPageProps> = ({ name, logo, lin
                     height: "40px",
                     display: "flex",
                     alignItems: "center",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    backgroundColor: page === name ? "#26262C" : undefined
                 }}
                 whileTap={{ scale: 0.9 }}>
                 <div style={{
