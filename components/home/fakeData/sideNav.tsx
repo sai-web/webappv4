@@ -3,7 +3,7 @@ export const creators = [
         photo: 'https://i.pinimg.com/564x/04/bb/21/04bb2164bbfa3684118a442c17d086bf.jpg',
         name: 'Hamel Von',
         domain: '/hamelvon',
-        type: 'banned'
+        type: 'muted'
     },
     {
         photo: 'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
@@ -27,7 +27,7 @@ export const creators = [
         photo: 'https://i.ytimg.com/vi/g8YbJ-1vCa0/hqdefault.jpg',
         name: 'HXH',
         domain: '/hxh',
-        type: 'banned'
+        type: 'muted'
     },
     {
         photo: 'https://i.pinimg.com/236x/a6/29/02/a62902c0458a23d705492bb701371a43--cool-wallpapers-for-iphone-wallpaper-for-iphone.jpg',

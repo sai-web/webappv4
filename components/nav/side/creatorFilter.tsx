@@ -13,7 +13,7 @@ interface creator {
 }
 
 export const Filter: React.FC = () => {
-    const [[all, favorite, banned], setMode] = useState<Array<boolean>>([true, false, false])
+    const [[all, favorite, muted], setMode] = useState<Array<boolean>>([true, false, false])
     const [renderCreators, setRenderCreators] = useState<Array<creator>>(creators)
     return (
         <div style={{
@@ -62,13 +62,13 @@ export const Filter: React.FC = () => {
                 </motion.span>
                 <motion.span
                     className="material-icons subscribed-channel-filters"
-                    style={{ fontSize: "17px", cursor: "pointer", color: banned ? "grey" : undefined }}
+                    style={{ fontSize: "17px", cursor: "pointer", color: muted ? "grey" : undefined }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => {
                         setMode([false, false, true])
                         setRenderCreators(() => {
                             var newCreators = creators.filter(creator => {
-                                return creator.type === "banned"
+                                return creator.type === "muted"
                             })
                             return newCreators
                         })

@@ -1,6 +1,9 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
 
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
 import { AnimatePresence } from 'framer-motion'
 
 import '../styles/sideNav.css'
@@ -11,9 +14,11 @@ import '../styles/esports.css'
 
 function Main({ Component, pageProps }: AppProps) {
   return (
-    <AnimatePresence exitBeforeEnter>
-      <Component {...pageProps} />
-    </AnimatePresence>
+    <DndProvider backend={HTML5Backend}>
+      <AnimatePresence exitBeforeEnter>
+        <Component {...pageProps} />
+      </AnimatePresence>
+    </DndProvider>
   )
 }
 
