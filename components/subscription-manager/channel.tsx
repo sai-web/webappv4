@@ -1,17 +1,28 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 
-import { useDrag } from 'react-dnd'
+import { useDrag, useDrop } from 'react-dnd'
 
 import { ChannelCardProps } from './interface'
+import { onHover } from './utils/hover'
 
-export const ChannelCard: React.FC<ChannelCardProps> = ({ creator }) => {
+export const ChannelCard: React.FC<ChannelCardProps> = ({ creator, position, moveChannel, setState }) => {
+    const channelRef = useRef<any>()
+
+    const [, DropRef] = useDrop({
+        accept: 'channel-card',
+        hover: (item, monitor) => {
+            onHover({ channelRef, item, position, monitor, moveChannel, setState })
+        }
+    })
     const [, DragRef] = useDrag({
         item: {
             type: "channel-card",
-            creator: creator.name
+            creator: creator.name,
+            index: position
         }
     })
+    DragRef(DropRef(channelRef))
     return (
         <motion.div
             whileTap={{ scale: 0.9 }}
@@ -25,7 +36,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({ creator }) => {
                 type: "spring",
                 duration: 0.3
             }}
-            ref={DragRef}
+            ref={channelRef}
             style={{
                 display: "flex",
                 alignItems: "center",

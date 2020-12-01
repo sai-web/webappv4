@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 
 import { creators } from '../../../components/home/fakeData/sideNav'
 
@@ -7,12 +7,12 @@ import { ChannelCategory } from '../../../components/subscription-manager/catego
 import { categories } from '../../../components/subscription-manager/fakeData'
 import Template from '../../../components/app/template'
 
-interface channel {
-    name: string;
-    photo: string;
-    domain: string;
-    type: string;
-}
+// interface channel {
+//     name: string;
+//     photo: string;
+//     domain: string;
+//     type: string;
+// }
 
 const Pages: React.FC = () => {
     return (
@@ -25,18 +25,19 @@ const Pages: React.FC = () => {
 
 function SubscriptionManager() {
     const [allCreators, setAllCreators] = useState(creators)
-    const curatedChannels = useMemo(() => {
-        const curatedCategories = categories.reduce((total: { [key: string]: channel[] }, category) => {
-            total[category.type] = []
-            return total
-        }, {})
+    // const curatedChannels = useMemo(() => {
+    //     const curatedCategories = categories.reduce((total: { [key: string]: channel[] }, category) => {
+    //         total[category.type] = []
+    //         return total
+    //     }, {})
 
-        creators.reduce((total, creator) => {
-            total[creator.type]?.push(creator)
-            return total
-        }, curatedCategories)
-        return curatedCategories
-    }, [allCreators])
+    //     creators.reduce((total, creator) => {
+    //         total[creator.type]?.push(creator)
+    //         return total
+    //     }, curatedCategories)
+    //     return { ...curatedCategories }
+    // }, [allCreators])
+
     return (
         <Template PageMode={<Pages />} width="180px" page="Subscription Manager" >
             <div style={{
@@ -46,10 +47,18 @@ function SubscriptionManager() {
                 height: "100%"
             }}>
                 {
-                    Object.entries(curatedChannels).map(([group, channels], index) => {
-                        var category = categories.find(category => (category.type === group))
+                    // Object.entries(curatedChannels).map(([group, channels], index) => {
+                    //     var category = categories.find(category => (category.type === group))
+                    //     return (
+                    //         <ChannelCategory category={category!} channelArr={channels} changeCreatorstate={setAllCreators} GlobalArray={allCreators} key={index} />
+                    //     )
+                    // })
+                    categories.map((category, index) => {
+                        const channels = allCreators.filter(creator => {
+                            return creator.type === category.type
+                        })
                         return (
-                            <ChannelCategory category={category!} channelArr={channels} changeCreatorstate={setAllCreators} key={index} />
+                            <ChannelCategory category={category!} channelArr={channels} changeCreatorstate={setAllCreators} GlobalArray={allCreators} key={index} />
                         )
                     })
                 }

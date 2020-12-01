@@ -1,43 +1,10 @@
 import React from 'react'
 
-import { useDrop } from 'react-dnd'
 import { CategoryProps } from './interface'
 
-import { ChannelCard } from './channel'
+import { RenderChannels } from './utils/Channels'
 
-const RenderChannels: React.FC<CategoryProps> = ({ category, channelArr, changeCreatorstate }) => {
-    const [, DropRef] = useDrop({
-        accept: "channel-card",
-        drop: (item, monitor) => {
-            changeCreatorstate(prev => {
-                prev.forEach((creator, index) => {
-                    if (creator.name === item.creator) {
-                        creator.type = category.type
-                    }
-                })
-                return [...prev]
-            })
-        }
-    })
-    return (
-        <div
-            ref={DropRef}
-            style={{
-                height: "calc(100% - 110px)",
-                overflowY: 'scroll'
-            }}
-            className="main-content-div"
-        >
-            {
-                channelArr.map((creator, index) => (
-                    <ChannelCard creator={creator} key={index} />
-                ))
-            }
-        </div>
-    )
-}
-
-export const ChannelCategory: React.FC<CategoryProps> = ({ category, channelArr, changeCreatorstate }) => {
+export const ChannelCategory: React.FC<CategoryProps> = ({ category, channelArr, changeCreatorstate, GlobalArray }) => {
     return (
         <div style={{
             width: "200px",
@@ -62,7 +29,7 @@ export const ChannelCategory: React.FC<CategoryProps> = ({ category, channelArr,
             }}>
                 {category.desc}
             </h4>
-            <RenderChannels category={category} channelArr={channelArr} changeCreatorstate={changeCreatorstate} />
+            <RenderChannels category={category} channelArr={channelArr} changeCreatorstate={changeCreatorstate} GlobalArray={GlobalArray} />
         </div>
     )
 }
