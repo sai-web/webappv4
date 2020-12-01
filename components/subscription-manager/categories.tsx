@@ -9,7 +9,6 @@ const RenderChannels: React.FC<CategoryProps> = ({ category, channelArr, changeC
     const [, DropRef] = useDrop({
         accept: "channel-card",
         drop: (item, monitor) => {
-            // console.log(item, category)
             changeCreatorstate(prev => {
                 prev.forEach((creator, index) => {
                     if (creator.name === item.creator) {
