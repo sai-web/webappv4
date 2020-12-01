@@ -18,8 +18,9 @@ export const RenderChannels: React.FC<CategoryProps> = ({ category, channelArr, 
         <div
             ref={DropRef}
             style={{
-                height: "calc(100% - 110px)",
-                overflowY: 'scroll'
+                height: "calc(100% - 150px)",
+                overflowY: 'scroll',
+                marginTop: "10px"
             }}
             className="main-content-div"
         >
