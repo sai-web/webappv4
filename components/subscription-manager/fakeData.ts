@@ -1,5 +1,9 @@
 export const categories = [
     {
+        type: 'notifiers',
+        desc: `These are the channels that will be sending you notifications.`
+    },
+    {
         type: 'favourites',
         desc: `favourites show up in more places than the rest, just so you don't miss them.`
     },

@@ -4,7 +4,7 @@ import { CategoryProps } from '../interface'
 import { useDrop } from 'react-dnd'
 
 import { ChannelCard } from '../channel'
-import { changeChannelState, shiftChannelPosition } from './listLogic'
+import { changeChannelState, shiftChannelPosition } from './ListLogic/channels'
 
 export const RenderChannels: React.FC<CategoryProps> = ({ category, channelArr, changeCreatorstate, GlobalArray }) => {
     const [, DropRef] = useDrop({
@@ -18,7 +18,7 @@ export const RenderChannels: React.FC<CategoryProps> = ({ category, channelArr, 
         <div
             ref={DropRef}
             style={{
-                height: "calc(100% - 150px)",
+                height: "calc(100% - 134px)",
                 overflowY: 'scroll',
                 marginTop: "10px"
             }}

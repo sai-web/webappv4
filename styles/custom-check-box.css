@@ -1,0 +1,113 @@
+#_checkbox
+{
+    display: none;
+}
+
+.label-check-box
+{
+    position: relative;
+    top: 50%;
+    right: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    background-color: #292B2F;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    /* box-shadow: 0 7px 10px #38383d; */
+    cursor: pointer;
+    transition: 0.2s ease transform, 0.2s ease background-color, 0.2s ease box-shadow;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.label-check-box:before
+{
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    background-color: #1F1F23;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    /* box-shadow: inset 0 7px 10px #38383d; */
+    transition: 0.2s ease width, 0.2s ease height;
+}
+
+.label-check-box:hover:before
+{
+    width: 15px;
+    height: 15px;
+    /* box-shadow: inset 0 7px 10px #ff9d96; */
+}
+
+.label-check-box:active
+{
+    transform: translateY(-50%) scale(0.9);
+}
+
+#tick_mark
+{
+    position: absolute;
+    top: 3px;
+    right: 0;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    margin: 0 auto;
+    margin-left: 5px;
+    transform: rotateZ(-40deg);
+}
+
+#tick_mark:before, #tick_mark:after
+{
+    content: "";
+    position: absolute;
+    background-color: #fff;
+    border-radius: 2px;
+    opacity: 0;
+    transition: 0.2s ease transform, 0.2s ease opacity;
+}
+
+#tick_mark:before
+{
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    height: 7px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.23);
+    transform: translateY(-68px)
+}
+
+#tick_mark:after
+{
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.23);
+    transform: translateX(78px)
+}
+
+#_checkbox:checked + .label-check-box
+{
+    background-color: #07d410;
+    /* box-shadow: 0 7px 10px #92ff97; */
+}
+
+#_checkbox:checked + .label-check-box:before
+{
+    width: 0;
+    height: 0;
+}
+
+#_checkbox:checked + .label-check-box #tick_mark:before, #_checkbox:checked + .label-check-box #tick_mark:after
+{
+    transform: translate(0);
+    opacity: 1;
+}

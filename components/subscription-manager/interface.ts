@@ -18,6 +18,11 @@ export interface CategoryProps {
         type: string;
     }[]>>
     GlobalArray: channel[]
+    position?: number
+    changeCategoryOrder?: React.Dispatch<React.SetStateAction<{
+        type: string;
+        desc: string;
+    }[]>>
 }
 
 export interface ChannelCardProps {

@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { useDrag, useDrop } from 'react-dnd'
 
 import { CategoryProps } from './interface'
 import { creators } from '../home/fakeData/sideNav'
 
 import { RenderChannels } from './utils/Channels'
+import { onHoverCategory } from './utils/ListLogic/categories'
 
-export const ChannelCategory: React.FC<CategoryProps> = ({ category, channelArr, changeCreatorstate, GlobalArray }) => {
+export const ChannelCategory: React.FC<CategoryProps> = ({ category, channelArr, changeCreatorstate, changeCategoryOrder, GlobalArray, position }) => {
+    const CategoryRef = useRef<any>()
+
+    const [, DropRef] = useDrop({
+        accept: 'category-card',
+        hover: (item, monitor) => {
+            onHoverCategory({ CategoryRef, item, monitor, position, changeCategoryOrder })
+        }
+    })
+    const [, DragRef] = useDrag({
+        item: {
+            type: "category-card",
+            index: position
+        }
+    })
+    DragRef(DropRef(CategoryRef))
     return (
         <div style={{
             width: "200px",
@@ -13,7 +30,7 @@ export const ChannelCategory: React.FC<CategoryProps> = ({ category, channelArr,
             backgroundColor: "#1F1F23",
             marginLeft: "10px",
             borderRadius: "5px"
-        }}>
+        }} ref={CategoryRef}>
             <h4 style={{
                 fontFamily: "Poppins",
                 fontSize: "15px",

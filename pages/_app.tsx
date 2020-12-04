@@ -11,6 +11,7 @@ import '../styles/topNav.css'
 import '../styles/home.css'
 import '../styles/music.css'
 import '../styles/esports.css'
+import '../styles/custom-check-box.css'
 
 function Main({ Component, pageProps }: AppProps) {
   return (

@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { creators } from '../../../components/home/fakeData/sideNav'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import { ChannelCategory } from '../../../components/subscription-manager/categories'
+import { Settings } from '../../../components/subscription-manager/settings/'
 import { categories } from '../../../components/subscription-manager/fakeData'
 import Template from '../../../components/app/template'
 
@@ -25,6 +26,7 @@ const Pages: React.FC = () => {
 
 function SubscriptionManager() {
     const [allCreators, setAllCreators] = useState(creators)
+    const [allCategories, setCategories] = useState(categories)
     // const curatedChannels = useMemo(() => {
     //     const curatedCategories = categories.reduce((total: { [key: string]: channel[] }, category) => {
     //         total[category.type] = []
@@ -41,27 +43,44 @@ function SubscriptionManager() {
     return (
         <Template PageMode={<Pages />} width="180px" page="Subscription Manager" >
             <div style={{
-                display: "flex",
-                alignItems: "center",
                 width: "100%",
-                height: "100%"
+                height: "100%",
+                display: "flex"
             }}>
-                {
-                    // Object.entries(curatedChannels).map(([group, channels], index) => {
-                    //     var category = categories.find(category => (category.type === group))
-                    //     return (
-                    //         <ChannelCategory category={category!} channelArr={channels} changeCreatorstate={setAllCreators} GlobalArray={allCreators} key={index} />
-                    //     )
-                    // })
-                    categories.map((category, index) => {
-                        const channels = allCreators.filter(creator => {
-                            return creator.type === category.type
+
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "calc(100% - 220px)",
+                    height: "100%",
+                    overflowX: "scroll"
+                }} className="main-content-div">
+                    {
+                        // Object.entries(curatedChannels).map(([group, channels], index) => {
+                        //     var category = categories.find(category => (category.type === group))
+                        //     return (
+                        //         <ChannelCategory category={category!} channelArr={channels} changeCreatorstate={setAllCreators} GlobalArray={allCreators} key={index} />
+                        //     )
+                        // })
+                        allCategories.map((category, index) => {
+                            const channels = allCreators.filter(creator => {
+                                return creator.type === category.type
+                            })
+                            return (
+                                <ChannelCategory
+                                    category={category!}
+                                    channelArr={channels}
+                                    changeCreatorstate={setAllCreators}
+                                    changeCategoryOrder={setCategories}
+                                    GlobalArray={allCreators}
+                                    position={index}
+                                    key={index}
+                                />
+                            )
                         })
-                        return (
-                            <ChannelCategory category={category!} channelArr={channels} changeCreatorstate={setAllCreators} GlobalArray={allCreators} key={index} />
-                        )
-                    })
-                }
+                    }
+                </div>
+                <Settings />
             </div>
         </Template>
     )
