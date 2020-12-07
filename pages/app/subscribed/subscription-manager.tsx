@@ -8,13 +8,6 @@ import { Settings } from '../../../components/subscription-manager/settings/'
 import { categories } from '../../../components/subscription-manager/fakeData'
 import Template from '../../../components/app/template'
 
-// interface channel {
-//     name: string;
-//     photo: string;
-//     domain: string;
-//     type: string;
-// }
-
 const Pages: React.FC = () => {
     return (
         <>
@@ -27,18 +20,6 @@ const Pages: React.FC = () => {
 function SubscriptionManager() {
     const [allCreators, setAllCreators] = useState(creators)
     const [allCategories, setCategories] = useState(categories)
-    // const curatedChannels = useMemo(() => {
-    //     const curatedCategories = categories.reduce((total: { [key: string]: channel[] }, category) => {
-    //         total[category.type] = []
-    //         return total
-    //     }, {})
-
-    //     creators.reduce((total, creator) => {
-    //         total[creator.type]?.push(creator)
-    //         return total
-    //     }, curatedCategories)
-    //     return { ...curatedCategories }
-    // }, [allCreators])
 
     return (
         <Template PageMode={<Pages />} width="180px" page="Subscription Manager" >
@@ -56,12 +37,6 @@ function SubscriptionManager() {
                     overflowX: "scroll"
                 }} className="main-content-div">
                     {
-                        // Object.entries(curatedChannels).map(([group, channels], index) => {
-                        //     var category = categories.find(category => (category.type === group))
-                        //     return (
-                        //         <ChannelCategory category={category!} channelArr={channels} changeCreatorstate={setAllCreators} GlobalArray={allCreators} key={index} />
-                        //     )
-                        // })
                         allCategories.map((category, index) => {
                             const channels = allCreators.filter(creator => {
                                 return creator.type === category.type
@@ -80,7 +55,7 @@ function SubscriptionManager() {
                         })
                     }
                 </div>
-                <Settings />
+                <Settings setState={setCategories} />
             </div>
         </Template>
     )

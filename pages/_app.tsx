@@ -12,6 +12,7 @@ import '../styles/home.css'
 import '../styles/music.css'
 import '../styles/esports.css'
 import '../styles/custom-check-box.css'
+import '../styles/analytics-circle.css'
 
 function Main({ Component, pageProps }: AppProps) {
   return (
