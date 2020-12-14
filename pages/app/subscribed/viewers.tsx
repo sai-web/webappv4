@@ -4,6 +4,7 @@ import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
 
 import { Menu } from '../../../components/subscription-manager/viewer/leftMenu'
+import { Viewers } from '../../../components/subscription-manager/viewer/viewerRender'
 
 const Pages: React.FC = () => {
     return (
@@ -20,9 +21,12 @@ function ViewerManager() {
             <div style={{
                 width: "100%",
                 height: "100%",
-                display: "flex"
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-evenly"
             }}>
                 <Menu />
+                <Viewers />
             </div>
         </Template>
     )
