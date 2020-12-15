@@ -21,7 +21,8 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page })
             backgroundColor: "#0E0E10",
             userSelect: "none",
             overflowY: "scroll",
-            scrollbarWidth: "none"
+            scrollbarWidth: "none",
+            zIndex: -2
             // filter: "invert(100%)"
         }}>
             <div style={{

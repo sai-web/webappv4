@@ -5,18 +5,37 @@ import Template from '../../../components/app/template'
 
 const Pages: React.FC = () => {
     return (
-        <>
-            <PageModes name="Subscriptions" page="Trending" url="/app/" logo={<i className="fa fa-user" style={{ fontSize: "10px" }}></i>} />
-            <PageModes name="Trending" page="Trending" url="/app/trending" logo={<span className="material-icons" style={{ fontSize: "15px" }}>local_fire_department</span>} />
-            <PageModes name="Recommended" page="Trending" url="/app/recommended" logo={<span className="material-icons" style={{ fontSize: "15px" }}>layers</span>} />
-        </>
+        <></>
     )
 }
 
 function Favourites() {
     return (
         <Template PageMode={<Pages />} width="320px" page="Favourite" >
-            <h4 style={{ fontFamily: "Poppins", color: "white", fontSize: "40px", lineHeight: "0", marginLeft: "50px", position: "absolute" }}>Trending</h4>
+            <div style={{
+                marginTop: "50px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <h4 style={{
+                    fontFamily: "sans-serif",
+                    color: "silver",
+                    fontSize: "20px",
+                    lineHeight: "0"
+                }}>
+                    Realtime API will come out soon.
+                </h4>
+                <h4 style={{
+                    fontFamily: "sans-serif",
+                    color: "grey",
+                    fontSize: "15px",
+                    lineHeight: "0"
+                }}>
+                    This feature will be available then.
+                </h4>
+            </div>
         </Template>
     )
 }

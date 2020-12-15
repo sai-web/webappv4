@@ -2,6 +2,8 @@ import React from 'react'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
+import { ChannelPreview } from '../../../components/user/channel/profile'
+import { ChannelDescription } from '../../../components/user/channel/description'
 
 const Pages: React.FC = () => {
     return (
@@ -13,10 +15,45 @@ const Pages: React.FC = () => {
     )
 }
 
+const Banner: React.FC = () => {
+    return (
+        <div style={{
+            width: "calc(100% - 200px)",
+            height: "300px",
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "fixed",
+            top: "35px",
+            zIndex: -1
+        }}>
+            <img src="https://myrepublic.net/sg/content/uploads/2020/09/valorant-banner.png"
+                style={{
+                    height: "300px",
+                    objectFit: "cover"
+                }}
+            />
+        </div>
+    )
+}
+
+
 function UserChannel() {
     return (
         <Template PageMode={<Pages />} width="320px" page="Channel" >
-            <h4 style={{ fontFamily: "Poppins", color: "white", fontSize: "40px", lineHeight: "0", marginLeft: "50px", position: "absolute" }}>Trending</h4>
+            <Banner />
+            <div style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: "#0E0E10",
+                position: "absolute",
+                top: "300px",
+                display: "flex"
+            }}>
+                <ChannelPreview />
+                <ChannelDescription />
+            </div>
         </Template>
     )
 }
