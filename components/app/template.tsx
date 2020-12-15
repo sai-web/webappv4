@@ -8,9 +8,10 @@ interface Props {
     width: string
     children: React.ReactNode
     page: string
+    reference?: React.RefObject<any>
 }
 
-const template: React.FC<Props> = function ({ PageMode, width, children, page }) {
+const template: React.FC<Props> = function ({ PageMode, width, children, page, reference }) {
     return (
         <div className="main-content-div" style={{
             width: "100%",
@@ -24,7 +25,7 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page })
             scrollbarWidth: "none",
             zIndex: -2
             // filter: "invert(100%)"
-        }}>
+        }} ref={reference}>
             <div style={{
                 width: "calc(100% - 200px)",
                 height: "calc(100% - 40px)",

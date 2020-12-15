@@ -79,8 +79,10 @@ const ChannelInformation: React.FC = () => {
 export const ChannelDescription: React.FC = () => {
     return (
         <div style={{
-            width: "calc(100% - 300px)",
-            height: "150px"
+            width: "100%",
+            height: "150px",
+            position: "sticky",
+            top: "0"
         }}>
             <ChannelConectedAccounts />
             <ChannelInformation />

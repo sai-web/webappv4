@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
 import { ChannelPreview } from '../../../components/user/channel/profile'
 import { ChannelDescription } from '../../../components/user/channel/description'
+import { ContentFilter } from '../../../components/user/channel/filter'
 
 const Pages: React.FC = () => {
     return (
@@ -38,21 +39,60 @@ const Banner: React.FC = () => {
     )
 }
 
+const ChannelContent: React.FC = () => {
+    return (
+        <div style={{
+            width: "100%",
+            height: "calc(100% - 200px)",
+            backgroundColor: "green"
+        }}>
+
+        </div>
+    )
+}
 
 function UserChannel() {
+    const [scrolled, setScroll] = useState(false)
+    const ref = React.useRef<any>({})
+    useEffect(() => {
+        function handleScroll() {
+            if (ref.current.scrollTop > 440) setScroll(true)
+            else setScroll(false)
+        }
+        ref.current.addEventListener('scroll', handleScroll)
+
+        return () => {
+            ref.current.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
     return (
-        <Template PageMode={<Pages />} width="320px" page="Channel" >
+        <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} >
             <Banner />
             <div style={{
                 width: "100%",
-                height: "100%",
+                height: "150%",
                 backgroundColor: "#0E0E10",
                 position: "absolute",
                 top: "300px",
                 display: "flex"
             }}>
-                <ChannelPreview />
-                <ChannelDescription />
+                <div style={{
+                    width: "300px",
+                    height: "100%"
+                }}>
+                    <ChannelPreview scrolled={scrolled} />
+                </div>
+                <div style={{
+                    width: "calc(100% - 300px)",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+                }}>
+                    <ChannelDescription />
+                    <ContentFilter />
+                    <ChannelContent />
+                </div>
             </div>
         </Template>
     )
