@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
 import { ChannelPreview } from '../../../components/user/channel/profile'
 import { ChannelDescription } from '../../../components/user/channel/description'
 import { ContentFilter } from '../../../components/user/channel/filter'
+
+import { onScroll } from '../../../utils/Hooks/scroll'
 
 const Pages: React.FC = () => {
     return (
@@ -20,7 +22,7 @@ const Banner: React.FC = () => {
     return (
         <div style={{
             width: "calc(100% - 200px)",
-            height: "300px",
+            height: "270px",
             overflow: "hidden",
             display: "flex",
             alignItems: "center",
@@ -31,7 +33,7 @@ const Banner: React.FC = () => {
         }}>
             <img src="https://myrepublic.net/sg/content/uploads/2020/09/valorant-banner.png"
                 style={{
-                    height: "300px",
+                    height: "270px",
                     objectFit: "cover"
                 }}
             />
@@ -44,27 +46,40 @@ const ChannelContent: React.FC = () => {
         <div style={{
             width: "100%",
             height: "calc(100% - 200px)",
-            backgroundColor: "green"
+            // backgroundColor: "green"
         }}>
 
         </div>
     )
 }
 
-function UserChannel() {
-    const [scrolled, setScroll] = useState(false)
-    const ref = React.useRef<any>({})
-    useEffect(() => {
-        function handleScroll() {
-            if (ref.current.scrollTop > 440) setScroll(true)
-            else setScroll(false)
-        }
-        ref.current.addEventListener('scroll', handleScroll)
+const AboutChannel: React.FC = () => {
+    return (
+        <div style={{
+            width: "100%",
+            paddingLeft: "10px",
+            marginTop: "70px",
+            position: "sticky",
+            top: "110px"
+        }}>
+            <h4 style={{ fontFamily: "Poppins", fontSize: "15px", color: "grey", lineHeight: "0" }}>About Channel</h4>
+            <h4 style={{
+                fontFamily: "sans-serif",
+                color: "silver",
+                fontSize: "13px"
+            }}>
+                I'm a pretty average dude with no expertise in anything, but I'm okay with it as I feel that I took a glimpse of everything.
+                There are many things I've tried over the year 2020. This is when I got to know the most of myself. I've got to experiment with
+                millions of new things which I feel have made me the person I am today. This is my story as the guy who learnt everything from
+                the internet.
+            </h4>
+        </div>
+    )
+}
 
-        return () => {
-            ref.current.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
+function UserChannel() {
+    const { ref, scrolled } = onScroll(400)
+
     return (
         <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} >
             <Banner />
@@ -73,7 +88,7 @@ function UserChannel() {
                 height: "150%",
                 backgroundColor: "#0E0E10",
                 position: "absolute",
-                top: "300px",
+                top: "270px",
                 display: "flex"
             }}>
                 <div style={{
@@ -81,6 +96,7 @@ function UserChannel() {
                     height: "100%"
                 }}>
                     <ChannelPreview scrolled={scrolled} />
+                    <AboutChannel />
                 </div>
                 <div style={{
                     width: "calc(100% - 300px)",
@@ -89,8 +105,8 @@ function UserChannel() {
                     flexDirection: "column",
                     alignItems: "center"
                 }}>
-                    <ChannelDescription />
-                    <ContentFilter />
+                    <ChannelDescription scrolled={scrolled} />
+                    <ContentFilter scrolled={scrolled} />
                     <ChannelContent />
                 </div>
             </div>

@@ -76,16 +76,20 @@ const ChannelInformation: React.FC = () => {
     )
 }
 
-export const ChannelDescription: React.FC = () => {
+export const ChannelDescription: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
     return (
         <div style={{
             width: "100%",
-            height: "150px",
-            position: "sticky",
-            top: "0"
+            height: "150px"
         }}>
-            <ChannelConectedAccounts />
-            <ChannelInformation />
+            {
+                scrolled ?
+                    <></> :
+                    <>
+                        <ChannelConectedAccounts />
+                        <ChannelInformation />
+                    </>
+            }
         </div>
     )
 }
