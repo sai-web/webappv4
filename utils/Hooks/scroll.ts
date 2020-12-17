@@ -13,10 +13,6 @@ export function onScroll(ScrollTop?: number, ScrollBottom?: number, ScrollLeft?:
             else setScroll(false)
         }
         ref.current.addEventListener('scroll', handleScroll)
-
-        return () => {
-            ref.current.removeEventListener('scroll', handleScroll)
-        }
     }, [])
 
     return { ref, scrolled }

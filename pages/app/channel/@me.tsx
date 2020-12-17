@@ -4,7 +4,7 @@ import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
 import { ChannelPreview } from '../../../components/user/channel/profile'
 import { ChannelDescription } from '../../../components/user/channel/description'
-import { ContentFilter } from '../../../components/user/channel/filter'
+import { Content } from '../../../components/user/channel/content'
 
 import { onScroll } from '../../../utils/Hooks/scroll'
 
@@ -41,26 +41,14 @@ const Banner: React.FC = () => {
     )
 }
 
-const ChannelContent: React.FC = () => {
-    return (
-        <div style={{
-            width: "100%",
-            height: "calc(100% - 200px)",
-            // backgroundColor: "green"
-        }}>
-
-        </div>
-    )
-}
-
-const AboutChannel: React.FC = () => {
+const AboutChannel: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
     return (
         <div style={{
             width: "100%",
             paddingLeft: "10px",
             marginTop: "70px",
-            position: "sticky",
-            top: "110px"
+            position: "relative",
+            top: scrolled ? "100px" : ""
         }}>
             <h4 style={{ fontFamily: "Poppins", fontSize: "15px", color: "grey", lineHeight: "0" }}>About Channel</h4>
             <h4 style={{
@@ -78,14 +66,13 @@ const AboutChannel: React.FC = () => {
 }
 
 function UserChannel() {
-    const { ref, scrolled } = onScroll(400)
+    const { ref, scrolled } = onScroll(340)
 
     return (
         <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} >
             <Banner />
             <div style={{
                 width: "100%",
-                height: "150%",
                 backgroundColor: "#0E0E10",
                 position: "absolute",
                 top: "270px",
@@ -96,7 +83,7 @@ function UserChannel() {
                     height: "100%"
                 }}>
                     <ChannelPreview scrolled={scrolled} />
-                    <AboutChannel />
+                    <AboutChannel scrolled={scrolled} />
                 </div>
                 <div style={{
                     width: "calc(100% - 300px)",
@@ -106,8 +93,7 @@ function UserChannel() {
                     alignItems: "center"
                 }}>
                     <ChannelDescription scrolled={scrolled} />
-                    <ContentFilter scrolled={scrolled} />
-                    <ChannelContent />
+                    <Content scrolled={scrolled} />
                 </div>
             </div>
         </Template>

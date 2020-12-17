@@ -25,7 +25,7 @@ const ContentFilterWord: React.FC<{ name: string }> = ({ name }) => {
     )
 }
 
-export const ContentFilter: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
+export const ContentFilter: React.FC = () => {
     return (
         <div style={{
             width: "calc(100% - 40px)",
@@ -33,9 +33,7 @@ export const ContentFilter: React.FC<{ scrolled: boolean }> = ({ scrolled }) => 
             backgroundColor: "#18181B",
             borderRadius: "5px",
             display: "flex",
-            alignItems: "center",
-            position: "sticky",
-            top: scrolled ? "100px" : "40px"
+            alignItems: "center"
         }}>
             <div style={{
                 width: "calc(100% - 260px)",
