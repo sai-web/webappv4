@@ -8,9 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@pulsejs/core": "^3.5.2",
+    "@pulsejs/react": "^3.5.2",
+    "@types/axios": "^0.14.0",
     "@types/react": "^16.9.56",
     "@types/react-dnd": "^3.0.2",
     "@types/react-dnd-html5-backend": "^3.0.2",
+    "axios": "^0.21.1",
     "framer-motion": "^2.9.4",
     "next": "10.0.1",
     "react": "17.0.1",
