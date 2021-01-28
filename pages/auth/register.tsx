@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Base from '../../components/auth/baseline'
 import { closeOnOutwardClick, createInput, redirectLinks } from '../../utils/auth'
 
@@ -7,13 +7,24 @@ const test: React.FC = () => {
     const [selectedPassword, setSelectPassword] = useState<boolean>(false)
     const [selectedEmail, setSelectEmail] = useState<boolean>(false)
 
-    const username = useRef<any>()
-    const password = useRef<any>()
-    const email = useRef<any>()
+    const [filled, setFilled] = useState<boolean>(false)
 
-    closeOnOutwardClick(username, setSelectUsername)
-    closeOnOutwardClick(password, setSelectPassword)
-    closeOnOutwardClick(email, setSelectEmail)
+    const [username, setUsername] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+
+    const usernameRef = useRef<any>()
+    const passwordRef = useRef<any>()
+    const emailRef = useRef<any>()
+
+    closeOnOutwardClick(usernameRef, setSelectUsername)
+    closeOnOutwardClick(passwordRef, setSelectPassword)
+    closeOnOutwardClick(emailRef, setSelectEmail)
+
+    useEffect(() => {
+        if (username.length > 0 && password.length > 0 && email.length > 0) setFilled(true)
+        else setFilled(false)
+    }, [username, password, email])
 
     function inputs() {
         return (
@@ -26,9 +37,9 @@ const test: React.FC = () => {
                 marginTop: "40px",
                 height: "180px"
             }}>
-                {createInput('Email', email, selectedEmail, setSelectEmail)}
-                {createInput('Username', username, selectedUsername, setSelectUsername)}
-                {createInput('Password', password, selectedPassword, setSelectPassword)}
+                {createInput('Email', emailRef, selectedEmail, setSelectEmail, setEmail)}
+                {createInput('Username', usernameRef, selectedUsername, setSelectUsername, setUsername)}
+                {createInput('Password', passwordRef, selectedPassword, setSelectPassword, setPassword)}
             </div>
         )
     }
@@ -50,6 +61,7 @@ const test: React.FC = () => {
             redirectURL='/updates/authLog'
             inputs={inputs}
             redirectLinks={links}
+            filled={filled}
         />
     )
 }

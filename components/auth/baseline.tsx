@@ -8,13 +8,13 @@ interface Props {
     subHeader: string
     height: string
     buttonName: string
-    redirectURL: string
     inputs: () => JSX.Element
     redirectLinks: () => JSX.Element
-    loaderState?: React.Dispatch<React.SetStateAction<boolean>>
+    filled: Boolean
+    onClickFunc: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) | undefined
 }
 
-const base: React.FC<Props> = ({ header, subHeader, height, buttonName, redirectURL, inputs, redirectLinks, loaderState }: Props) => {
+const base: React.FC<Props> = ({ header, subHeader, height, buttonName, inputs, redirectLinks, filled, onClickFunc }: Props) => {
     return (
         <div style={{
             position: "absolute",
@@ -26,18 +26,38 @@ const base: React.FC<Props> = ({ header, subHeader, height, buttonName, redirect
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            backgroundImage: `url('https://notify.me/science-dark.jpg')`,
+            backgroundImage: `url('https://cdn.statically.io/img/i.pinimg.com/736x/17/06/b6/1706b65720ee6671eaa6bf5db59a4d3a.jpg')`,
             // filter: "invert(100%)"
         }}>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                width: "500px",
+                width: "400px",
                 height,
                 backgroundColor: "#1B1E20",
-                borderRadius: "10px"
+                borderRadius: "10px",
+                position: "relative"
             }}>
+                <div style={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                    backgroundColor: "#313339",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "absolute",
+                    left: "10px",
+                    top: "10px",
+                    cursor: "pointer"
+                }}
+                    onClick={() => Router.back()}
+                >
+                    <span className="material-icons" style={{ color: "grey" }}>
+                        keyboard_arrow_left
+                    </span>
+                </div>
                 <div style={{
                     display: "flex",
                     flexDirection: "column",
@@ -45,7 +65,7 @@ const base: React.FC<Props> = ({ header, subHeader, height, buttonName, redirect
                     marginTop: "20px"
                 }}>
                     <h2 style={{
-                        fontFamily: "Roboto Condensed",
+                        fontFamily: "sans-serif",
                         color: "whitesmoke",
                         lineHeight: "0"
                     }}>
@@ -74,14 +94,11 @@ const base: React.FC<Props> = ({ header, subHeader, height, buttonName, redirect
                         borderWidth: "0",
                         borderRadius: "20px",
                         marginTop: "15px",
-                        outline: "none"
+                        outline: "none",
+                        opacity: filled ? "1" : "0.5"
                     }}
-                    onClick={() => {
-                        loaderState !== undefined ? loaderState(true) : ""
-                        setTimeout(() => {
-                            Router.push(redirectURL)
-                        }, 6000)
-                    }}
+                    onClick={onClickFunc}
+                    disabled={filled ? false : true}
                 >
                     {buttonName}
                 </motion.button>

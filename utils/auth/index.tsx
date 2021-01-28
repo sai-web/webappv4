@@ -16,15 +16,22 @@ export function closeOnOutwardClick(ref: React.MutableRefObject<any>, stateSette
     }, [ref]);
 }
 
-export function createInput(name: string, ref: React.MutableRefObject<any>, state: boolean, stateSetter: React.Dispatch<React.SetStateAction<boolean>>) {
+export function createInput(
+    name: string,
+    ref: React.MutableRefObject<any>,
+    state: boolean,
+    stateSetter: React.Dispatch<React.SetStateAction<boolean>>,
+    valueSetter: React.Dispatch<React.SetStateAction<string>>
+) {
     return (
         <input
-            type="text"
-            name="username"
+            type={name === "Password" ? "password" : "text"}
+            name={name}
             placeholder={name}
             ref={ref}
             spellCheck="false"
             autoComplete="off"
+            onChange={e => valueSetter(e.target.value)}
             style={{
                 width: "calc(100% - 60px)",
                 height: "50px",
@@ -32,7 +39,7 @@ export function createInput(name: string, ref: React.MutableRefObject<any>, stat
                 borderWidth: "0 0 2px",
                 borderColor: state ? "#4B6DFF" : "#252A2E",
                 fontFamily: "sans-serif",
-                fontSize: "15px",
+                fontSize: "18px",
                 backgroundColor: "#171A1D",
                 paddingLeft: "20px",
                 fontWeight: "bold",
