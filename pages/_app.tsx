@@ -5,6 +5,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { AnimatePresence } from 'framer-motion'
+import { ErrorDisplay } from './ErrorDisplay'
 
 import '../styles/sideNav.css'
 import '../styles/topNav.css'
@@ -18,7 +19,8 @@ function Main({ Component, pageProps }: AppProps) {
   return (
     <DndProvider backend={HTML5Backend}>
       <AnimatePresence exitBeforeEnter>
-        <Component {...pageProps} />
+        <Component {...pageProps} key="Components" />
+        <ErrorDisplay key="Error" />
       </AnimatePresence>
     </DndProvider>
   )
