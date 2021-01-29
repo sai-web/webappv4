@@ -12,6 +12,7 @@ const ErrorDisplayVariants = {
 export function ErrorDisplay() {
     const [CustomError, setError] = useState<{ type: string, message: string }>({ type: "", message: "" })
     const [display, setDisplay] = useState<boolean>(false)
+    const [renderError, setRenderError] = useState<number>(0)
     useEvent(Error, ({ type, message }) => {
         setError({
             type,
@@ -22,15 +23,17 @@ export function ErrorDisplay() {
     useEffect(() => {
         if (display) setTimeout(() => setDisplay(false), 5000)
     }, [display])
+    useEffect(() => {
+        setRenderError(render => (render + 1))
+    }, [])
     return (
         <div style={{
             width: "100%",
             display: "flex",
             justifyContent: "center"
         }}>
-
             <motion.div
-                initial={display ? "hidden" : "visible"}
+                initial={display ? "hidden" : renderError > 0 ? "visible" : "hidden"}
                 animate={display ? "visible" : "hidden"}
                 style={{
                     width: "80%",

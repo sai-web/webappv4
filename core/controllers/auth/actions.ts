@@ -16,8 +16,8 @@ function csrf(access_token: string) {
 function login(payload: { username: string, password: string, device_name: string }, emailToken?: string) {
     return routes.login(payload, emailToken)
         .then(data => {
-            if (data.status === 400) Error.emit({ type: "Email Verification", message: "we couldn't authenticate you as your email wasn't verified." })
-            else if (data.status === 404) Error.emit({ type: "Authentication Error", message: "we were not able to authenticate you." })
+            if (data.status === 400) Error.emit({ type: "Email Verification", message: "we couldn't authenticate you as your email wasn't verified. The max time for verifying your email is 24 hours." })
+            else if (data.status === 404) Error.emit({ type: "Authentication Error", message: "we were not able to authenticate you. This is because you've provided invalid credentials. Contact our dev team for support." })
             else {
                 delete data.status
                 delete data.type
@@ -29,21 +29,29 @@ function login(payload: { username: string, password: string, device_name: strin
             return false
         })
         .catch(() => {
-            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible." })
+            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
             return false
         })
 }
 
 //register function which requires login within 24hrs
 function register(payload: { username: string, password: string, email: string }) {
-    routes.register(payload)
+    return routes.register(payload)
         .then(data => {
             if (data.status === 400) Error.emit({ type: "Registration Error", message: "we were not able to register this account. This may have been due to invalid format in providing the credentials." })
-            else {
-                delete data.data.status
-                delete data.data.type
-                userStates.user.set(data.data)
+            else if (data.status === 409) {
+                if ((data.data.exception as string).includes('Username')) Error.emit({ type: "Username Exists", message: "this username has already been taken, please use another one. For looking into the usernames taken you may check the /username/taken route. You may also negotiate for a certain username." })
+                else if ((data.data.exception as string).includes('Email')) Error.emit({ type: "Email Exists", message: "an account with this email exists, try reclaiming it or notify our dev team to get it checked for you. If you forgot your password you can change it by going to the /refresh route." })
+            } else {
+                delete data.status
+                userStates.user.set(data)
+                return true
             }
+            return false
+        })
+        .catch(() => {
+            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+            return false
         })
 }
 

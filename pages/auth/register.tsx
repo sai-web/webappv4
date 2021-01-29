@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react'
 import Base from '../../components/auth/baseline'
 import { closeOnOutwardClick, createInput, redirectLinks } from '../../utils/auth'
 
+import { core } from '../../core'
+import Router from 'next/router'
+
 const test: React.FC = () => {
     const [selectedUsername, setSelectUsername] = useState<boolean>(false)
     const [selectedPassword, setSelectPassword] = useState<boolean>(false)
@@ -58,10 +61,23 @@ const test: React.FC = () => {
             subHeader="Get started by creating a new account"
             height="430px"
             buttonName="Create Account"
-            redirectURL='/updates/authLog'
             inputs={inputs}
             redirectLinks={links}
             filled={filled}
+            onClickFunc={() => {
+                if (filled) {
+                    core.auth.register({
+                        username,
+                        password,
+                        email
+                    })
+                        .then(accountCreated => {
+                            if (accountCreated) {
+                                Router.push('/app')
+                            }
+                        })
+                }
+            }}
         />
     )
 }
