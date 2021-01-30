@@ -1,20 +1,7 @@
 import { App } from './app';
+import { API } from './utils/Api.declaration'
 
-export const auth_api = App.API({
-    baseURL: 'https://localhost:5001',
-    path: 'auth',
-    options: {
-        credentials: 'include',
-        mode: 'cors',
-        headers: {
-            'Access-Control-Allow-Origin': 'localhost'
-        },
-        cache: "no-cache",
-    },
-    responseIntercept: (response: any) => {
-        return response.json()
-    }
-});
+export const auth_api = new API('http://localhost:5001', 'auth');
 
 export const rest_api = App.API({
     baseURL: 'https://localhost:5002',

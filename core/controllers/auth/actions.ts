@@ -1,14 +1,18 @@
 import routes from './routes'
 import states from './states'
-import { Error } from './events'
+import { Error, Token } from './events'
 
 import userStates from '../user/states'
 
 //funciton to handle the csrf tokens
-function csrf(access_token: string) {
-    routes.csrf(access_token)
+function csrf() {
+    routes.csrf()
         .then(data => {
-            states.csrf_token.set(data._csrf)
+            if (data.status === 400) Token.emit({ token: "access" })
+            else states.csrf_token.set(data._csrf)
+        })
+        .catch(() => {
+            Error.emit({ type: "Invalid Behaviour", message: "the csrf token could not be set. Please report this issue as soon as possible." })
         })
 }
 
@@ -58,6 +62,38 @@ function register(payload: { username: string, password: string, email: string }
 //the refresh token will automatically be extracted from the cookie storage so no need to pass them explicitly
 function refreshAccessToken() {
     routes.refresh()
+        .then(data => {
+            if (data.status === 403) Token.emit({ token: "refresh" })
+        })
+        .catch(() => {
+            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+        })
+}
+
+function sendResetPasscodeLink(email: string) {
+    return routes.sendResetPasscodeLink(email)
+        .then(data => {
+            if (data.status === 404) Error.emit({ type: "SMTP Error", message: "there was an issue with the mail processing. Please report this issue." })
+            else if (data.status === 400) Error.emit({ type: "Invalid Email", message: "there is no account registered with this email. Try creating a new account. If this is an unexpected behaviour then you can report it on our discord server." })
+            else return true
+        })
+        .catch(() => {
+            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+            return false
+        })
+}
+
+function resetPasscode(password: string, token: string) {
+    return routes.resetPasscode(password, token)
+        .then(data => {
+            if (data.status === 401) Error.emit({ type: "Unauthorised attempt", message: "we could not reset the password because the token provided was invalid. If this was an unexpected behaviour then you may notify our dev team on discord." })
+            else if (data.status === 400) Error.emit({ type: "Invalid Format", message: "the password entered did follow proper format. It can have any number of characters between 10 and 30." })
+            else return true
+        })
+        .catch(() => {
+            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+            return false
+        })
 }
 
 //set the totp secret and auth url
@@ -80,5 +116,7 @@ export default {
     register,
     refreshAccessToken,
     totp,
-    verifyTotp
+    verifyTotp,
+    sendResetPasscodeLink,
+    resetPasscode
 }

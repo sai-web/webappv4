@@ -45,7 +45,7 @@ const Login: React.FC = () => {
     function links() {
         return (
             <>
-                {redirectLinks('/auth/reset-passcode', "Forgot your password? click here to reset password")}
+                {redirectLinks('/auth/reset/get_reset_link', "Forgot your password? click here to reset password")}
                 {redirectLinks('/auth/register', "Don't have an account! create a new one")}
             </>
         )

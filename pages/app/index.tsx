@@ -1,6 +1,5 @@
-import React from 'react'
-
-import Link from 'next/link'
+import React, { useEffect } from 'react'
+import { core } from '../../core'
 
 import { PageModes } from '../../components/nav/top/components/pageMode'
 import Template from '../../components/app/template'
@@ -21,6 +20,10 @@ const Pages: React.FC = () => {
 }
 
 function ViberHome() {
+    // useEffect(() => {
+    //     core.auth.test()
+    //         .then(data => console.log(data))
+    // }, [])
     return (
         <Template PageMode={<Pages />} width="320px" page="home" >
             <div style={{

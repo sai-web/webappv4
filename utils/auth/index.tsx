@@ -25,7 +25,7 @@ export function createInput(
 ) {
     return (
         <input
-            type={name === "Password" ? "password" : "text"}
+            type={name.includes("Password") ? "password" : "text"}
             name={name}
             placeholder={name}
             ref={ref}

@@ -1,36 +1,34 @@
 import { auth_api as Api } from '../../api'
-import axios from 'axios'
-
-import { Error } from './events'
-import { LoginError } from '../../Errors/loginError'
 
 //return a json object with _csrf prop
-async function csrf(access_token: string) {
-    return (await Api.post('auth/crsf', { access_token })).data
+async function csrf() {
+    return await Api.get('csrf')
 }
 
 //pass in information and login within 24hrs to prevent account deletion
 async function register(payload: { username: string, password: string, email: string }) {
-    return await axios.post('http://localhost:5001/auth/register', payload)
-        .then(data => (data.data))
-        .catch(err => (err.response))
+    return await Api.post('register', payload)
 }
 
 async function login(payload: { username: string, password: string, device_name: string }, emailToken?: string) {
     if (emailToken) {
-        return await axios.post(`http://localhost:5001/auth/login?token=${emailToken}`, payload)
-            .then(data => (data.data))
-            .catch(err => (err.response))
+        return await Api.post(`login?token=${emailToken}`, payload, { overridePath: false })
     } else {
-        return await axios.post('http://localhost:5001/auth/login', payload)
-            .then(data => (data.data))
-            .catch(err => (err.response))
+        return await Api.post('login', payload, { overridePath: false })
     }
+}
+
+async function sendResetPasscodeLink(email: string) {
+    return await Api.post('advance/reset-passcode', { email })
+}
+
+async function resetPasscode(password: string, token: string) {
+    return await Api.post(`advance/reset-passcode?token=${token}`, { password })
 }
 
 //if valid refresh token is provided it sets the tokens in the cookies
 async function refresh() {
-    return (await Api.post('refresh')).data
+    return await Api.get('refresh')
 }
 
 //retrieve totp secret and otpauth_url
@@ -49,5 +47,7 @@ export default {
     login,
     refresh,
     totp,
-    verifyTotp
+    verifyTotp,
+    sendResetPasscodeLink,
+    resetPasscode
 }

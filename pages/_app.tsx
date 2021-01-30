@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import type { AppProps } from 'next/app'
+import Router from 'next/router'
+
+import { core } from '../core'
+import { Token } from '../core/controllers/auth/events'
+import { useEvent } from '@pulsejs/react'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -16,6 +21,13 @@ import '../styles/custom-check-box.css'
 import '../styles/analytics-circle.css'
 
 function Main({ Component, pageProps }: AppProps) {
+  useEvent(Token, ({ token }) => {
+    if (token === "access") core.auth.refreshAccessToken()
+    else if (token === "refresh") Router.push('/auth/login')
+  })
+  useEffect(() => {
+    if (core.auth.state.csrf_token.value.length === 0) core.auth.csrf()
+  }, [])
   return (
     <DndProvider backend={HTML5Backend}>
       <AnimatePresence exitBeforeEnter>
