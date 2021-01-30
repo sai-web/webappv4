@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
@@ -23,33 +23,59 @@ export function createInput(
     stateSetter: React.Dispatch<React.SetStateAction<boolean>>,
     valueSetter: React.Dispatch<React.SetStateAction<string>>
 ) {
+    var MainCredential: boolean = name.includes("Password")
+    const [showCreds, setShowCreds] = useState<boolean>(false)
     return (
-        <input
-            type={name.includes("Password") ? "password" : "text"}
-            name={name}
-            placeholder={name}
-            ref={ref}
-            spellCheck="false"
-            autoComplete="off"
-            onChange={e => valueSetter(e.target.value)}
-            style={{
-                width: "calc(100% - 60px)",
-                height: "50px",
-                borderRadius: "10px",
-                borderWidth: "0 0 2px",
-                borderColor: state ? "#4B6DFF" : "#252A2E",
-                fontFamily: "sans-serif",
-                fontSize: "18px",
-                backgroundColor: "#171A1D",
-                paddingLeft: "20px",
-                fontWeight: "bold",
-                color: "silver",
-                outline: "none"
-            }}
-            onClick={() => {
-                stateSetter(true)
-            }}
-        />
+        <label style={{
+            width: "100%",
+            position: "relative",
+            display: "flex",
+            justifyContent: "center"
+        }}>
+            <input
+                type={MainCredential && !showCreds ? "password" : "text"}
+                name={name}
+                placeholder={name}
+                ref={ref}
+                spellCheck="false"
+                autoComplete="off"
+                onChange={e => valueSetter(e.target.value)}
+                style={{
+                    width: "calc(100% - 100px)",
+                    height: "50px",
+                    borderRadius: "10px",
+                    borderWidth: "0 0 2px",
+                    borderColor: state ? "#4B6DFF" : "#252A2E",
+                    fontFamily: "sans-serif",
+                    fontSize: "18px",
+                    backgroundColor: "#171A1D",
+                    paddingLeft: "20px",
+                    paddingRight: "40px",
+                    fontWeight: "bold",
+                    color: "silver",
+                    outline: "none"
+                }}
+                onClick={() => {
+                    stateSetter(true)
+                }}
+            />
+            {
+                MainCredential ?
+                    <span
+                        className="material-icons"
+                        style={{
+                            position: "absolute",
+                            right: "35px",
+                            top: "15px",
+                            color: "#3A3A3D"
+                        }}
+                        onClick={() => setShowCreds(prev => (!prev))}
+                    >
+                        {showCreds ? "visibility_off" : "visibility"}
+                    </span>
+                    : ""
+            }
+        </label>
     )
 }
 
