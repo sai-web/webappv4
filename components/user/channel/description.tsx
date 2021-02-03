@@ -1,8 +1,12 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 const ConnectionCards: React.FC<{ name: string, icon: JSX.Element }> = ({ name, icon }) => {
     return (
-        <div
+        <motion.div
+            whileTap={{
+                scale: 0.9
+            }}
             style={{
                 height: "26px",
                 backgroundColor: "#373737",
@@ -23,7 +27,7 @@ const ConnectionCards: React.FC<{ name: string, icon: JSX.Element }> = ({ name, 
                 fontSize: "13px",
                 marginLeft: "5px"
             }}>{name}</h4>
-        </div>
+        </motion.div>
     )
 }
 
@@ -59,14 +63,21 @@ const ChannelInformation: React.FC = () => {
             height: "calc(100% - 50px)",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
+            overflow: "hidden"
         }}>
-            <h4 style={{ fontFamily: "sans-serif", fontSize: "25px", color: "silver", lineHeight: "0" }}>Programmer, Streamer and a High School Student</h4>
+            <h4 style={{
+                fontFamily: "sans-serif",
+                fontSize: "25px",
+                color: "silver",
+            }}>
+                Programmer, Streamer and a High School Student
+            </h4>
             <div style={{
                 display: "flex",
                 lineHeight: "0",
                 position: "relative",
-                bottom: "10px"
+                bottom: "30px"
             }}>
                 <h4 style={{ fontFamily: "sans-serif", fontSize: "13px", color: "grey" }}>Averages</h4>
                 <h4 style={{ fontFamily: "sans-serif", fontSize: "13px", color: "#4D6FFF", marginLeft: "5px", marginRight: "5px" }}>3</h4>
@@ -76,20 +87,16 @@ const ChannelInformation: React.FC = () => {
     )
 }
 
-export const ChannelDescription: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
+export const ChannelDescription: React.FC = () => {
     return (
         <div style={{
             width: "100%",
             height: "150px"
         }}>
-            {
-                scrolled ?
-                    <></> :
-                    <>
-                        <ChannelConectedAccounts />
-                        <ChannelInformation />
-                    </>
-            }
+            <>
+                <ChannelConectedAccounts />
+                <ChannelInformation />
+            </>
         </div>
     )
 }

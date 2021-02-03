@@ -1,14 +1,19 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 const ContentFilterWord: React.FC<{ name: string }> = ({ name }) => {
     return (
-        <div
+        <motion.div
+            whileTap={{
+                scale: 0.9
+            }}
             style={{
                 height: "26px",
                 backgroundColor: "#242429",
                 display: "flex",
                 alignItems: "center",
-                marginLeft: "10px",
+                marginLeft: "5px",
+                marginRight: "5px",
                 padding: "0 5px",
                 borderRadius: "13px",
                 cursor: "pointer"
@@ -21,7 +26,7 @@ const ContentFilterWord: React.FC<{ name: string }> = ({ name }) => {
                 fontWeight: "lighter",
                 fontSize: "13px"
             }}>{name}</h4>
-        </div>
+        </motion.div>
     )
 }
 
@@ -33,13 +38,18 @@ export const ContentFilter: React.FC = () => {
             backgroundColor: "#18181B",
             borderRadius: "5px",
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
+            justifyContent: "space-evenly"
         }}>
             <div style={{
-                width: "calc(100% - 260px)",
+                width: "calc(100% - 330px)",
                 overflowX: "scroll",
                 display: "flex",
-                alignItems: "center"
+                alignItems: "center",
+                marginLeft: "10px",
+                backgroundColor: "#0E0E10",
+                height: "33px",
+                borderRadius: "5px"
             }} className="main-content-div">
                 <ContentFilterWord name="twitch" />
                 <ContentFilterWord name="youtube" />

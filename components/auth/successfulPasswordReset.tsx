@@ -1,7 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 
-export function SuccessfullResetRequestSent() {
+export const SuccessfullResetRequestSent: React.FC<{ title: string, message: string }> = ({ title, message }) => {
     return (
         <div style={{
             width: "400px",
@@ -38,7 +38,7 @@ export function SuccessfullResetRequestSent() {
                 // lineHeight: "0",
                 margin: "20px 0 0"
             }}>
-                Reset link was sent
+                {title}
             </h2>
             <h4 style={{
                 fontFamily: "Roboto Condensed",
@@ -47,9 +47,7 @@ export function SuccessfullResetRequestSent() {
                 fontWeight: "lighter",
                 width: "80%"
             }}>
-                We've sent an email to the mail id that you've provided, after tapping on the link
-                you will be redirected to a web page where you can custom set your new password. If you face
-                any issues be sure to ask for help on our discord server.
+                {message}
             </h4>
         </div>
     )

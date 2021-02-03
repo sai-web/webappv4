@@ -9,7 +9,7 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <Head>
+                <Head style={{ scrollBehavior: "smooth" }}>
                     <link
                         href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap"
                         rel="stylesheet"

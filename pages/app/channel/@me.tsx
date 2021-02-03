@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
 import { ChannelPreview } from '../../../components/user/channel/profile'
 import { ChannelDescription } from '../../../components/user/channel/description'
 import { Content } from '../../../components/user/channel/content'
+import { Connections } from '../../../components/user/channel/connections'
+import { ScrolledChannelPreview } from '../../../components/user/channel/scrolledChannelPreview'
 
 import { onScroll } from '../../../utils/Hooks/scroll'
 
@@ -18,37 +21,15 @@ const Pages: React.FC = () => {
     )
 }
 
-const Banner: React.FC = () => {
-    return (
-        <div style={{
-            width: "calc(100% - 200px)",
-            height: "270px",
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "fixed",
-            top: "35px",
-            zIndex: -1
-        }}>
-            <img src="https://myrepublic.net/sg/content/uploads/2020/09/valorant-banner.png"
-                style={{
-                    height: "270px",
-                    objectFit: "cover"
-                }}
-            />
-        </div>
-    )
-}
-
-const AboutChannel: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
+const AboutChannel: React.FC = () => {
     return (
         <div style={{
             width: "100%",
             paddingLeft: "10px",
             marginTop: "70px",
-            position: "relative",
-            top: scrolled ? "100px" : ""
+            position: "sticky",
+            top: "110px",
+            scrollSnapAlign: "start"
         }}>
             <h4 style={{ fontFamily: "Poppins", fontSize: "15px", color: "grey", lineHeight: "0" }}>About Channel</h4>
             <h4 style={{
@@ -66,36 +47,50 @@ const AboutChannel: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
 }
 
 function UserChannel() {
-    const { ref, scrolled } = onScroll(340)
-
+    const { ref, scrolled } = onScroll(380)
     return (
-        <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} >
-            <Banner />
-            <div style={{
-                width: "100%",
-                backgroundColor: "#0E0E10",
-                position: "absolute",
-                top: "270px",
-                display: "flex"
-            }}>
+        <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} banner>
+            <motion.div
+                initial={{
+                    top: "110px"
+                }}
+                animate={{
+                    top: "270px"
+                }}
+                transition={{
+                    delay: 0.1,
+                    damping: 10,
+                    type: "spring"
+                }}
+                style={{
+                    width: "100%",
+                    backgroundColor: "#0E0E10",
+                    position: "absolute",
+                    display: "flex"
+                }}
+            >
                 <div style={{
                     width: "300px",
                     height: "100%"
                 }}>
-                    <ChannelPreview scrolled={scrolled} />
-                    <AboutChannel scrolled={scrolled} />
+                    <ScrolledChannelPreview scrolled={scrolled} />
+                    <ChannelPreview />
+                    <AboutChannel />
+                    <Connections />
                 </div>
                 <div style={{
                     width: "calc(100% - 300px)",
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center"
+                    alignItems: "center",
+                    position: "absolute",
+                    right: "0"
                 }}>
-                    <ChannelDescription scrolled={scrolled} />
+                    <ChannelDescription />
                     <Content scrolled={scrolled} />
                 </div>
-            </div>
+            </motion.div>
         </Template>
     )
 }

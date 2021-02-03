@@ -40,7 +40,12 @@ export default function GetResetLink() {
         }}>
             {
                 successfullRequest ?
-                    <SuccessfullResetRequestSent /> :
+                    <SuccessfullResetRequestSent
+                        title="Reset link was sent"
+                        message="We've sent an email to the mail id that you've provided, after tapping on the link
+                        you will be redirected to a web page where you can custom set your new password. If you face
+                        any issues be sure to ask for help on our discord server."
+                    /> :
                     <div style={{
                         width: "400px",
                         height: "300px",

@@ -26,11 +26,11 @@ function Main({ Component, pageProps }: AppProps) {
     else if (token === "refresh") Router.push('/auth/login')
   })
   useEffect(() => {
-    if (core.auth.state.csrf_token.value.length === 0) core.auth.csrf()
-  }, [])
+    if (core.auth.state.csrf_token.value.length === 0 && !Router.pathname.includes('auth')) core.auth.csrf()
+  })
   return (
     <DndProvider backend={HTML5Backend}>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence>
         <Component {...pageProps} key="Components" />
         <ErrorDisplay key="Error" />
       </AnimatePresence>

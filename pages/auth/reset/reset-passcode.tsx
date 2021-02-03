@@ -45,7 +45,11 @@ export default function ResetPasscode() {
         }}>
             {
                 successfullRequest ?
-                    <SuccessfullResetRequestSent /> :
+                    <SuccessfullResetRequestSent
+                        title="Successful Reset"
+                        message="your password has been successfully reset, we've also sent you a mail
+                        to confirm your actions. You may now log into your account with your new password."
+                    /> :
                     <div style={{
                         width: "400px",
                         height: "350px",
@@ -112,7 +116,7 @@ export default function ResetPasscode() {
                             disabled={filled ? true : false}
                             onClick={() => {
                                 if (filled) {
-                                    if (password === confirmPassword) core.auth.resetPasscode(password, Router.query.token as string)
+                                    if (password === confirmPassword) core.auth.resetPasscode(password, Router.query.token as string).then(data => { if (data) setRequestState(true) })
                                     else Error.emit({ type: "Unmatched Fields", message: "your password and confirmed password dont match. Re-check them and try again." })
                                 }
                             }}
