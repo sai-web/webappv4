@@ -18,8 +18,7 @@ const navigationMenu: React.FC<Props> = ({ page }) => {
                 left: "0",
                 backgroundColor: "#1F1F23",
                 display: "flex",
-                flexDirection: "column",
-                userSelect: "none"
+                flexDirection: "column"
             }}
         >
             <div style={{

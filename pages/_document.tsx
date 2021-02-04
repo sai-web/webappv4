@@ -25,7 +25,13 @@ class MyDocument extends Document {
                     <link rel="preconnect" href="https://fonts.gstatic.com" />
                     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
                 </Head>
-                <body style={{ margin: "0" }}>
+                <body style={{
+                    margin: "0",
+                    // backgroundColor: "black",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
                     <Main />
                     <NextScript />
                 </body>

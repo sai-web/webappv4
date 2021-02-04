@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import { lanuchMenu, MenuType } from '../../core/utils/Events'
+import { useEvent } from '@pulsejs/react'
+
+import { closeOnOutwardClick } from '../../utils/auth/index'
+import { animateTemplate } from '../../core/utils/Events'
 
 interface MenuOptionProperties {
     do: Function,
@@ -8,31 +13,25 @@ interface MenuOptionProperties {
 }
 
 export const MenuOptions: React.FC<{
-    options: Record<string, MenuOptionProperties>,
-    reference: React.MutableRefObject<any>
-}> = ({ options, reference }) => {
+    options: Record<string, MenuOptionProperties>
+}> = ({ options }) => {
+    const MenuOptionsRef = useRef<any>(null)
+    closeOnOutwardClick(MenuOptionsRef, (value: boolean) => {
+        lanuchMenu.emit({ type: MenuType.ContentMenu, enter: value })
+        animateTemplate.emit({ enter: value })
+    })
     return (
-        <motion.div
-            initial={{
-                scale: 0.2
-            }}
-            animate={{
-                scale: 1
-            }}
-            transition={{
-                type: "spring",
-                damping: 10
-            }}
+        <div
             style={{
                 width: "150px",
-                position: "absolute",
-                right: "10px",
+                // position: "absolute",
+                // right: "10px",
                 borderRadius: "10px",
                 display: "flex",
                 flexDirection: "column",
                 overflow: "hidden"
             }}
-            ref={reference}
+            ref={MenuOptionsRef}
         >
             {
                 Object.keys(options).map((option, index) => {
@@ -65,6 +64,6 @@ export const MenuOptions: React.FC<{
                     )
                 })
             }
-        </motion.div>
+        </div>
     )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
-export function closeOnOutwardClick(ref: React.MutableRefObject<any>, stateSetter: React.Dispatch<React.SetStateAction<boolean>>) {
+export function closeOnOutwardClick(ref: React.MutableRefObject<any>, stateSetter: React.Dispatch<React.SetStateAction<boolean>> | Function) {
     useEffect(() => {
         function handleClickOutside(event: any) {
             if (ref.current && !ref.current.contains(event.target)) {

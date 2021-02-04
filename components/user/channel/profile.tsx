@@ -8,7 +8,7 @@ export const ChannelPreview: React.FC = () => {
         <div style={{
             width: "300px",
             height: "300px",
-            zIndex: 1,
+            // zIndex: 1,
             display: "flex",
             flexDirection: "column",
             alignItems: "center"

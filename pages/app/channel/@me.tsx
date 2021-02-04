@@ -50,22 +50,12 @@ function UserChannel() {
     const { ref, scrolled } = onScroll(380)
     return (
         <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} banner>
-            <motion.div
-                initial={{
-                    top: "110px"
-                }}
-                animate={{
-                    top: "270px"
-                }}
-                transition={{
-                    delay: 0.1,
-                    damping: 10,
-                    type: "spring"
-                }}
+            <div
                 style={{
                     width: "100%",
                     backgroundColor: "#0E0E10",
                     position: "absolute",
+                    top: "270px",
                     display: "flex"
                 }}
             >
@@ -90,7 +80,7 @@ function UserChannel() {
                     <ChannelDescription />
                     <Content scrolled={scrolled} />
                 </div>
-            </motion.div>
+            </div>
         </Template>
     )
 }

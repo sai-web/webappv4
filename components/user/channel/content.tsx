@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { lanuchMenu, MenuType } from '../../../core/utils/Events'
 import { motion } from 'framer-motion'
 import { mainContentData } from '../../home/fakeData/home'
+import { animateTemplate } from '../../../core/utils/Events'
 
 import { ContentFilter } from './filter'
-import { MenuOptions } from '../../../utils/app/menuOptions'
-
-import { closeOnOutwardClick } from '../../../utils/auth'
 
 const ContentThumbnail: React.FC<{ thumbnail: string }> = ({ thumbnail }) => {
     return (
@@ -66,9 +65,6 @@ const ContentDetails: React.FC<{ logo: string, data: string }> = ({ logo, data }
 }
 
 const ContentCard: React.FC<{ content: any }> = ({ content }) => {
-    const MenuOptionsRef = useRef<any>(null)
-    const [display, setDisplay] = useState<boolean>(false)
-    closeOnOutwardClick(MenuOptionsRef, setDisplay)
     return (
         <div style={{
             width: "100%",
@@ -113,78 +109,18 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                 justifyContent: "center",
                 alignItems: "center"
             }}
-                onClick={() => setDisplay(true)}
+                onClick={() => {
+                    lanuchMenu.emit({ type: MenuType.ContentMenu, enter: true })
+                    animateTemplate.emit({
+                        enter: true
+                    })
+                }}
             >
                 <i className="fa fa-ellipsis-v" style={{
                     color: "grey",
                     fontSize: "15px"
                 }}></i>
             </div>
-            {display ?
-                <MenuOptions options={{
-                    "Watch later": {
-                        do: () => null,
-                        color: "#18181B",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                watch_later
-                            </span>
-                        )
-                    },
-                    "Add to playlist": {
-                        do: () => null,
-                        color: "#18181B",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                queue
-                            </span>
-                        )
-                    },
-                    Report: {
-                        do: () => null,
-                        color: "#222226",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                report
-                            </span>
-                        )
-                    },
-                    Share: {
-                        do: () => null,
-                        color: "#222226",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                share
-                            </span>
-                        )
-                    }
-                }}
-                    reference={MenuOptionsRef}
-                /> : ""}
         </div>
     )
 }
