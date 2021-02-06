@@ -26,7 +26,7 @@ export const ViewerShipType: React.FC<viewershipProps> = ({ value, type }) => {
             <div>
                 <h4 style={{
                     color: "grey",
-                    fontFamily: "sans-serif",
+                    fontFamily: "Whitney",
                     fontSize: "9px",
                     lineHeight: "0px",
                     position: "relative",

@@ -1,7 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const ConnectionCards: React.FC<{ name: string, icon: JSX.Element }> = ({ name, icon }) => {
+import { lanuchMenu, MenuType, animateTemplate } from '../../../core/utils/Events'
+
+const ConnectionCards: React.FC<{ name: string, icon: JSX.Element, info: { domain: string, color: string } }> = ({ name, icon, info }) => {
     return (
         <motion.div
             whileTap={{
@@ -17,11 +19,21 @@ const ConnectionCards: React.FC<{ name: string, icon: JSX.Element }> = ({ name, 
                 borderRadius: "13px",
                 cursor: "pointer"
             }}
+            onClick={() => {
+                lanuchMenu.emit({
+                    type: MenuType.ConnectionMenu,
+                    display: true,
+                    ...info
+                })
+                animateTemplate.emit({
+                    display: true
+                })
+            }}
         >
             {icon}
             <h4 style={{
                 lineHeight: "0",
-                fontFamily: "sans-serif",
+                fontFamily: "Poppins",
                 color: "silver",
                 fontWeight: "lighter",
                 fontSize: "13px",
@@ -43,14 +55,26 @@ const ChannelConectedAccounts: React.FC = () => {
             <ConnectionCards
                 name="twitch"
                 icon={<i className="fa fa-twitch" style={{ color: "silver", fontSize: "12px" }}></i>}
+                info={{
+                    domain: "twitch.tv/",
+                    color: "#6441a5"
+                }}
             />
             <ConnectionCards
                 name="youtube"
                 icon={<i className="fa fa-youtube-play" style={{ color: "silver", fontSize: "12px" }}></i>}
+                info={{
+                    domain: "youtube.com/",
+                    color: "#c4302b"
+                }}
             />
             <ConnectionCards
                 name="spotify"
                 icon={<i className="fa fa-spotify" style={{ color: "silver", fontSize: "12px" }}></i>}
+                info={{
+                    domain: "spotify.com/",
+                    color: "#1DB954"
+                }}
             />
         </div>
     )
@@ -67,7 +91,8 @@ const ChannelInformation: React.FC = () => {
             overflow: "hidden"
         }}>
             <h4 style={{
-                fontFamily: "sans-serif",
+                fontFamily: "Whitney",
+                fontWeight: "lighter",
                 fontSize: "25px",
                 color: "silver",
             }}>
@@ -79,9 +104,9 @@ const ChannelInformation: React.FC = () => {
                 position: "relative",
                 bottom: "30px"
             }}>
-                <h4 style={{ fontFamily: "sans-serif", fontSize: "13px", color: "grey" }}>Averages</h4>
-                <h4 style={{ fontFamily: "sans-serif", fontSize: "13px", color: "#4D6FFF", marginLeft: "5px", marginRight: "5px" }}>3</h4>
-                <h4 style={{ fontFamily: "sans-serif", fontSize: "13px", color: "grey" }}>posts per week</h4>
+                <h4 style={{ fontFamily: "Poppins", fontWeight: "lighter", fontSize: "13px", color: "grey" }}>Averages</h4>
+                <h4 style={{ fontFamily: "Poppins", fontWeight: "lighter", fontSize: "13px", color: "#4D6FFF", marginLeft: "5px", marginRight: "5px" }}>3</h4>
+                <h4 style={{ fontFamily: "Poppins", fontWeight: "lighter", fontSize: "13px", color: "grey" }}>posts per week</h4>
             </div>
         </div>
     )

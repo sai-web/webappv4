@@ -56,7 +56,7 @@ export const ScrolledChannelPreview: React.FC<{ scrolled: boolean }> = ({ scroll
                             objectFit: "cover"
                         }}
                     />
-                    <h4 style={{ fontFamily: "Poppins", color: "silver", fontSize: "20px", lineHeight: "0", marginLeft: "10px" }}>{creators[2].name}</h4>
+                    <h4 style={{ fontFamily: "Whitney", color: "silver", fontSize: "20px", lineHeight: "0", marginLeft: "10px" }}>{creators[2].name}</h4>
                     <h4 style={{ fontFamily: "Poppins", color: "grey", fontSize: "15px", lineHeight: "0" }}>{creators[2].domain}</h4>
                 </div>
                 <div style={{

@@ -17,8 +17,8 @@ export const MenuOptions: React.FC<{
 }> = ({ options }) => {
     const MenuOptionsRef = useRef<any>(null)
     closeOnOutwardClick(MenuOptionsRef, (value: boolean) => {
-        lanuchMenu.emit({ type: MenuType.ContentMenu, enter: value })
-        animateTemplate.emit({ enter: value })
+        lanuchMenu.emit({ type: MenuType.ContentMenu, display: value })
+        animateTemplate.emit({ display: value })
     })
     return (
         <div

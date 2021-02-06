@@ -1,6 +1,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
+import { lanuchMenu, MenuType, animateTemplate } from '../../../core/utils/Events'
+
 interface creator {
     photo: string
     name: string
@@ -50,6 +52,10 @@ export const CreatorsRender: React.FC<Props> = ({ renderCreators }) => {
                                 }}
                                 key={index}
                                 className="creators"
+                                onClick={() => {
+                                    lanuchMenu.emit({ type: MenuType.Profile, display: true })
+                                    // animateTemplate.emit({ display: true })
+                                }}
                             >
                                 <img
                                     src={creator.photo}

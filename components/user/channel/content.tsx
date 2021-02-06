@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { lanuchMenu, MenuType } from '../../../core/utils/Events'
+import { lanuchMenu, MenuType, contentPreview } from '../../../core/utils/Events'
 import { motion } from 'framer-motion'
 import { mainContentData } from '../../home/fakeData/home'
 import { animateTemplate } from '../../../core/utils/Events'
@@ -17,6 +17,10 @@ const ContentThumbnail: React.FC<{ thumbnail: string }> = ({ thumbnail }) => {
                 height: "105px",
                 display: "flex",
                 cursor: "pointer"
+            }}
+            onClick={() => {
+                contentPreview.emit({ show: true })
+                animateTemplate.emit({ display: true })
             }}
         >
             <div style={{
@@ -82,7 +86,7 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                 bottom: "20px"
             }}>
                 <h4 style={{
-                    fontFamily: "Roboto Condensed",
+                    fontFamily: "Whitney",
                     fontWeight: "lighter",
                     fontSize: "20px",
                     color: "silver"
@@ -110,9 +114,9 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                 alignItems: "center"
             }}
                 onClick={() => {
-                    lanuchMenu.emit({ type: MenuType.ContentMenu, enter: true })
+                    lanuchMenu.emit({ type: MenuType.ContentMenu, display: true })
                     animateTemplate.emit({
-                        enter: true
+                        display: true
                     })
                 }}
             >

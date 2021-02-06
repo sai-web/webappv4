@@ -24,7 +24,8 @@ export const ChannelSubs: React.FC = () => {
             height: "50px",
             display: "flex",
             justifyContent: "space-evenly",
-            alignItems: "center"
+            alignItems: "center",
+            // marginLeft: "10px"
         }}>
             <ViewerShipType value={24} type="SUBS" />
             <ViewerShipType value={10} type="PATRONS" />
@@ -73,6 +74,75 @@ export const SubscribeButton: React.FC<{ overlay?: boolean }> = ({ overlay = fal
                 onClick={() => setNotificationStatus(prev => (!prev))}
             >
                 {notification ? "notifications_active" : "notifications_off"}
+            </span>
+        </div>
+    )
+}
+
+function resize_text_area(textbox: any) {
+    var maxrows = 5
+    var txt = textbox.value as string
+    var cols = textbox.cols as number
+
+    var arraytxt = txt.split('\n')
+    var rows = arraytxt.length
+
+    for (var i = 0; i < arraytxt.length; i++) rows += (arraytxt[i].length / cols);
+
+    if (rows > maxrows) textbox.rows = maxrows
+    else textbox.rows = rows
+}
+
+export const InputArea: React.FC<{
+    cols: number,
+    rows: number,
+    size: number,
+    placeholder?: string
+}> = ({ cols, rows, size, placeholder = "" }) => {
+    return (
+        <div style={{
+            position: "absolute",
+            bottom: "10px",
+            left: "50%",
+            transform: "translate(-50%,0)",
+            display: "flex",
+            alignItems: "flex-end"
+        }}>
+            <textarea
+                style={{
+                    // width: "calc(100% - 30px)",
+                    // height: "20px",
+                    borderRadius: "5px",
+                    backgroundColor: "#121212",
+                    borderWidth: "0",
+                    fontFamily: "Roboto Condensed",
+                    fontWeight: "lighter",
+                    color: "grey",
+                    fontSize: `${size}px`,
+                    padding: "5px 10px",
+                    outline: "none",
+                    resize: "none"
+                }}
+                placeholder={placeholder}
+                cols={cols}
+                rows={rows}
+                id="content-preview-comment-input"
+                name="content-preview-comment-input"
+                onKeyUp={e => resize_text_area(e.target)}
+                className="main-content-div"
+            >
+
+            </textarea>
+            <span className="material-icons"
+                style={{
+                    color: "#F6E819",
+                    fontSize: "17px",
+                    position: "relative",
+                    bottom: "5px",
+                    marginLeft: "3px"
+                }}
+            >
+                sentiment_satisfied_alt
             </span>
         </div>
     )

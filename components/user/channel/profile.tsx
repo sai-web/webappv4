@@ -22,7 +22,7 @@ export const ChannelPreview: React.FC = () => {
             }}>
                 <ProfilePhoto />
                 <h4 style={{
-                    fontFamily: "Poppins",
+                    fontFamily: "Whitney",
                     color: "silver",
                     fontSize: "20px",
                     lineHeight: "0"
@@ -30,7 +30,7 @@ export const ChannelPreview: React.FC = () => {
                     {creators[2].name}
                 </h4>
                 <h4 style={{
-                    fontFamily: "Roboto Condensed",
+                    fontFamily: "Poppins",
                     color: "grey",
                     fontSize: "15px",
                     lineHeight: "0",
@@ -40,7 +40,12 @@ export const ChannelPreview: React.FC = () => {
                     {creators[2].domain}
                 </h4>
                 <SubscribeButton />
-                <ChannelSubs />
+                <div style={{
+                    width: "100%",
+                    marginLeft: "15px"
+                }}>
+                    <ChannelSubs />
+                </div>
             </div>
         </div>
     )

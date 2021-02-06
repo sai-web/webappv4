@@ -33,7 +33,8 @@ const AboutChannel: React.FC = () => {
         }}>
             <h4 style={{ fontFamily: "Poppins", fontSize: "15px", color: "grey", lineHeight: "0" }}>About Channel</h4>
             <h4 style={{
-                fontFamily: "sans-serif",
+                fontFamily: "Poppins",
+                fontWeight: "lighter",
                 color: "silver",
                 fontSize: "13px"
             }}>
@@ -47,7 +48,7 @@ const AboutChannel: React.FC = () => {
 }
 
 function UserChannel() {
-    const { ref, scrolled } = onScroll(380)
+    const { ref, scrolled } = onScroll(410)
     return (
         <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} banner>
             <div

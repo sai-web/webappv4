@@ -70,7 +70,8 @@ export const ContentFilter: React.FC = () => {
                     fontFamily: "sans-serif",
                     fontSize: "12px",
                     color: "grey",
-                    paddingLeft: "10px"
+                    paddingLeft: "10px",
+                    outline: "none"
                 }}
             />
         </div>

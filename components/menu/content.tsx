@@ -15,10 +15,36 @@ const displayVariants = {
     }
 }
 
+function getPosition(position: {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}, element: {
+    width: number,
+    height: number
+}) {
+    let coordinates = {
+        x: position.x,
+        y: position.y
+    }
+
+    const computationForX = position.width - (element.width + position.x)
+    const computationForY = position.height - (element.height + position.y)
+    if (computationForX < 0) coordinates.x = position.x + computationForX - 30
+    if (computationForY < 0) coordinates.y = position.y + computationForY - 30
+    return coordinates
+}
+
 export const ContentMenu: React.FC<{
     display: boolean,
-}> = ({ display }) => {
-    const { x, y } = onMouseClick({ width: 150, height: 100 })
+    position: {
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    }
+}> = ({ display, position }) => {
     // useEffect(() => {
     //     console.log(x, y)
     // }, [x, y])
@@ -29,6 +55,10 @@ export const ContentMenu: React.FC<{
     //         else setTimeout(() => contentMenuParentElement.style.display = "none", 1000)
     //     }
     // })
+    const { x, y } = getPosition(position, {
+        width: 150,
+        height: 100
+    })
     return (
         <motion.div
             initial={display ? "hidden" : "visible"}

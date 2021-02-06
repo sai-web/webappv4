@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react"
 import { useEvent } from '@pulsejs/react'
 
-import { animateTemplate, lanuchMenu } from '../../core/utils/Events'
+import { animateTemplate, lanuchMenu, MenuType, contentPreview } from '../../core/utils/Events'
+import { onMouseClick } from '../../utils/Hooks/mousePosition'
 
 import Nav from '../nav/side/mainNav'
 import Menu from '../nav/top/topNav'
 import { ContentMenu } from '../menu/content'
-import { ConnectionsOptions } from '../../utils/app/connectionsPromo'
+import { ConnectionMenu } from '../menu/connections'
+import { ContentPreviewOptions } from '../user/channel/ContentPreview'
+import { ChannelPreview } from '../user/channel/channelPreview'
 
 interface Props {
     PageMode: JSX.Element
@@ -51,33 +54,56 @@ const Banner: React.FC<{ scaleVal: number }> = ({ scaleVal }) => {
 }
 
 type showMenuType = {
-    ContentMenu: boolean
-}
-
-const MenuMapDetails = {
-    ContentMenu: {
-        width: 150,
-        height: 100
-    }
+    ContentMenu: boolean,
+    ConnectionMenu: {
+        display: boolean,
+        domain: string,
+        color: string
+    },
+    Profile: boolean
 }
 
 const template: React.FC<Props> = function ({ PageMode, width, children, page, reference, banner = false }) {
     var initialMenuState: showMenuType = {
-        ContentMenu: false
+        ContentMenu: false,
+        ConnectionMenu: {
+            display: false,
+            domain: "",
+            color: ""
+        },
+        Profile: false
     }
     const [bannerScale, setBannerScale] = useState<number>(1)
     const [templateAnimate, setTemplateAnimate] = useState<boolean>(false)
     const [showMenu, setShowMenu] = useState<showMenuType>(initialMenuState)
+    const [showContentPreview, setShowContentPreview] = useState<boolean>(false)
 
-    useEvent(animateTemplate, ({ enter }) => {
-        setTemplateAnimate(enter)
+    const position = onMouseClick()
+
+    useEvent(animateTemplate, ({ display }) => {
+        setTemplateAnimate(display)
     })
-    useEvent(lanuchMenu, ({ type, enter }) => {
+    useEvent(lanuchMenu, ({ type, display, domain, color }) => {
         setShowMenu(prev => {
-            prev[type] = enter
-            return prev
+            let newMenu = { ...prev }
+            if (type === MenuType.ConnectionMenu) {
+                if (!domain || !color) {
+                    newMenu[type] = {
+                        ...newMenu[type],
+                        display
+                    }
+                } else {
+                    newMenu[type] = {
+                        display,
+                        domain,
+                        color
+                    }
+                }
+            } else newMenu[type] = display
+            return newMenu
         })
     })
+    useEvent(contentPreview, ({ show }) => setShowContentPreview(show))
     useEffect(() => {
         function handleScrollEvent(event: any) {
             if (reference!.current) setBannerScale(scrollPos => {
@@ -123,13 +149,6 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page, r
                 >
                     {banner ? <Banner scaleVal={bannerScale} /> : ""}
                     {children}
-                    <ConnectionsOptions
-                        name="Twitch"
-                        color="purple"
-                        link=""
-                        subCount=""
-                        live={true}
-                    />
                 </div>
                 <Nav page={page} />
                 <Menu pageModes={PageMode} width={width} page={page} />
@@ -149,6 +168,18 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page, r
             }
             <ContentMenu
                 display={showMenu.ContentMenu}
+                position={position}
+            />
+            <ConnectionMenu
+                display={showMenu.ConnectionMenu.display}
+                domain={showMenu.ConnectionMenu.domain}
+                color={showMenu.ConnectionMenu.color}
+                position={position}
+            />
+            <ContentPreviewOptions display={showContentPreview} />
+            <ChannelPreview
+                display={showMenu.Profile}
+                position={position}
             />
         </div>
     )
