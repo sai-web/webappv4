@@ -4,7 +4,11 @@ import { motion } from 'framer-motion'
 
 import { closeOnOutwardClick } from '../../utils/auth'
 
-const AccountInformation: React.FC<{ domain: string, color: string, link: string }> = ({ domain, color, link }) => {
+const AccountInformation: React.FC<{
+    domain: string,
+    color: string,
+    link: string,
+}> = ({ domain, color, link }) => {
     return (
         <>
             <a href={link} target="_blank">
@@ -136,14 +140,13 @@ interface ConnectionOptionsProps {
     domain: string
     color: string
     live?: boolean
+    reference: React.MutableRefObject<any>
 }
 
-export const ConnectionsOptions: React.FC<ConnectionOptionsProps> = ({ domain, color, live = false }) => {
-    const MenuOptionsRef = useRef<any>(null)
-    closeOnOutwardClick(MenuOptionsRef, (value: boolean) => {
+export const ConnectionsOptions: React.FC<ConnectionOptionsProps> = ({ domain, color, live = false, reference }) => {
+    closeOnOutwardClick((value: boolean) => {
         lanuchMenu.emit({ type: MenuType.ConnectionMenu, display: value })
-        animateTemplate.emit({ display: value })
-    })
+    }, [reference])
     return (
         <div style={{
             width: "230px",
@@ -154,7 +157,7 @@ export const ConnectionsOptions: React.FC<ConnectionOptionsProps> = ({ domain, c
             // display: "flex",
             // flexDirection: "column",
             // alignItems: "center"
-        }} ref={MenuOptionsRef}>
+        }} ref={reference}>
             <div style={{
                 width: "100%",
                 height: "200px",

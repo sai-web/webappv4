@@ -2,18 +2,23 @@ import React, { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
-export function closeOnOutwardClick(ref: React.MutableRefObject<any>, stateSetter: React.Dispatch<React.SetStateAction<boolean>> | Function) {
+export function closeOnOutwardClick(
+    stateSetter: React.Dispatch<React.SetStateAction<boolean>> | Function,
+    ref: React.MutableRefObject<any>[],
+) {
     useEffect(() => {
         function handleClickOutside(event: any) {
-            if (ref.current && !ref.current.contains(event.target)) {
-                stateSetter(false)
-            }
+            let mappedChanges: boolean[] = ref.map(reference => {
+                if (reference.current && !reference.current.contains(event.target)) return true
+                return false
+            })
+            if (!mappedChanges.includes(false)) stateSetter(false)
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [ref]);
+    }, [...ref]);
 }
 
 export function createInput(

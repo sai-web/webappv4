@@ -7,7 +7,8 @@ export const animateTemplate = App.Event<{ display: boolean }>({
 export enum MenuType {
     ContentMenu = "ContentMenu",
     ConnectionMenu = "ConnectionMenu",
-    Profile = "Profile"
+    Profile = "Profile",
+    ChannelDropDown = "ChannelDropDown"
 }
 
 interface MenuProps {

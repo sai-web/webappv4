@@ -21,8 +21,8 @@ export default function ResetPasscode() {
     const [confirmPassword, setConfirmPassword] = useState<string>("")
     const [filled, setFilled] = useState<boolean>(false)
 
-    closeOnOutwardClick(PasswordRef, setSelectPassword)
-    closeOnOutwardClick(ConfirmPasswordRef, setSelectConfirmPassword)
+    closeOnOutwardClick(setSelectPassword, [PasswordRef])
+    closeOnOutwardClick(setSelectConfirmPassword, [ConfirmPasswordRef])
 
     useEffect(() => {
         if (password.length > 0 && confirmPassword.length > 0) setFilled(true)

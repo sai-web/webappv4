@@ -20,9 +20,9 @@ const test: React.FC = () => {
     const passwordRef = useRef<any>()
     const emailRef = useRef<any>()
 
-    closeOnOutwardClick(usernameRef, setSelectUsername)
-    closeOnOutwardClick(passwordRef, setSelectPassword)
-    closeOnOutwardClick(emailRef, setSelectEmail)
+    closeOnOutwardClick(setSelectUsername, [usernameRef])
+    closeOnOutwardClick(setSelectPassword, [passwordRef])
+    closeOnOutwardClick(setSelectEmail, [emailRef])
 
     useEffect(() => {
         if (username.length > 0 && password.length > 0 && email.length > 0) setFilled(true)

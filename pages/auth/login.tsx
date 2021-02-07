@@ -17,8 +17,8 @@ const Login: React.FC = () => {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
 
-    closeOnOutwardClick(usernameRef, setSelectUsername)
-    closeOnOutwardClick(passwordRef, setSelectPassword)
+    closeOnOutwardClick(setSelectUsername, [usernameRef])
+    closeOnOutwardClick(setSelectPassword, [passwordRef])
 
     useEffect(() => {
         if (username.length > 0 && password.length > 0) setFilled(true)

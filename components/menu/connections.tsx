@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
 import { onMouseClick } from '../../utils/Hooks/mousePosition'
@@ -45,8 +45,9 @@ export const ConnectionMenu: React.FC<{
         y: number,
         width: number,
         height: number
-    }
-}> = ({ display, domain, color, position }) => {
+    },
+    reference: React.MutableRefObject<any>
+}> = ({ display, domain, color, position, reference }) => {
     const { x, y } = getPosition(position, {
         width: 230,
         height: 320
@@ -88,6 +89,7 @@ export const ConnectionMenu: React.FC<{
                 domain={domain}
                 color={color}
                 live
+                reference={reference}
             />
         </motion.div>
     )

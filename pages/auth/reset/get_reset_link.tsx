@@ -17,7 +17,7 @@ export default function GetResetLink() {
     const [email, setEmail] = useState<string>("")
     const [filled, setFilled] = useState<boolean>(false)
 
-    closeOnOutwardClick(EmailRef, setSelectEmail)
+    closeOnOutwardClick(setSelectEmail, [EmailRef])
 
     useEffect(() => {
         if (email.length > 0) setFilled(true)

@@ -5,6 +5,7 @@ import { useEvent } from '@pulsejs/react'
 
 import { closeOnOutwardClick } from '../../utils/auth/index'
 import { animateTemplate } from '../../core/utils/Events'
+import template from '../../components/app/template'
 
 interface MenuOptionProperties {
     do: Function,
@@ -13,13 +14,13 @@ interface MenuOptionProperties {
 }
 
 export const MenuOptions: React.FC<{
-    options: Record<string, MenuOptionProperties>
-}> = ({ options }) => {
-    const MenuOptionsRef = useRef<any>(null)
-    closeOnOutwardClick(MenuOptionsRef, (value: boolean) => {
-        lanuchMenu.emit({ type: MenuType.ContentMenu, display: value })
-        animateTemplate.emit({ display: value })
-    })
+    options: Record<string, MenuOptionProperties>,
+    type: MenuType,
+    reference: React.MutableRefObject<any>
+}> = ({ options, type, reference }) => {
+    closeOnOutwardClick((value: boolean) => {
+        lanuchMenu.emit({ type, display: value })
+    }, [reference])
     return (
         <div
             style={{
@@ -31,7 +32,7 @@ export const MenuOptions: React.FC<{
                 flexDirection: "column",
                 overflow: "hidden"
             }}
-            ref={MenuOptionsRef}
+            ref={reference}
         >
             {
                 Object.keys(options).map((option, index) => {

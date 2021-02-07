@@ -182,18 +182,20 @@ const displayVariants = {
     }
 }
 
-export const ContentPreviewOptions: React.FC<{ display: boolean }> = ({ display }) => {
-    const MenuOptionsRef = useRef<any>(null)
-    closeOnOutwardClick(MenuOptionsRef, (value: boolean) => {
-        contentPreview.emit({ show: value })
-        animateTemplate.emit({ display: value })
-    })
+export const ContentPreviewOptions: React.FC<{ display: boolean, reference: React.MutableRefObject<any> }> = ({ display, reference }) => {
     const [showPreview, setShowPreview] = useState<boolean>(false)
+    const [renderCount, setRenderCount] = useState<number>(0)
     useEffect(() => {
         if (!display) {
             setTimeout(() => setShowPreview(false), 700)
         } else setShowPreview(true)
     }, [display])
+    useEffect(() => {
+        if (renderCount < 2) setRenderCount(prev => (prev + 1))
+    })
+    closeOnOutwardClick((value: boolean) => {
+        contentPreview.emit({ show: value })
+    }, [reference])
     return (
         <div style={{
             position: "absolute",
@@ -205,61 +207,63 @@ export const ContentPreviewOptions: React.FC<{ display: boolean }> = ({ display 
             justifyContent: "center",
             zIndex: 2
         }}>
-            <motion.div
-                initial={display ? "hidden" : "visible"}
-                animate={display ? "visible" : "hidden"}
-                transition={{
-                    type: "spring",
-                    damping: 10
-                }}
-                variants={displayVariants}
-                style={{
-                    width: "700px",
-                    height: "500px",
-                    borderRadius: "10px",
-                    display: "flex",
-                    flexDirection: "column",
-                    overflow: "hidden",
-                    position: "relative",
-                    backgroundColor: "#18181B"
-                }}
-                ref={MenuOptionsRef}
-            >
-                <div style={{
-                    width: "450px",
-                    height: "100%",
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
-                }}>
-                    <iframe
-                        src="https://www.youtube.com/embed/KdtPNRzuKrk"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen={true}
-                        width="400px"
-                        height="225px"
-                        style={{
-                            marginTop: "20px"
-                        }}
-                    >
-
-                    </iframe>
-                    <h4 style={{
-                        fontFamily: "Whitney",
-                        fontSize: "15px",
-                        color: "grey",
-                        width: "400px"
+            {renderCount > 0 ?
+                <motion.div
+                    initial={display ? "hidden" : "visible"}
+                    animate={display ? "visible" : "hidden"}
+                    transition={{
+                        type: "spring",
+                        damping: 10
+                    }}
+                    variants={displayVariants}
+                    style={{
+                        width: "700px",
+                        height: "500px",
+                        borderRadius: "10px",
+                        display: "flex",
+                        flexDirection: "column",
+                        overflow: "hidden",
+                        position: "relative",
+                        backgroundColor: "#18181B"
+                    }}
+                    ref={reference}
+                >
+                    <div style={{
+                        width: "450px",
+                        height: "100%",
+                        position: "absolute",
+                        top: "0",
+                        left: "0",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center"
                     }}>
-                        Social Networking building face mash.com, Mark Zuckerburg autobiography
-                </h4>
-                    <AdvancedOptionsSection />
-                </div>
-                <ChatSection />
-            </motion.div>
+                        <iframe
+                            src="https://www.youtube.com/embed/KdtPNRzuKrk"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen={true}
+                            width="400px"
+                            height="225px"
+                            style={{
+                                marginTop: "20px"
+                            }}
+                        >
+
+                        </iframe>
+                        <h4 style={{
+                            fontFamily: "Whitney",
+                            fontSize: "15px",
+                            color: "grey",
+                            width: "400px"
+                        }}>
+                            Social Networking building face mash.com, Mark Zuckerburg autobiography
+                    </h4>
+                        <AdvancedOptionsSection />
+                    </div>
+                    <ChatSection />
+                </motion.div> : ""
+            }
         </div>
     )
 }

@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
 import { onMouseClick } from '../../utils/Hooks/mousePosition'
+import { MenuType } from '../../core/utils/Events'
 import { MenuOptions } from '../../utils/app/menuOptions'
 
 const displayVariants = {
@@ -43,8 +44,9 @@ export const ContentMenu: React.FC<{
         y: number,
         width: number,
         height: number
-    }
-}> = ({ display, position }) => {
+    },
+    reference: React.MutableRefObject<any>
+}> = ({ display, position, reference }) => {
     // useEffect(() => {
     //     console.log(x, y)
     // }, [x, y])
@@ -58,6 +60,10 @@ export const ContentMenu: React.FC<{
     const { x, y } = getPosition(position, {
         width: 150,
         height: 100
+    })
+    const [renderCount, setRenderCount] = useState<number>(0)
+    useEffect(() => {
+        if (renderCount < 2) setRenderCount(prev => (prev + 1))
     })
     return (
         <motion.div
@@ -80,69 +86,73 @@ export const ContentMenu: React.FC<{
             }}
             id="content-menu-parent"
         >
-            <MenuOptions options={{
-                "Watch later": {
-                    do: () => null,
-                    color: "#18181B",
-                    logo: () => (
-                        <span className="material-icons"
-                            style={{
-                                color: "grey",
-                                fontSize: "15px",
-                                marginLeft: "10px"
-                            }}
-                        >
-                            watch_later
-                        </span>
-                    )
-                },
-                "Add to playlist": {
-                    do: () => null,
-                    color: "#18181B",
-                    logo: () => (
-                        <span className="material-icons"
-                            style={{
-                                color: "grey",
-                                fontSize: "15px",
-                                marginLeft: "10px"
-                            }}
-                        >
-                            queue
-                        </span>
-                    )
-                },
-                Report: {
-                    do: () => null,
-                    color: "#222226",
-                    logo: () => (
-                        <span className="material-icons"
-                            style={{
-                                color: "grey",
-                                fontSize: "15px",
-                                marginLeft: "10px"
-                            }}
-                        >
-                            report
-                        </span>
-                    )
-                },
-                Share: {
-                    do: () => null,
-                    color: "#222226",
-                    logo: () => (
-                        <span className="material-icons"
-                            style={{
-                                color: "grey",
-                                fontSize: "15px",
-                                marginLeft: "10px"
-                            }}
-                        >
-                            share
-                        </span>
-                    )
-                }
-            }}
-            />
+            {renderCount > 0 ?
+                <MenuOptions options={{
+                    "Watch later": {
+                        do: () => null,
+                        color: "#18181B",
+                        logo: () => (
+                            <span className="material-icons"
+                                style={{
+                                    color: "grey",
+                                    fontSize: "15px",
+                                    marginLeft: "10px"
+                                }}
+                            >
+                                watch_later
+                            </span>
+                        )
+                    },
+                    "Add to playlist": {
+                        do: () => null,
+                        color: "#18181B",
+                        logo: () => (
+                            <span className="material-icons"
+                                style={{
+                                    color: "grey",
+                                    fontSize: "15px",
+                                    marginLeft: "10px"
+                                }}
+                            >
+                                queue
+                            </span>
+                        )
+                    },
+                    Report: {
+                        do: () => null,
+                        color: "#222226",
+                        logo: () => (
+                            <span className="material-icons"
+                                style={{
+                                    color: "grey",
+                                    fontSize: "15px",
+                                    marginLeft: "10px"
+                                }}
+                            >
+                                report
+                            </span>
+                        )
+                    },
+                    Share: {
+                        do: () => null,
+                        color: "#222226",
+                        logo: () => (
+                            <span className="material-icons"
+                                style={{
+                                    color: "grey",
+                                    fontSize: "15px",
+                                    marginLeft: "10px"
+                                }}
+                            >
+                                share
+                            </span>
+                        )
+                    }
+                }}
+                    type={MenuType.ContentMenu}
+                    reference={reference}
+                /> : ""
+            }
         </motion.div>
     )
 }

@@ -10,13 +10,13 @@ var DisplayVariants = {
 }
 
 export const ScrolledChannelPreview: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
-    const [firstDisplay, setFirstDisplay] = useState<number>(0)
+    const [renderCount, setRenderCount] = useState<number>(0)
     useEffect(() => {
-        setFirstDisplay(prev => (prev + 1))
+        if (renderCount < 2) setRenderCount(prev => (prev + 1))
     }, [])
     return (
         <motion.div
-            initial={scrolled ? "hidden" : firstDisplay > 0 ? "visible" : "hidden"}
+            initial={scrolled ? "hidden" : renderCount > 0 ? "visible" : "hidden"}
             animate={scrolled ? "visible" : "hidden"}
             transition={{
                 duration: 0.2,

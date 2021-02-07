@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 import { lanuchMenu, MenuType, animateTemplate } from '../../../core/utils/Events'
@@ -84,10 +84,10 @@ function getPosition(position: {
 
 const ChannelPreviewOptions: React.FC = () => {
     const ChannelPreviewRef = useRef<any>(null)
-    closeOnOutwardClick(ChannelPreviewRef, (value: boolean) => {
+    closeOnOutwardClick((value: boolean) => {
         lanuchMenu.emit({ type: MenuType.Profile, display: value })
         // animateTemplate.emit({ display: value })
-    })
+    }, [ChannelPreviewRef])
     return (
         <div
             style={{
