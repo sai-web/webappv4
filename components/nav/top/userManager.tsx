@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-import { lanuchMenu, MenuType } from '../../../core/utils/Events'
+import { animateTemplate, lanuchMenu, MenuType } from '../../../core/utils/Events'
 
 import { UserModes } from './components/userMode'
 
@@ -15,9 +15,24 @@ export const UserManager: React.FC = () => {
             justifyContent: "space-between",
             alignItems: "center"
         }}>
-            <UserModes name="all_inbox" size="15px" />
-            <UserModes name="clear_all" size="20px" />
-            <UserModes name="add_circle_outline" size="15px" />
+            <UserModes
+                name="all_inbox"
+                size="15px"
+                do={(value) => null}
+            />
+            <UserModes
+                name="clear_all"
+                size="20px"
+                do={(value) => null}
+            />
+            <UserModes
+                name="add_circle_outline"
+                size="15px"
+                do={(value) => {
+                    lanuchMenu.emit({ type: MenuType.ShareLinkComponent, display: value })
+                    animateTemplate.emit({ display: value })
+                }}
+            />
             <motion.img
                 src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
                 whileTap={{

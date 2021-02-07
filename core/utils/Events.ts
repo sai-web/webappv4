@@ -8,7 +8,8 @@ export enum MenuType {
     ContentMenu = "ContentMenu",
     ConnectionMenu = "ConnectionMenu",
     Profile = "Profile",
-    ChannelDropDown = "ChannelDropDown"
+    ChannelDropDown = "ChannelDropDown",
+    ShareLinkComponent = "ShareLinkComponent"
 }
 
 interface MenuProps {

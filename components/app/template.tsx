@@ -13,6 +13,7 @@ import { ChannelPreview } from '../user/channel/channelPreview'
 import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
 import { ConnectionsOptions } from "../../utils/app/connectionsOptions"
 import { closeOnOutwardClick } from '../../utils/auth'
+import { UploadSection } from './uploadContent'
 
 interface Props {
     PageMode: JSX.Element
@@ -97,11 +98,15 @@ const PopUpMenus: React.FC<{
                 <ChannelSettingsDropDownMenu
                     display={showMenu.ChannelDropDown}
                 />
+                <UploadSection
+                    display={showMenu.ShareLinkComponent}
+                    reference={references[3]}
+                />
             </>
         )
     }
 
-type showMenuType = {
+export type showMenuType = {
     ContentMenu: boolean,
     ConnectionMenu: {
         display: boolean,
@@ -109,10 +114,18 @@ type showMenuType = {
         color: string
     },
     Profile: boolean,
-    ChannelDropDown: boolean
+    ChannelDropDown: boolean,
+    ShareLinkComponent: boolean
 }
 
-const template: React.FC<Props> = function ({ PageMode, width, children, page, reference, banner = false }) {
+const template: React.FC<Props> = function ({
+    PageMode,
+    width,
+    children,
+    page,
+    reference,
+    banner = false
+}) {
     var initialMenuState: showMenuType = {
         ContentMenu: false,
         ConnectionMenu: {
@@ -121,7 +134,8 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page, r
             color: ""
         },
         Profile: false,
-        ChannelDropDown: false
+        ChannelDropDown: false,
+        ShareLinkComponent: false
     }
     const [bannerScale, setBannerScale] = useState<number>(1)
     const [templateAnimate, setTemplateAnimate] = useState<boolean>(false)
@@ -132,12 +146,18 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page, r
     const ContentMenuRef = useRef<any>(null)
     const ContentPreviewRef = useRef<any>(null)
     const ConnectionOptionsRef = useRef<any>(null)
+    const shareLinkComponentRef = useRef<any>(null)
 
-    const position = onMouseClick()
+    const position = onMouseClick(showMenu)
 
     closeOnOutwardClick((value: boolean) => {
         animateTemplate.emit({ display: value })
-    }, [ContentMenuRef, ContentPreviewRef, ConnectionOptionsRef])
+    }, [
+        ContentMenuRef,
+        ContentPreviewRef,
+        ConnectionOptionsRef,
+        shareLinkComponentRef
+    ])
 
     useEvent(animateTemplate, ({ display }) => {
         setTemplateAnimate(display)
@@ -233,7 +253,8 @@ const template: React.FC<Props> = function ({ PageMode, width, children, page, r
                 references={[
                     ContentMenuRef,
                     ConnectionOptionsRef,
-                    ContentPreviewRef
+                    ContentPreviewRef,
+                    shareLinkComponentRef
                 ]}
                 showContentPreview={showContentPreview}
                 showMenu={showMenu}

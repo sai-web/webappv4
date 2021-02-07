@@ -61,10 +61,6 @@ export const ContentMenu: React.FC<{
         width: 150,
         height: 100
     })
-    const [renderCount, setRenderCount] = useState<number>(0)
-    useEffect(() => {
-        if (renderCount < 2) setRenderCount(prev => (prev + 1))
-    })
     return (
         <motion.div
             initial={display ? "hidden" : "visible"}
@@ -86,73 +82,71 @@ export const ContentMenu: React.FC<{
             }}
             id="content-menu-parent"
         >
-            {renderCount > 0 ?
-                <MenuOptions options={{
-                    "Watch later": {
-                        do: () => null,
-                        color: "#18181B",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                watch_later
-                            </span>
-                        )
-                    },
-                    "Add to playlist": {
-                        do: () => null,
-                        color: "#18181B",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                queue
-                            </span>
-                        )
-                    },
-                    Report: {
-                        do: () => null,
-                        color: "#222226",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                report
-                            </span>
-                        )
-                    },
-                    Share: {
-                        do: () => null,
-                        color: "#222226",
-                        logo: () => (
-                            <span className="material-icons"
-                                style={{
-                                    color: "grey",
-                                    fontSize: "15px",
-                                    marginLeft: "10px"
-                                }}
-                            >
-                                share
-                            </span>
-                        )
-                    }
-                }}
-                    type={MenuType.ContentMenu}
-                    reference={reference}
-                /> : ""
-            }
+            <MenuOptions options={{
+                "Watch later": {
+                    do: () => null,
+                    color: "#18181B",
+                    logo: () => (
+                        <span className="material-icons"
+                            style={{
+                                color: "grey",
+                                fontSize: "15px",
+                                marginLeft: "10px"
+                            }}
+                        >
+                            watch_later
+                        </span>
+                    )
+                },
+                "Add to playlist": {
+                    do: () => null,
+                    color: "#18181B",
+                    logo: () => (
+                        <span className="material-icons"
+                            style={{
+                                color: "grey",
+                                fontSize: "15px",
+                                marginLeft: "10px"
+                            }}
+                        >
+                            queue
+                        </span>
+                    )
+                },
+                Report: {
+                    do: () => null,
+                    color: "#222226",
+                    logo: () => (
+                        <span className="material-icons"
+                            style={{
+                                color: "grey",
+                                fontSize: "15px",
+                                marginLeft: "10px"
+                            }}
+                        >
+                            report
+                        </span>
+                    )
+                },
+                Share: {
+                    do: () => null,
+                    color: "#222226",
+                    logo: () => (
+                        <span className="material-icons"
+                            style={{
+                                color: "grey",
+                                fontSize: "15px",
+                                marginLeft: "10px"
+                            }}
+                        >
+                            share
+                        </span>
+                    )
+                }
+            }}
+                type={MenuType.ContentMenu}
+                reference={reference}
+            />
         </motion.div>
     )
 }
