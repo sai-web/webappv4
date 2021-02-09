@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 
 import { onMouseClick } from '../../utils/Hooks/mousePosition'
 import { MenuType } from '../../core/utils/Events'
-import { MenuOptions } from '../../utils/app/menuOptions'
+import { MenuOptions } from './menuOptions'
 
 const displayVariants = {
     visible: {

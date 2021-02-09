@@ -1,8 +1,8 @@
 import React from 'react'
 
 interface viewershipProps {
-    value: number
-    type: string
+    value?: number
+    type?: string
 }
 
 export const ViewerShipType: React.FC<viewershipProps> = ({ value, type }) => {

@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useEvent } from '@pulsejs/react'
+import Router from 'next/router'
+
+import { core } from '../../core'
 
 import { animateTemplate, lanuchMenu, MenuType, contentPreview } from '../../core/utils/Events'
 import { onMouseClick } from '../../utils/Hooks/mousePosition'
@@ -11,51 +14,12 @@ import { ConnectionMenu } from '../menu/connections'
 import { ContentPreviewOptions } from '../user/channel/ContentPreview'
 import { ChannelPreview } from '../user/channel/channelPreview'
 import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
-import { ConnectionsOptions } from "../../utils/app/connectionsOptions"
+import { ConnectionsOptions } from "../menu/connectionsOptions"
 import { closeOnOutwardClick } from '../../utils/auth'
 import { UploadSection } from './uploadContent'
+import { Banner } from '../user/channel/ChannelIntroduction/banner'
 
-interface Props {
-    PageMode: JSX.Element
-    width: string
-    children: React.ReactNode
-    page: string
-    reference?: React.RefObject<any>
-    banner?: boolean
-}
-
-const Banner: React.FC<{ scaleVal: number }> = ({ scaleVal }) => {
-    return (
-        <div style={{
-            width: "calc(100% - 200px)",
-            height: "270px",
-            overflow: "hidden",
-            display: "flex",
-            // alignItems: "center",
-            justifyContent: "center",
-            position: "fixed",
-            top: "35px"
-        }}>
-            <img src="https://myrepublic.net/sg/content/uploads/2020/09/valorant-banner.png"
-                style={{
-                    height: `${((scaleVal + 1) / 2) * 270}px`,
-                    objectFit: "cover"
-                }}
-            />
-            <div style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: `rgba(0,0,0,${1 - scaleVal})`,
-                position: "absolute",
-                top: "0",
-                left: "0"
-            }}
-            >
-
-            </div>
-        </div>
-    )
-}
+import { Settings } from '../settings/main'
 
 const PopUpMenus: React.FC<{
     showMenu: showMenuType,
@@ -115,7 +79,17 @@ export type showMenuType = {
     },
     Profile: boolean,
     ChannelDropDown: boolean,
-    ShareLinkComponent: boolean
+    ShareLinkComponent: boolean,
+    Settings: boolean
+}
+
+interface Props {
+    PageMode: JSX.Element
+    width: string
+    children: React.ReactNode
+    page: string
+    reference?: React.RefObject<any>
+    banner?: boolean
 }
 
 const template: React.FC<Props> = function ({
@@ -135,7 +109,8 @@ const template: React.FC<Props> = function ({
         },
         Profile: false,
         ChannelDropDown: false,
-        ShareLinkComponent: false
+        ShareLinkComponent: false,
+        Settings: false
     }
     const [bannerScale, setBannerScale] = useState<number>(1)
     const [templateAnimate, setTemplateAnimate] = useState<boolean>(false)
@@ -258,6 +233,9 @@ const template: React.FC<Props> = function ({
                 ]}
                 showContentPreview={showContentPreview}
                 showMenu={showMenu}
+            />
+            <Settings
+                display={showMenu.Settings}
             />
         </div>
     )

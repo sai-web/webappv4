@@ -1,15 +1,19 @@
 export interface user_data {
-    photo?: true
-    username?: true
-    domain?: true
-    created_at?: boolean
-    confirmed?: boolean
-    tags?: boolean
-    description?: boolean
-    viewers?: boolean
-    subscription?: boolean
-    vods?: boolean
+    user_id?: string
+    photo?: string
+    username?: string
+    domain?: string
+    created_at?: Date
+    tags?: string[]
+    description?: string
+    viewers?: number
+    subscription?: number
+    vods?: number
+    channelInfo?: boolean
+    state?: user_state
+    channel_trailer?: string
     activity?: boolean
+    integrations?: boolean
 }
 
 export enum user_state {

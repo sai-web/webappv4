@@ -1,9 +1,12 @@
 import React from 'react'
+import { core } from '../../../../core'
+import { usePulse } from '@pulsejs/react'
 
-import { creators } from '../../home/fakeData/sideNav'
-import { ChannelSubs, ProfilePhoto, SubscribeButton } from './accessories'
+import { creators } from '../../../home/fakeData/sideNav'
+import { ChannelSubs, ProfilePhoto, SubscribeButton } from '../accessories'
 
-export const ChannelPreview: React.FC = () => {
+export const Profile: React.FC = () => {
+    const channel = usePulse(core.channel.state.current_channel)
     return (
         <div style={{
             width: "300px",
@@ -27,7 +30,7 @@ export const ChannelPreview: React.FC = () => {
                     fontSize: "20px",
                     lineHeight: "0"
                 }}>
-                    {creators[2].name}
+                    {channel.username}
                 </h4>
                 <h4 style={{
                     fontFamily: "Poppins",
@@ -37,7 +40,7 @@ export const ChannelPreview: React.FC = () => {
                     position: "relative",
                     bottom: "20px"
                 }}>
-                    {creators[2].domain}
+                    /{channel.domain}
                 </h4>
                 <SubscribeButton />
                 <div style={{

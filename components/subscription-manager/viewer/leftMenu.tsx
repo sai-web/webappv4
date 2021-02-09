@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Analytics } from '../../progress-bar/'
-import { ViewerShipType } from './categorizing'
+import { ViewerShipType } from './viewerShipType'
 import { Extension } from './extensions'
 
 export const Menu: React.FC = () => {

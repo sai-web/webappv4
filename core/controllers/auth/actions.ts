@@ -2,6 +2,8 @@ import routes from './routes'
 import states from './states'
 import { Error, Token } from './events'
 
+import userActions from '../user/actions'
+
 import userStates from '../user/states'
 
 //funciton to handle the csrf tokens
@@ -9,7 +11,10 @@ function csrf() {
     routes.csrf()
         .then(data => {
             if (data.status === 400) Token.emit({ token: "access" })
-            else states.csrf_token.set(data._csrf)
+            else {
+                states.csrf_token.set(data._csrf)
+                userActions.info()
+            }
         })
         .catch(() => {
             Error.emit({ type: "Invalid Behaviour", message: "the csrf token could not be set. Please report this issue as soon as possible." })
@@ -27,7 +32,7 @@ function login(payload: { username: string, password: string, device_name: strin
                 delete data.type
                 states.loggedIn.set(true)
                 states.emailVerification.set(true)
-                userStates.user.set(data)
+                userStates.info.set(data)
                 return true
             }
             return false
@@ -48,7 +53,7 @@ function register(payload: { username: string, password: string, email: string }
                 else if ((data.data.exception as string).includes('Email')) Error.emit({ type: "Email Exists", message: "an account with this email exists, try reclaiming it or notify our dev team to get it checked for you. If you forgot your password you can change it by going to the /refresh route." })
             } else {
                 delete data.status
-                userStates.user.set(data)
+                userStates.info.set(data)
                 return true
             }
             return false

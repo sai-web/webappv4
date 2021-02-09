@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { lanuchMenu, MenuType } from '../../core/utils/Events'
 import { useEvent } from '@pulsejs/react'
 
 import { closeOnOutwardClick } from '../../utils/auth/index'
 import { animateTemplate } from '../../core/utils/Events'
-import template from '../../components/app/template'
+import template from '../app/template'
 
 interface MenuOptionProperties {
     do: Function,

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { lanuchMenu, MenuType, contentPreview } from '../../../core/utils/Events'
+import { lanuchMenu, MenuType, contentPreview } from '../../../../core/utils/Events'
 import { motion } from 'framer-motion'
-import { mainContentData } from '../../home/fakeData/home'
-import { animateTemplate } from '../../../core/utils/Events'
+import { mainContentData } from '../../../home/fakeData/home'
+import { animateTemplate } from '../../../../core/utils/Events'
 
 import { ContentFilter } from './filter'
 

@@ -187,7 +187,7 @@ export const ContentPreviewOptions: React.FC<{ display: boolean, reference: Reac
     const [renderCount, setRenderCount] = useState<number>(0)
     useEffect(() => {
         if (!display) {
-            setTimeout(() => setShowPreview(false), 700)
+            setTimeout(() => setShowPreview(false), 400)
         } else setShowPreview(true)
     }, [display])
     useEffect(() => {
@@ -205,7 +205,8 @@ export const ContentPreviewOptions: React.FC<{ display: boolean, reference: Reac
             display: showPreview ? "flex" : "none",
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 2
+            zIndex: 2,
+            // backgroundColor: "red"
         }}>
             {renderCount > 0 ?
                 <motion.div

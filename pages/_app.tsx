@@ -19,6 +19,7 @@ import '../styles/music.css'
 import '../styles/esports.css'
 import '../styles/custom-check-box.css'
 import '../styles/analytics-circle.css'
+import '../styles/settings.css'
 
 function Main({ Component, pageProps }: AppProps) {
   useEvent(Token, ({ token }) => {
@@ -27,7 +28,7 @@ function Main({ Component, pageProps }: AppProps) {
   })
   useEffect(() => {
     if (core.auth.state.csrf_token.value.length === 0 && !Router.pathname.includes('auth')) core.auth.csrf()
-  })
+  }, [Router])
   return (
     <DndProvider backend={HTML5Backend}>
       <AnimatePresence>

@@ -60,8 +60,9 @@ const ProfileSection: React.FC = () => {
 
 const MenuOption: React.FC<{
     name: string,
-    logo: JSX.Element
-}> = ({ name, logo }) => {
+    logo: JSX.Element,
+    do?: () => void
+}> = ({ name, logo, do: action = () => null }) => {
     return (
         <div style={{
             display: "flex",
@@ -69,7 +70,7 @@ const MenuOption: React.FC<{
             width: "100%",
             height: "30px",
             // backgroundColor: "red"
-        }}>
+        }} onClick={action}>
             {logo}
             <h4 style={{
                 fontFamily: "sans-serif",
@@ -104,6 +105,9 @@ const SettingsSection: React.FC = () => {
                         settings
                     </span>
                 }
+                do={() => {
+                    lanuchMenu.emit({ type: MenuType.Settings, display: true })
+                }}
             />
             <MenuOption
                 name="Language"

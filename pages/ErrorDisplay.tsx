@@ -42,7 +42,8 @@ export function ErrorDisplay() {
                     position: "absolute",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-evenly"
+                    justifyContent: "space-evenly",
+                    zIndex: 2
                 }}
                 variants={ErrorDisplayVariants}
             >

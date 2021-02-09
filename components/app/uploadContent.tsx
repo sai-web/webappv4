@@ -23,6 +23,7 @@ export const UploadSection: React.FC<{
 }) => {
         const [active, setState] = useState<boolean>(false)
         const [renderCount, setRenderCount] = useState<number>(0)
+        const [displayMainDiv, setDisplayMainDiv] = useState<boolean>(display)
         const shareLinkInputRef = useRef<any>(null)
         closeOnOutwardClick(setState, [shareLinkInputRef])
         closeOnOutwardClick((value: boolean) => {
@@ -31,14 +32,19 @@ export const UploadSection: React.FC<{
         useEffect(() => {
             if (renderCount < 2) setRenderCount(prev => (prev + 1))
         })
+        useEffect(() => {
+            if (!display) setTimeout(() => setDisplayMainDiv(false), 300)
+            else setDisplayMainDiv(true)
+        }, [display])
         return (
             <div style={{
                 position: "absolute",
                 top: "50px",
                 left: "0",
                 width: "100%",
-                display: "flex",
-                justifyContent: "center"
+                display: displayMainDiv ? "flex" : "none",
+                justifyContent: "center",
+                // backgroundColor: "red"
             }}>
                 <motion.div
                     initial={display ? "hidden" : renderCount > 0 ? "visible" : "hidden"}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-import { lanuchMenu, MenuType, animateTemplate } from '../../../core/utils/Events'
+import { lanuchMenu, MenuType, animateTemplate } from '../../../../core/utils/Events'
 
 const ConnectionCards: React.FC<{ name: string, icon: JSX.Element, info: { domain: string, color: string } }> = ({ name, icon, info }) => {
     return (

@@ -1,10 +1,13 @@
 import { rest_api as Api } from '../../api'
 
+import authStates from '../auth/states'
+
 import { user_data, user_state } from './interface'
 
 //get validated user info
-async function info(payload: { domain: string, info: user_data }) {
-    return (await Api.post('app/user/info', payload))
+async function info(payload: Record<string, boolean>, me: boolean = false, domain?: string) {
+    if (!me) return await Api.post(`user/info?domain=${domain}`, { info: payload, csrf: authStates.csrf_token._value, me })
+    return await Api.post(`user/info`, { info: payload, csrf: authStates.csrf_token._value, me })
 }
 
 //update non credentials
