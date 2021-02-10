@@ -1,24 +1,86 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { ProfilePhoto } from '../../user/channel/accessories'
-import { MultiSelectInput } from '../accessories'
 
-export const ProfilePic: React.FC = () => {
-    return (
-        <ProfilePhoto
-            style={{
+export const ProfilePic: React.FC<{
+    edit?: boolean
+}> = ({
+    edit
+}) => {
+        const [profileImage, setImageState] = useState<boolean>(false)
+        return (
+            <div style={{
+                position: "relative",
                 width: "100px",
                 height: "100px",
-                borderRadius: "50%",
                 marginLeft: "20px"
-            }}
-            svg={{
-                width: "50px",
-                height: "50px"
-            }}
-        />
-    )
-}
+            }}>
+                {profileImage ?
+                    <img src=""
+                        id="profile-photo"
+                        style={{
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            opacity: 0.5
+                        }}
+                    /> :
+                    <ProfilePhoto
+                        style={{
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "50%"
+                        }}
+                        svg={{
+                            width: "50px",
+                            height: "50px"
+                        }}
+                    />
+                }
+                {edit ?
+                    <div>
+                        <span className="material-icons"
+                            style={{
+                                color: "silver",
+                                fontSize: "20px",
+                                position: "absolute",
+                                bottom: "5px",
+                                right: "5px",
+                                cursor: "pointer"
+                            }}
+                            onClick={() => document.getElementById('profile-photo-file')?.click()}
+                        >
+                            library_add
+                        </span>
+                        <input type="file"
+                            style={{
+                                // opacity: 0,
+                                backgroundColor: "red",
+                                position: "absolute",
+                                top: "0",
+                                zIndex: 2,
+                                width: "0"
+                            }}
+                            id="profile-photo-file"
+                            onChange={e => {
+                                const files = e.target.files
+                                if (FileReader && files && files.length) {
+                                    var fr = new FileReader();
+                                    fr.onload = function () {
+                                        const imageRenderer: HTMLImageElement = document.getElementById("profile-photo") as HTMLImageElement
+                                        imageRenderer.src = fr.result as string;
+                                    }
+                                    fr.readAsDataURL(files[0]);
+                                }
+                                setImageState(true)
+                            }}
+                        />
+                    </div> : ""
+                }
+            </div>
+        )
+    }
 
 export const MainCredential: React.FC<{
     type: string,
@@ -119,60 +181,3 @@ export const MainCredentialUpdate: React.FC<{
             </div>
         )
     }
-
-export const ChannelTags: React.FC = () => {
-    return (
-        <div>
-            <h4 style={{
-                fontFamily: "Roboto Condensed",
-                fontSize: "10px",
-                color: "silver",
-                lineHeight: "0"
-            }}>
-                TAGS
-                </h4>
-            <MultiSelectInput
-                placeholder="channel tags"
-                options={[
-                    {
-                        value: 'Creator',
-                        chosen: true
-                    },
-                    {
-                        value: 'Streamer',
-                        chosen: true
-                    },
-                    {
-                        value: 'Gamer',
-                        chosen: false
-                    },
-                    {
-                        value: 'Programmer',
-                        chosen: true
-                    },
-                    {
-                        value: 'Educator',
-                        chosen: false
-                    },
-                    {
-                        value: 'Athelete',
-                        chosen: false
-                    },
-                    {
-                        value: 'Artist',
-                        chosen: false
-                    },
-                    {
-                        value: 'Musician',
-                        chosen: false
-                    },
-                    {
-                        value: 'Innovator',
-                        chosen: false
-                    },
-                ]}
-                multiple
-            />
-        </div>
-    )
-}

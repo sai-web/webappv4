@@ -113,14 +113,30 @@ export const SettingsSection: React.FC<{
         )
     }
 
+type MultiSelectProps = {
+    placeholder: string,
+    options: {
+        value: string,
+        chosen: boolean
+    }[],
+    multiple?: boolean
+}
 
-export class MultiSelectInput extends React.Component<any, any> {
+type MultiSelectState = {
+    values: string[],
+    focusedValue: number,
+    isFocused: boolean,
+    isOpen: boolean,
+    typed: string
+}
+
+export class MultiSelectInput extends React.Component<MultiSelectProps, MultiSelectState> {
     public timeout: NodeJS.Timeout = setTimeout(() => {
         this.setState({
             typed: ''
         })
     }, 1000)
-    constructor(public props: any) {
+    constructor(public props: MultiSelectProps) {
         super(props)
 
         this.state = {
@@ -131,7 +147,10 @@ export class MultiSelectInput extends React.Component<any, any> {
             typed: ''
         }
 
-        props.options.forEach((option: any) => {
+        props.options.forEach((option: {
+            value: string,
+            chosen: boolean
+        }) => {
             if (option.chosen) this.state.values.push(option.value)
         });
 
@@ -156,7 +175,7 @@ export class MultiSelectInput extends React.Component<any, any> {
     onBlur() {
         const { options, multiple } = this.props
 
-        this.setState((prevState: any) => {
+        this.setState((prevState) => {
             const { values } = prevState
 
             if (multiple) {
@@ -192,7 +211,7 @@ export class MultiSelectInput extends React.Component<any, any> {
                 e.preventDefault()
                 if (isOpen) {
                     if (multiple) {
-                        this.setState((prevState: any) => {
+                        this.setState((prevState, _) => {
                             const { focusedValue } = prevState
 
                             if (focusedValue !== -1) {
@@ -208,6 +227,8 @@ export class MultiSelectInput extends React.Component<any, any> {
 
                                 return { values }
                             }
+
+                            return null
                         })
                     }
                 } else {
@@ -226,13 +247,13 @@ export class MultiSelectInput extends React.Component<any, any> {
                 }
                 break
             case 'Enter':
-                this.setState((prevState: any) => ({
+                this.setState((prevState, _) => ({
                     isOpen: !prevState.isOpen
                 }))
                 break
             case 'ArrowDown':
                 e.preventDefault()
-                this.setState((prevState: any) => {
+                this.setState((prevState, _) => {
                     let { focusedValue } = prevState
 
                     if (focusedValue < options.length - 1) {
@@ -240,6 +261,7 @@ export class MultiSelectInput extends React.Component<any, any> {
 
                         if (multiple) {
                             return {
+                                ...prevState,
                                 focusedValue
                             }
                         } else {
@@ -249,11 +271,13 @@ export class MultiSelectInput extends React.Component<any, any> {
                             }
                         }
                     }
+
+                    return null
                 })
                 break
             case 'ArrowUp':
                 e.preventDefault()
-                this.setState((prevState: any) => {
+                this.setState((prevState, _) => {
                     let { focusedValue } = prevState
 
                     if (focusedValue > 0) {
@@ -261,6 +285,7 @@ export class MultiSelectInput extends React.Component<any, any> {
 
                         if (multiple) {
                             return {
+                                ...prevState,
                                 focusedValue
                             }
                         } else {
@@ -270,6 +295,7 @@ export class MultiSelectInput extends React.Component<any, any> {
                             }
                         }
                     }
+                    return null
                 })
                 break
             default:
@@ -278,19 +304,21 @@ export class MultiSelectInput extends React.Component<any, any> {
 
                     clearTimeout(this.timeout)
 
-                    this.setState((prevState: any) => {
+                    this.setState((prevState, _) => {
                         const typed = prevState.typed + char
                         const re = new RegExp(`^${typed}`, 'i')
                         const index = options.findIndex((option: any) => re.test(option.value))
 
                         if (index === -1) {
                             return {
+                                ...prevState,
                                 typed
                             }
                         }
 
                         if (multiple) {
                             return {
+                                ...prevState,
                                 focusedValue: index,
                                 typed
                             }
@@ -342,7 +370,7 @@ export class MultiSelectInput extends React.Component<any, any> {
 
         const { value } = e.currentTarget.dataset
 
-        this.setState((prevState: any) => {
+        this.setState((prevState, _) => {
             if (!multiple) {
                 return {
                     values: [value],
@@ -359,7 +387,7 @@ export class MultiSelectInput extends React.Component<any, any> {
                 values.splice(index, 1)
             }
 
-            return { values }
+            return { ...prevState, values }
         })
     }
 

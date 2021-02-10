@@ -1,14 +1,11 @@
 import React from 'react'
 
-import { AccounCredentialSettings, AccountRemovalSettings } from './mainComponents'
-import { CloseButton } from '../accessories'
+import { AccounCredentialSettings, AccountRemovalSettings, BannerSettings } from './mainComponents'
 
 export const AccountUpdateDisplay: React.FC = () => {
     return (
         <div style={{
-            height: "100%",
-            flex: 5,
-            backgroundColor: "#1A1A1A"
+            height: "100%"
         }}>
             <div style={{
                 width: "700px",
@@ -19,17 +16,6 @@ export const AccountUpdateDisplay: React.FC = () => {
                 flexDirection: "column",
                 alignItems: "center",
             }}>
-                <CloseButton>
-                    <span
-                        className="material-icons"
-                        style={{
-                            color: "#72767D",
-                            fontSize: "17px"
-                        }}
-                    >
-                        close
-                    </span>
-                </CloseButton>
                 <div style={{
                     width: "calc(100% - 100px)"
                 }}>
@@ -42,6 +28,7 @@ export const AccountUpdateDisplay: React.FC = () => {
                     </h4>
                 </div>
                 <AccounCredentialSettings />
+                <BannerSettings />
                 <AccountRemovalSettings />
             </div>
         </div>

@@ -3,6 +3,9 @@ import { motion } from 'framer-motion'
 
 import { SettingsNav } from './nav'
 import { AccountUpdateDisplay } from './MyChannel'
+import { ConnectionDisplay } from './Connections'
+
+import { CloseButton } from './accessories'
 
 
 const SettingsNavDisplay: React.FC = () => {
@@ -16,6 +19,19 @@ const SettingsNavDisplay: React.FC = () => {
             alignItems: "flex-end"
         }}>
             <SettingsNav />
+        </div>
+    )
+}
+
+const MainSettingsDisplay: React.FC = ({ children }) => {
+    return (
+        <div style={{
+            height: "100%",
+            flex: 5,
+            backgroundColor: "#1A1A1A",
+            overflowY: "scroll"
+        }} className="main-content-div">
+            {children}
         </div>
     )
 }
@@ -74,7 +90,21 @@ export const Settings: React.FC<{
                     }}
                 >
                     <SettingsNavDisplay />
-                    <AccountUpdateDisplay />
+                    <MainSettingsDisplay>
+                        {/* <AccountUpdateDisplay /> */}
+                        <ConnectionDisplay />
+                    </MainSettingsDisplay>
+                    <CloseButton>
+                        <span
+                            className="material-icons"
+                            style={{
+                                color: "#72767D",
+                                fontSize: "17px"
+                            }}
+                        >
+                            close
+                        </span>
+                    </CloseButton>
                 </motion.div>
             </div>
         )
