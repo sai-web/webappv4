@@ -85,7 +85,7 @@ export const ContentMenu: React.FC<{
             <MenuOptions options={{
                 "Watch later": {
                     do: () => null,
-                    color: "#18181B",
+                    color: "dark",
                     logo: () => (
                         <span className="material-icons"
                             style={{
@@ -100,7 +100,7 @@ export const ContentMenu: React.FC<{
                 },
                 "Add to playlist": {
                     do: () => null,
-                    color: "#18181B",
+                    color: "dark",
                     logo: () => (
                         <span className="material-icons"
                             style={{
@@ -115,7 +115,7 @@ export const ContentMenu: React.FC<{
                 },
                 Report: {
                     do: () => null,
-                    color: "#222226",
+                    color: "light",
                     logo: () => (
                         <span className="material-icons"
                             style={{
@@ -130,7 +130,7 @@ export const ContentMenu: React.FC<{
                 },
                 Share: {
                     do: () => null,
-                    color: "#222226",
+                    color: "light",
                     logo: () => (
                         <span className="material-icons"
                             style={{

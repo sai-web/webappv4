@@ -1,30 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
-import { CloseButton } from './accessories'
 import { SettingsNav } from './nav'
+import { AccountUpdateDisplay } from './MyChannel'
 
-const SettingsMainDisplay: React.FC = () => {
-    return (
-        <div style={{
-            height: "100%",
-            flex: 5,
-            backgroundColor: "#1A1A1A"
-        }}>
-            <CloseButton>
-                <span
-                    className="material-icons"
-                    style={{
-                        color: "#72767D",
-                        fontSize: "17px"
-                    }}
-                >
-                    close
-                </span>
-            </CloseButton>
-        </div>
-    )
-}
 
 const SettingsNavDisplay: React.FC = () => {
     return (
@@ -95,7 +74,7 @@ export const Settings: React.FC<{
                     }}
                 >
                     <SettingsNavDisplay />
-                    <SettingsMainDisplay />
+                    <AccountUpdateDisplay />
                 </motion.div>
             </div>
         )

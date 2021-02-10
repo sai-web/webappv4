@@ -1,0 +1,15 @@
+.menu-options-div-dark{
+    background-color: #18181B;
+}
+
+.menu-options-div-dark:hover{
+    background-color: #202020;
+}
+
+.menu-options-div-light{
+    background-color: #222226;
+}
+
+.menu-options-div-light:hover{
+    background-color: #202020;
+}

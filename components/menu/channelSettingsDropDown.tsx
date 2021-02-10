@@ -64,13 +64,20 @@ const MenuOption: React.FC<{
     do?: () => void
 }> = ({ name, logo, do: action = () => null }) => {
     return (
-        <div style={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-            height: "30px",
-            // backgroundColor: "red"
-        }} onClick={action}>
+        <motion.div
+            className="channel-drop-down-div"
+            whileTap={{ scale: 0.9 }}
+            style={{
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                height: "30px",
+                cursor: "pointer",
+                borderRadius: "5px",
+                // backgroundColor: "red"
+            }}
+            onClick={action}
+        >
             {logo}
             <h4 style={{
                 fontFamily: "sans-serif",
@@ -81,7 +88,7 @@ const MenuOption: React.FC<{
             }}>
                 {name}
             </h4>
-        </div>
+        </motion.div>
     )
 }
 

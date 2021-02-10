@@ -110,7 +110,7 @@ const template: React.FC<Props> = function ({
         Profile: false,
         ChannelDropDown: false,
         ShareLinkComponent: false,
-        Settings: false
+        Settings: true
     }
     const [bannerScale, setBannerScale] = useState<number>(1)
     const [templateAnimate, setTemplateAnimate] = useState<boolean>(false)

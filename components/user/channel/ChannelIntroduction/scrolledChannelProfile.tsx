@@ -82,7 +82,8 @@ export const ScrolledChannelProfile: React.FC<{
                                 data-testid="user-icon"
                                 style={{
                                     width: "15px",
-                                    height: "15px"
+                                    height: "15px",
+                                    color: "grey"
                                 }}
                             >
                                 <path

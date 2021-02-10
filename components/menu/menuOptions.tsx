@@ -38,11 +38,8 @@ export const MenuOptions: React.FC<{
                 Object.keys(options).map((option, index) => {
                     return (
                         <motion.div
-                            whileHover={{
-                                backgroundColor: "#2d2d30"
-                            }}
+                            className={`menu-options-div-${options[option].color}`}
                             style={{
-                                backgroundColor: options[option].color,
                                 width: "100%",
                                 height: "25px",
                                 display: "flex",

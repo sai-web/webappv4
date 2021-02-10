@@ -20,6 +20,7 @@ import '../styles/esports.css'
 import '../styles/custom-check-box.css'
 import '../styles/analytics-circle.css'
 import '../styles/settings.css'
+import '../styles/channel.css'
 
 function Main({ Component, pageProps }: AppProps) {
   useEvent(Token, ({ token }) => {
