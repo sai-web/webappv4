@@ -23,7 +23,7 @@ export const Profile: React.FC = () => {
                 flexDirection: "column",
                 alignItems: "center"
             }}>
-                <ProfilePhoto />
+                <ProfilePhoto image={channel.photo} />
                 <h4 style={{
                     fontFamily: "Whitney",
                     color: "silver",

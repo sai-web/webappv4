@@ -7,11 +7,18 @@ import { core } from '../../../core'
 import { creators } from '../../home/fakeData/sideNav'
 import { ViewerShipType } from '../../subscription-manager/viewer/viewerShipType'
 
-export const ProfilePhoto: React.FC<{ style?: Record<string, string>, svg?: { width: string, height: string } }> = ({ style, svg }) => {
-    const channel = usePulse(core.channel.state.current_channel)
-    if (channel.photo) {
+export const ProfilePhoto: React.FC<{
+    style?: Record<string, string>,
+    svg?: {
+        width: string,
+        height: string
+    },
+    image?: string
+}> = ({ style, svg, image }) => {
+    // const channel = usePulse(core.channel.state.current_channel)
+    if (image) {
         return (
-            <img src={core.channel.state.current_channel._value.photo}
+            <img src={image}
                 style={{
                     width: "200px",
                     height: "200px",

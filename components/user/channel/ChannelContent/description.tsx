@@ -1,6 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
+import { usePulse } from '@pulsejs/react'
+import { core } from '../../../../core'
+
 import { lanuchMenu, MenuType, animateTemplate } from '../../../../core/utils/Events'
 
 const ConnectionCards: React.FC<{ name: string, icon: JSX.Element, info: { domain: string, color: string } }> = ({ name, icon, info }) => {
@@ -81,6 +84,8 @@ const ChannelConectedAccounts: React.FC = () => {
 }
 
 const ChannelInformation: React.FC = () => {
+    const { tags } = usePulse(core.channel.state.current_channel)
+    const renderTags = tags ? (tags as string).split(',') : []
     return (
         <div style={{
             width: "100%",
@@ -96,7 +101,16 @@ const ChannelInformation: React.FC = () => {
                 fontSize: "25px",
                 color: "silver",
             }}>
-                Programmer, Streamer and a High School Student
+                {
+                    tags?.length! > 0 ?
+                        renderTags.reduce((render, tag) => {
+                            if (renderTags.indexOf(tag) === 0) render += tag
+                            else if (renderTags.indexOf(tag) === renderTags.length - 1) render += ' and ' + tag
+                            else render += ', ' + tag
+                            return render
+                        }, '') :
+                        "New creator on vibe.io"
+                }
             </h4>
             <div style={{
                 display: "flex",

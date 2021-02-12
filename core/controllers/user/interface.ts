@@ -4,7 +4,8 @@ export interface user_data {
     username?: string
     domain?: string
     created_at?: Date
-    tags?: string[]
+    email?: string
+    tags?: string
     description?: string
     viewers?: number
     subscription?: number
@@ -14,6 +15,7 @@ export interface user_data {
     channel_trailer?: string
     activity?: boolean
     integrations?: boolean
+    banner?: string
 }
 
 export enum user_state {

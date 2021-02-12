@@ -2,6 +2,12 @@ import routes from './routes'
 import collections from './collections'
 import { userPayload, creatorInfo } from './interface'
 
+import states from './states'
+
+import userStates from '../user/states'
+
+import { Error } from '../auth/events'
+
 //get all subscriptions and store in a collection
 function subscribed(user_id: string) {
     routes.getSubscriptions(user_id)
@@ -50,9 +56,29 @@ function unsubscribe(user_id: string, payload: { creator: creatorInfo }) {
         })
 }
 
+function setBanner(file: File) {
+    routes.setBanner(file)
+        .then(data => {
+            if (data.status === 400) Error.emit({ type: "Server Error", message: "there was an issue with downloading the file, please try again." })
+            else {
+                if (states.current_channel._value.user_id === userStates.info._value.user_id) states.current_channel.patch({
+                    banner: data.banner + `&render=${Math.random()}`
+                })
+                userStates.info.patch({
+                    banner: data.banner + `&render=${Math.random()}`
+                })
+            }
+        })
+        .catch(() => {
+            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+            return false
+        })
+}
+
 export default {
     subscribed,
     viewers,
     subscribe,
-    unsubscribe
+    unsubscribe,
+    setBanner
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { AccounCredentialSettings, AccountRemovalSettings, BannerSettings } from './mainComponents'
+import { BannerSettings } from './main/banner'
+import { AccountRemovalSettings } from './main/accountRemoval'
+import { AccounCredentialSettings } from './main/accountCreds'
 
 export const AccountUpdateDisplay: React.FC = () => {
     return (

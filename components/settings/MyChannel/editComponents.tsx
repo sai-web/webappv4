@@ -1,9 +1,31 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { usePulse } from '@pulsejs/react'
+
+import { core } from '../../../core'
 
 import { MultiSelectInput } from '../accessories'
 
-export const ChannelTags: React.FC = () => {
+const allOptions = [
+    'Creator',
+    'Streamer',
+    'Gamer',
+    'Programmer',
+    'Educator',
+    'Athelete',
+    'Artist',
+    'Musician',
+    'Innovator'
+]
+
+export const ChannelTags: React.FC<{
+    setTags: React.Dispatch<React.SetStateAction<string[]>>
+}> = ({ setTags }) => {
+    const { tags } = usePulse(core.user.state.info)
+    const factoredOptions = allOptions.map((option) => {
+        if (tags?.includes(option)) return { value: option, chosen: true }
+        return { value: option, chosen: false }
+    })
     return (
         <div>
             <h4 style={{
@@ -13,57 +35,33 @@ export const ChannelTags: React.FC = () => {
                 lineHeight: "0"
             }}>
                 TAGS
-                </h4>
+            </h4>
             <MultiSelectInput
                 placeholder="channel tags"
-                options={[
-                    {
-                        value: 'Creator',
-                        chosen: true
-                    },
-                    {
-                        value: 'Streamer',
-                        chosen: true
-                    },
-                    {
-                        value: 'Gamer',
-                        chosen: false
-                    },
-                    {
-                        value: 'Programmer',
-                        chosen: true
-                    },
-                    {
-                        value: 'Educator',
-                        chosen: false
-                    },
-                    {
-                        value: 'Athelete',
-                        chosen: false
-                    },
-                    {
-                        value: 'Artist',
-                        chosen: false
-                    },
-                    {
-                        value: 'Musician',
-                        chosen: false
-                    },
-                    {
-                        value: 'Innovator',
-                        chosen: false
-                    },
-                ]}
+                options={factoredOptions}
                 multiple
+                setState={setTags}
             />
         </div>
     )
 }
 
+type accountDetails = {
+    username: string,
+    email: string,
+    description: string,
+    tags: string
+    domain?: string
+}
+
 export const EditAccountButtons: React.FC<{
-    setEditStatus: React.Dispatch<React.SetStateAction<boolean>>
+    setEditStatus: React.Dispatch<React.SetStateAction<boolean>>,
+    details: accountDetails,
+    photo?: File
 }> = ({
-    setEditStatus
+    setEditStatus,
+    details,
+    photo
 }) => {
         return (
             <div style={{
@@ -114,6 +112,14 @@ export const EditAccountButtons: React.FC<{
                         outline: "none",
                         cursor: "pointer",
                         marginLeft: "10px"
+                    }}
+                    onClick={() => {
+                        setEditStatus(false)
+                        if (photo) core.user.setProfilePhoto(photo)
+                        details.domain = details.username.replaceAll(' ', '').toLocaleLowerCase()
+                        core.user.update(
+                            { data: details }
+                        )
                     }}
                 >
                     Save

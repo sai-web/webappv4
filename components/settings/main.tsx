@@ -8,7 +8,10 @@ import { ConnectionDisplay } from './Connections'
 import { CloseButton } from './accessories'
 
 
-const SettingsNavDisplay: React.FC = () => {
+const SettingsNavDisplay: React.FC<{
+    setNavTypes: React.Dispatch<React.SetStateAction<SettingsPages>>,
+    NavStates: SettingsPages
+}> = ({ setNavTypes, NavStates }) => {
     return (
         <div style={{
             height: "100%",
@@ -18,7 +21,10 @@ const SettingsNavDisplay: React.FC = () => {
             flexDirection: "column",
             alignItems: "flex-end"
         }}>
-            <SettingsNav />
+            <SettingsNav
+                setState={setNavTypes}
+                states={NavStates}
+            />
         </div>
     )
 }
@@ -47,12 +53,28 @@ const displayVariants = {
     }
 }
 
+type SettingsPages = {
+    Account: boolean;
+    Connections: boolean;
+}
+
+const displayMainSettings: Record<string, JSX.Element> = {
+    Account: <AccountUpdateDisplay />,
+    Connections: <ConnectionDisplay />
+}
+
 export const Settings: React.FC<{
     display: boolean
 }> = ({
     display
 }) => {
+        const initialSettings: SettingsPages = {
+            Account: true,
+            Connections: false
+        }
+
         const [renderCount, setRenderCount] = useState<number>(0)
+        const [renderSettingsPage, setRenderedSetting] = useState<SettingsPages>(initialSettings)
         useEffect(() => {
             const contentMenuParentElement = document.getElementById('settings-main-div')
             if (contentMenuParentElement) {
@@ -89,10 +111,18 @@ export const Settings: React.FC<{
                         display: "flex"
                     }}
                 >
-                    <SettingsNavDisplay />
+                    <SettingsNavDisplay
+                        setNavTypes={setRenderedSetting}
+                        NavStates={renderSettingsPage}
+                    />
                     <MainSettingsDisplay>
-                        {/* <AccountUpdateDisplay /> */}
-                        <ConnectionDisplay />
+                        {Object.entries(renderSettingsPage).map(([key, value]) => {
+                            if (value) return (
+                                <div key={`settings-navigation-${key}`}>
+                                    {displayMainSettings[key]}
+                                </div>
+                            )
+                        })}
                     </MainSettingsDisplay>
                     <CloseButton>
                         <span

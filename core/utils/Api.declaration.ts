@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 type APIConfigOptions = {
-    overridePath: boolean
+    overridePath?: boolean,
+    headers?: Record<string, any>
 }
 
 export class API {
@@ -38,7 +39,7 @@ export class API {
         return await axios.post(
             fullURL,
             payload,
-            { withCredentials: true }
+            { withCredentials: true, ...options }
         )
             .then(data => {
                 return data.data

@@ -2,7 +2,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 
 import { lanuchMenu, MenuType } from '../../core/utils/Events'
-import { relative } from 'path'
 
 export const SettingType: React.FC<{
     name: string
@@ -21,24 +20,28 @@ export const SettingType: React.FC<{
         )
     }
 
-export const SettingChildDiv: React.FC = ({
-    children
+export const SettingChildDiv: React.FC<{
+    selected?: boolean
+}> = ({
+    children,
+    selected
 }) => {
-    return (
-        <div style={{
-            width: "200px",
-            height: "10px",
-            borderRadius: "5px",
-            display: "flex",
-            alignItems: "center",
-            margin: "5px",
-            padding: "10px",
-            cursor: "pointer"
-        }} className="settings-selection-div">
-            {children}
-        </div>
-    )
-}
+        return (
+            <div style={{
+                width: "200px",
+                height: "10px",
+                borderRadius: "5px",
+                display: "flex",
+                alignItems: "center",
+                margin: "5px",
+                padding: "10px",
+                cursor: "pointer",
+                backgroundColor: selected ? "#202020" : ""
+            }} className="settings-selection-div">
+                {children}
+            </div>
+        )
+    }
 
 export const SettingChildH4: React.FC<{
     name: string
@@ -84,7 +87,8 @@ export const SettingsSection: React.FC<{
     elements: {
         name: string,
         do: () => void,
-        logo: JSX.Element
+        logo: JSX.Element,
+        selected: boolean
     }[]
 }> = ({
     type,
@@ -101,7 +105,7 @@ export const SettingsSection: React.FC<{
                                 onClick={child.do}
                                 key={`setting-${type}-${index}`}
                             >
-                                <SettingChildDiv>
+                                <SettingChildDiv selected={child.selected}>
                                     {child.logo}
                                     <SettingChildH4 name={child.name} />
                                 </SettingChildDiv>
@@ -119,7 +123,8 @@ type MultiSelectProps = {
         value: string,
         chosen: boolean
     }[],
-    multiple?: boolean
+    multiple?: boolean,
+    setState: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 type MultiSelectState = {
@@ -566,6 +571,12 @@ export class MultiSelectInput extends React.Component<MultiSelectProps, MultiSel
                 { value}
             </div>
         )
+    }
+
+    componentDidUpdate(prevProps: MultiSelectProps, prevState: MultiSelectState) {
+        if ((this.props !== prevProps) || (this.state !== prevState)) {
+            this.props.setState(this.state.values)
+        }
     }
 
     render() {

@@ -1,6 +1,9 @@
 import React from 'react'
+import { usePulse } from '@pulsejs/react'
+import { core } from '../../../../core'
 
 export const AboutChannel: React.FC = () => {
+    const { description } = usePulse(core.user.state.info)
     return (
         <div style={{
             width: "100%",
@@ -8,19 +11,25 @@ export const AboutChannel: React.FC = () => {
             marginTop: "70px",
             position: "sticky",
             top: "110px",
-            scrollSnapAlign: "start"
+            scrollSnapAlign: "start",
+            height: "500px",
+            // backgroundColor: "green"
         }}>
-            <h4 style={{ fontFamily: "Poppins", fontSize: "15px", color: "grey", lineHeight: "0" }}>About Channel</h4>
+            <h4 style={{
+                fontFamily: "Poppins",
+                fontSize: "15px",
+                color: "grey",
+                lineHeight: "0"
+            }}>
+                About Channel
+            </h4>
             <h4 style={{
                 fontFamily: "Poppins",
                 fontWeight: "lighter",
                 color: "silver",
                 fontSize: "13px"
             }}>
-                I'm a pretty average dude with no expertise in anything, but I'm okay with it as I feel that I took a glimpse of everything.
-                There are many things I've tried over the year 2020. This is when I got to know the most of myself. I've got to experiment with
-                millions of new things which I feel have made me the person I am today. This is my story as the guy who learnt everything from
-                the internet.
+                {description}
             </h4>
         </div>
     )

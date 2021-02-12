@@ -11,8 +11,19 @@ async function info(payload: Record<string, boolean>, me: boolean = false, domai
 }
 
 //update non credentials
-async function update(payload: { user_id: string, data: user_data }) {
-    return (await Api.post('app/user/update', payload))
+async function update(payload: { data: user_data }) {
+    return (await Api.post('user/update', { ...payload, csrf: authStates.csrf_token._value }))
+}
+
+//set photo for channel
+async function setProfilePhoto(file: File) {
+    const form: FormData = await new FormData()
+    await form.append('photo', file)
+    return await Api.post('photo', form, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }
 
 //get state
@@ -23,5 +34,6 @@ async function state(user_id: string, payload: { state: user_state }) {
 export default {
     info,
     update,
-    state
+    state,
+    setProfilePhoto
 }

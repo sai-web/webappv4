@@ -1,6 +1,8 @@
 import { rest_api as Api } from '../../api'
 import { creatorInfo } from './interface'
 
+import userStates from '../user/states'
+
 //array of creators
 async function getSubscriptions(user_id: string) {
     return (await Api.get(`app/subscription?${user_id}`)).data
@@ -9,6 +11,17 @@ async function getSubscriptions(user_id: string) {
 //array of viewers
 async function getViewers(user_id: string) {
     return (await Api.get(`app/subscription/viewers?${user_id}`)).data
+}
+
+//set banner for channel
+async function setBanner(file: File) {
+    const form: FormData = await new FormData()
+    await form.append('banner', file)
+    return await Api.post('banner', form, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }
 
 //subscribe to a creator
@@ -25,5 +38,6 @@ export default {
     getSubscriptions,
     getViewers,
     subscribe,
-    unsubscribe
+    unsubscribe,
+    setBanner
 }

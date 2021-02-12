@@ -13,12 +13,13 @@ export const ChannelIntroSection: React.FC<{
         return (
             <div style={{
                 width: "300px",
-                height: "100%"
+                height: "100%",
+                // backgroundColor: "red"
             }}>
                 <ScrolledChannelProfile scrolled={scrolled} />
                 <Profile />
                 <AboutChannel />
-                <Connections />
+                {/* <Connections /> */}
             </div>
         )
     }

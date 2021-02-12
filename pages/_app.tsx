@@ -30,6 +30,9 @@ function Main({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (core.auth.state.csrf_token.value.length === 0 && !Router.pathname.includes('auth')) core.auth.csrf()
   }, [Router])
+  // useEffect(() => {
+  //   console.log(core.user.state.info._value)
+  // }, [core.user.state.info])
   return (
     <DndProvider backend={HTML5Backend}>
       <AnimatePresence>
