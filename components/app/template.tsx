@@ -16,7 +16,7 @@ import { ChannelPreview } from '../user/channel/channelPreview'
 import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
 import { ConnectionsOptions } from "../menu/connectionsOptions"
 import { closeOnOutwardClick } from '../../utils/auth'
-import { UploadSection } from './uploadContent'
+import { UploadSection } from './upload'
 import { Banner } from '../user/channel/ChannelIntroduction/banner'
 
 import { Settings } from '../settings/main'

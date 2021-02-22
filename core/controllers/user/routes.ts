@@ -26,6 +26,10 @@ async function setProfilePhoto(file: File) {
     })
 }
 
+async function getMetaData(url: string) {
+    return await Api.post('vod/meta-data', { url, csrf: authStates.csrf_token._value })
+}
+
 //get state
 async function state(user_id: string, payload: { state: user_state }) {
     return (await Api.post(`app/activity/setState?user_id=${user_id}`, payload))
@@ -35,5 +39,6 @@ export default {
     info,
     update,
     state,
-    setProfilePhoto
+    setProfilePhoto,
+    getMetaData
 }

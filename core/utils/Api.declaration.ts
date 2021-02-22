@@ -22,10 +22,11 @@ export class API {
 
     public async get(
         endpoint: string,
-        options: APIConfigOptions = this.defaultRequestConfig
+        options: APIConfigOptions = this.defaultRequestConfig,
+        data?: Record<string, any>
     ): Promise<any> {
         const fullURL: string = this.base + '/' + (options.overridePath ? '' : this.path + '/') + endpoint
-        return await axios.get(fullURL, { withCredentials: true })
+        return await axios.get(fullURL, { withCredentials: true, data })
             .then(data => (data.data))
             .catch(err => (err.response))
     }

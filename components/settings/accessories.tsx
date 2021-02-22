@@ -124,7 +124,7 @@ type MultiSelectProps = {
         chosen: boolean
     }[],
     multiple?: boolean,
-    setState: React.Dispatch<React.SetStateAction<string[]>>
+    setState: React.Dispatch<React.SetStateAction<string[]>> | Function
 }
 
 type MultiSelectState = {
@@ -574,7 +574,8 @@ export class MultiSelectInput extends React.Component<MultiSelectProps, MultiSel
     }
 
     componentDidUpdate(prevProps: MultiSelectProps, prevState: MultiSelectState) {
-        if ((this.props !== prevProps) || (this.state !== prevState)) {
+        if ((this.state !== prevState)) {
+            // console.log(this.props, prevProps, this.state, prevState)
             this.props.setState(this.state.values)
         }
     }

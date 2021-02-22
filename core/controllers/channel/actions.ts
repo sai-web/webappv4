@@ -1,8 +1,10 @@
 import routes from './routes'
 import collections from './collections'
 import { userPayload, creatorInfo } from './interface'
+import { rest_api as Api } from '../../api'
 
 import states from './states'
+import authStates from '../auth/states'
 
 import userStates from '../user/states'
 
@@ -80,5 +82,5 @@ export default {
     viewers,
     subscribe,
     unsubscribe,
-    setBanner
+    setBanner,
 }

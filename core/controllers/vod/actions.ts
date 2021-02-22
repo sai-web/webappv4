@@ -18,12 +18,21 @@ function watch(payload: { vod_id: string, user_id: string }) {
     routes.watch(payload)
 }
 
+export interface vodInfo {
+    title: string
+    thumbnail: string
+    tags: string[]
+    archived: boolean
+    platform: string
+    url: string
+}
+
 //create a vod and add it to the collection
-function create(payload: { vod_info: object, user_id: string }) {
+function create(payload: vodInfo) {
     routes.create(payload)
         .then(data => {
             if (data.status === 200) {
-                collections.vods.collect(payload.vod_info)
+                collections.vods.collect(payload)
             }
         })
 }

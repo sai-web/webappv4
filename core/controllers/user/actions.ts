@@ -6,7 +6,8 @@ import ChannelStates from '../channel/states'
 import { Error } from '../auth/events'
 
 import { user_data, user_state } from './interface'
-import { route } from 'next/dist/next-server/server/router'
+import authStates from '../auth/states'
+import { platforms } from '../../utils/platforms'
 
 //get user info and update state
 const defaultParam = {
@@ -39,23 +40,25 @@ function info(
         domain?: string
     }
 ) {
-    const { payload, domain, me } = { ...defaultParam, ...params }
-    routes.info(payload, me, domain)
-        .then(data => {
-            if (data.status === 401) Error.emit({ type: "Account Error", message: "we we're not able to fetch your account. If this was an unexpected behaviour please report it on our discord server." })
-            else {
-                if (me) {
-                    states.info.set(data)
-                    states.state.set(data.activity.state)
+    if (authStates.csrf_token._value.length > 0) {
+        const { payload, domain, me } = { ...defaultParam, ...params }
+        routes.info(payload, me, domain)
+            .then(data => {
+                if (data.status === 401) Error.emit({ type: "Account Error", message: "we we're not able to fetch your account. If this was an unexpected behaviour please report it on our discord server." })
+                else {
+                    if (me) {
+                        states.info.set(data)
+                        states.state.set(data.activity.state)
+                    }
+                    ChannelStates.current_channel.set(data)
+                    ChannelStates.current_channel_state.set(data.activity.state)
                 }
-                ChannelStates.current_channel.set(data)
-                ChannelStates.current_channel_state.set(data.activity.state)
-            }
-        })
-        .catch(() => {
-            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
-            return false
-        })
+            })
+            .catch(() => {
+                Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+                return false
+            })
+    }
 }
 
 //update user info and state
@@ -101,9 +104,27 @@ function updateState(user_id: string, payload: { state: user_state }) {
         })
 }
 
+const getVodDetails = (parser: DOMParser, url: string) => {
+    if (authStates.csrf_token._value.length > 0) {
+        return routes.getMetaData(url)
+            .then(data => {
+                const doc = parser.parseFromString(data.html, 'text/html')
+                const filteredPlatform = Object.values(platforms)
+                    .find(platform => platform.urlMatch.test(url))
+                if (filteredPlatform) return filteredPlatform?.parseHTML(doc)
+                return false
+            })
+            .catch(() => {
+                Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+                return false
+            })
+    }
+}
+
 export default {
     info,
     update,
     updateState,
-    setProfilePhoto
+    setProfilePhoto,
+    getVodDetails
 }

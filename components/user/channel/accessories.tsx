@@ -95,7 +95,7 @@ export const SubscribeButton: React.FC<{ overlay?: boolean }> = ({ overlay = fal
         }}>
             <motion.button
                 whileTap={{
-                    scale: "0.9"
+                    scale: 0.9
                 }}
                 style={{
                     width: "100px",
