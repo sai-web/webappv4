@@ -5,7 +5,7 @@ const vods = App.Collection()(collection => ({
     primaryKey: 'vod_id',
     defaultGroup: true,
     groups: {
-        live: collection.Group()
+        archived: collection.Group()
     }
 }))
 

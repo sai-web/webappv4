@@ -46,6 +46,7 @@ export const MenuOptions: React.FC<{
                                 alignItems: "center",
                                 cursor: "pointer"
                             }}
+                            onClick={() => options[option].do()}
                             key={"menu-options-" + index.toString()}
                         >
                             {options[option].logo()}

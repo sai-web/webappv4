@@ -5,6 +5,8 @@ import { usePulse } from '@pulsejs/react'
 import { core } from '../../../../core'
 
 import { lanuchMenu, MenuType, animateTemplate } from '../../../../core/utils/Events'
+import { compileAvgPublishTime } from '../../../../utils/Hooks/numericEncoder'
+// import { mainContentData } from '../../../home/fakeData/home'
 
 const ConnectionCards: React.FC<{ name: string, icon: JSX.Element, info: { domain: string, color: string } }> = ({ name, icon, info }) => {
     return (
@@ -85,6 +87,7 @@ const ChannelConectedAccounts: React.FC = () => {
 
 const ChannelInformation: React.FC = () => {
     const { tags } = usePulse(core.channel.state.current_channel)
+    const content = usePulse(core.vod.collections.vods.getGroup('default'))
     const renderTags = tags ? (tags as string).split(',') : []
     return (
         <div style={{
@@ -119,7 +122,7 @@ const ChannelInformation: React.FC = () => {
                 bottom: "30px"
             }}>
                 <h4 style={{ fontFamily: "Poppins", fontWeight: "lighter", fontSize: "13px", color: "grey" }}>Averages</h4>
-                <h4 style={{ fontFamily: "Poppins", fontWeight: "lighter", fontSize: "13px", color: "#4D6FFF", marginLeft: "5px", marginRight: "5px" }}>3</h4>
+                <h4 style={{ fontFamily: "Poppins", fontWeight: "lighter", fontSize: "13px", color: "#4D6FFF", marginLeft: "5px", marginRight: "5px" }}>{compileAvgPublishTime(content)}</h4>
                 <h4 style={{ fontFamily: "Poppins", fontWeight: "lighter", fontSize: "13px", color: "grey" }}>posts per week</h4>
             </div>
         </div>

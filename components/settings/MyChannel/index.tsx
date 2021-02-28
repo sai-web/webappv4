@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { BannerSettings } from './main/banner'
+import { TrailerSettings } from './main/channelTrailer'
 import { AccountRemovalSettings } from './main/accountRemoval'
 import { AccounCredentialSettings } from './main/accountCreds'
 
@@ -31,6 +32,7 @@ export const AccountUpdateDisplay: React.FC = () => {
                 </div>
                 <AccounCredentialSettings />
                 <BannerSettings />
+                <TrailerSettings />
                 <AccountRemovalSettings />
             </div>
         </div>

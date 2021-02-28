@@ -18,12 +18,18 @@ interface MenuProps {
     display: boolean
     domain?: string
     color?: string
+    vod_id?: string
 }
 
 export const lanuchMenu = App.Event<MenuProps>({
     name: "lanuch-menu-options"
 })
 
-export const contentPreview = App.Event<{ show: boolean }>({
+interface ContentPreviewProps {
+    show: boolean,
+    vod_id: string
+}
+
+export const contentPreview = App.Event<ContentPreviewProps>({
     name: "content-preview"
 })

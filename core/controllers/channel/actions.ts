@@ -61,7 +61,7 @@ function unsubscribe(user_id: string, payload: { creator: creatorInfo }) {
 function setBanner(file: File) {
     routes.setBanner(file)
         .then(data => {
-            if (data.status === 400) Error.emit({ type: "Server Error", message: "there was an issue with downloading the file, please try again." })
+            if (data.status === 500) Error.emit({ type: "Server Error", message: "there was an issue with downloading the file, please try again." })
             else {
                 if (states.current_channel._value.user_id === userStates.info._value.user_id) states.current_channel.patch({
                     banner: data.banner + `&render=${Math.random()}`
@@ -77,10 +77,30 @@ function setBanner(file: File) {
         })
 }
 
+function setChannelTrailer(file: File) {
+    routes.setTrailer(file)
+        .then(data => {
+            if (data.status === 500) Error.emit({ type: "Server Error", message: "there was an issue with downloading the file, please try again." })
+            else {
+                if (states.current_channel._value.user_id === userStates.info._value.user_id) states.current_channel.patch({
+                    channel_trailer: data.channel_trailer + `&render=${Math.random()}`
+                })
+                userStates.info.patch({
+                    channel_trailer: data.channel_trailer + `&render=${Math.random()}`
+                })
+            }
+        })
+        .catch(() => {
+            Error.emit({ type: "Invalid Behaviour", message: "please report this issue as soon as possible. This could be because our servers were down or there's been a data breach." })
+            return false
+        })
+}
+
 export default {
     subscribed,
     viewers,
     subscribe,
     unsubscribe,
     setBanner,
+    setChannelTrailer
 }

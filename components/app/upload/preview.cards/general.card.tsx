@@ -11,32 +11,33 @@ interface GeneralThumbnailProps {
 
 export const GeneralCard: React.FC<GeneralThumbnailProps> = ({ data }) => {
     return (
-        <motion.div
-            whileTap={{ scale: 0.9 }}
-            style={{
-                display: "flex",
-                alignItems: "center",
-                // backgroundColor: "green",
-                height: "140px",
-                cursor: "pointer"
-            }}
-        >
-            <div style={{
-                width: "5px",
-                height: "100%",
-                backgroundColor: data.color,
-                marginLeft: "20px"
-            }}>
+        <a href={data.url} target="_blank">
+            <motion.div
+                whileTap={{ scale: 0.9 }}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    // backgroundColor: "green",
+                    height: "140px",
+                    // width: "270px",
+                    cursor: "pointer"
+                }}
+            >
+                <div style={{
+                    width: "5px",
+                    height: "100%",
+                    backgroundColor: data.color,
+                    marginLeft: "20px"
+                }}>
 
-            </div>
-            <a href={data.url} target="_blank">
+                </div>
                 <img src={data.thumbnail}
                     style={{
                         width: "250px",
                         marginLeft: "5px"
                     }}
                 />
-            </a>
-        </motion.div>
+            </motion.div>
+        </a>
     )
 }

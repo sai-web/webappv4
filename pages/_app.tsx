@@ -4,7 +4,7 @@ import Router from 'next/router'
 
 import { core } from '../core'
 import { Token } from '../core/controllers/auth/events'
-import { useEvent } from '@pulsejs/react'
+import { useEvent, usePulse } from '@pulsejs/react'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -23,12 +23,13 @@ import '../styles/settings.css'
 import '../styles/channel.css'
 
 function Main({ Component, pageProps }: AppProps) {
+  const csrf = usePulse(core.auth.state.csrf_token)
   useEvent(Token, ({ token }) => {
     if (token === "access") core.auth.refreshAccessToken()
     else if (token === "refresh") Router.push('/auth/login')
   })
   useEffect(() => {
-    if (core.auth.state.csrf_token.value.length === 0 && !Router.pathname.includes('auth')) core.auth.csrf()
+    if (csrf.length === 0 && !Router.pathname.includes('auth')) core.auth.csrf()
   }, [Router])
   // useEffect(() => {
   //   console.log(core.user.state.info._value)

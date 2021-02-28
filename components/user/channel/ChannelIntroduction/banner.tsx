@@ -4,7 +4,7 @@ import { usePulse } from '@pulsejs/react'
 import { core } from '../../../../core'
 
 export const Banner: React.FC<{ scaleVal: number }> = ({ scaleVal }) => {
-    const { banner } = usePulse(core.channel.state.current_channel)
+    const { banner, channel_trailer } = usePulse(core.channel.state.current_channel)
     return (
         <div style={{
             width: "calc(100% - 200px)",
@@ -19,12 +19,43 @@ export const Banner: React.FC<{ scaleVal: number }> = ({ scaleVal }) => {
             {
                 // https://myrepublic.net/sg/content/uploads/2020/09/valorant-banner.png
                 banner ?
-                    <img src={banner!}
-                        style={{
-                            height: `${((scaleVal + 1) / 2) * 270}px`,
-                            objectFit: "cover"
-                        }}
-                    /> :
+                    <div style={{
+                        height: `${((scaleVal + 1) / 2) * 270}px`,
+                        position: "relative"
+                    }}>
+                        <img src={banner!}
+                            style={{
+                                height: `100%`,
+                                objectFit: "cover"
+                            }}
+                        />
+                        {
+                            channel_trailer ?
+                                <video
+                                    // width="350"
+                                    // height="200"
+                                    controls
+                                    src={channel_trailer}
+                                    id="channel-trailer"
+                                    style={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                        transform: "translate(-50%,-50%)",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        opacity: `${(scaleVal + 1) / 2}`,
+                                        height: `${((scaleVal + 1) / 2) * 200}px`,
+                                        zIndex: 1,
+                                        outline: "none"
+                                        // objectFit: "cover"
+                                    }}
+                                >
+
+                                </video> : ""
+                        }
+                    </div> :
                     <div style={{
                         height: `${((scaleVal + 1) / 2) * 270}px`,
                         width: `100%`,

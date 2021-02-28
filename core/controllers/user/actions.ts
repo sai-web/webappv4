@@ -9,6 +9,8 @@ import { user_data, user_state } from './interface'
 import authStates from '../auth/states'
 import { platforms } from '../../utils/platforms'
 
+import vodActions from '../vod/actions'
+
 //get user info and update state
 const defaultParam = {
     payload: {
@@ -52,6 +54,7 @@ function info(
                     }
                     ChannelStates.current_channel.set(data)
                     ChannelStates.current_channel_state.set(data.activity.state)
+                    vodActions.getVods()
                 }
             })
             .catch(() => {

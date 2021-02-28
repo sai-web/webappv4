@@ -1,13 +1,18 @@
 import collections from './collections'
 import routes from './routes'
 
+import userStates from '../user/states'
+import channelStates from '../channel/states'
+
 //get all vods and store them in a collection
-function getVods(user_id: string) {
+function getVods(user_id?: string) {
     routes.getVods(user_id)
         .then(data => {
-            if (data.status === 200) {
+            if (data.status !== 404) {
                 data.data.forEach((vod: any) => {
+                    vod.tags = JSON.parse(vod.tags)
                     collections.vods.collect(vod)
+                    if (vod.archived) collections.vods.put(vod.vod_id, 'archived')
                 });
             }
         })
@@ -31,18 +36,24 @@ export interface vodInfo {
 function create(payload: vodInfo) {
     routes.create(payload)
         .then(data => {
-            if (data.status === 200) {
-                collections.vods.collect(payload)
+            if (data.status !== 404) {
+                collections.vods.collect(data.data, 'default', { patch: true, method: "unshift" })
+                channelStates.current_channel.patch({
+                    vods: channelStates.current_channel.value.vods! + 1
+                })
             }
         })
 }
 
 //remove the vod and update the collection
-function remove(payload: { vod_id: string, user_id: string }) {
+function remove(payload: { vod_id: string }) {
     routes.remove(payload)
         .then(data => {
-            if (data.status === 200) {
-                collections.vods.remove(payload.vod_id)
+            if (data.status !== 404) {
+                collections.vods.remove(payload.vod_id).everywhere()
+                channelStates.current_channel.patch({
+                    vods: channelStates.current_channel.value.vods! - 1
+                })
             }
         })
 }

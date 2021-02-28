@@ -1,46 +1,97 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { core } from '../../../../core'
 import { lanuchMenu, MenuType, contentPreview } from '../../../../core/utils/Events'
 import { motion } from 'framer-motion'
-import { mainContentData } from '../../../home/fakeData/home'
+
+// import { mainContentData } from '../../../home/fakeData/home'
 import { animateTemplate } from '../../../../core/utils/Events'
 
 import { ContentFilter } from './filter'
 
-const ContentThumbnail: React.FC<{ thumbnail: string }> = ({ thumbnail }) => {
-    return (
-        <motion.div
-            whileTap={{
-                scale: 0.9
-            }}
-            style={{
-                width: "200px",
-                height: "105px",
-                display: "flex",
-                cursor: "pointer"
-            }}
-            onClick={() => {
-                contentPreview.emit({ show: true })
-                animateTemplate.emit({ display: true })
-            }}
-        >
-            <div style={{
-                height: "100%",
-                width: "3px",
-                backgroundColor: "red"
-            }}>
+import { platforms } from '../../../../core/utils/platforms'
+import { convertNumericTypeToPresentableString, convertPublicationDateToPresentableString } from '../../../../utils/Hooks/numericEncoder'
+import { usePulse } from '@pulsejs/react'
 
-            </div>
-            <img src={thumbnail}
-                style={{
-                    width: "calc(100% - 10px)",
-                    height: "100%",
-                    objectFit: "cover",
-                    marginLeft: "5px"
+const ContentThumbnail: React.FC<{
+    thumbnail: string,
+    platformProperties: any,
+    vod_id: string
+}> = ({
+    thumbnail,
+    platformProperties,
+    vod_id
+}) => {
+        return (
+            <motion.div
+                initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                transition={{
+                    type: "tween",
+                    // bounce: 0.35
                 }}
-            />
-        </motion.div>
-    )
-}
+                whileTap={{
+                    scale: 0.9
+                }}
+                style={{
+                    width: "200px",
+                    height: "105px",
+                    display: "flex",
+                    cursor: "pointer"
+                }}
+                onClick={() => {
+                    contentPreview.emit({ show: true, vod_id })
+                    animateTemplate.emit({ display: true })
+                }}
+            >
+                <div style={{
+                    height: "100%",
+                    width: "3px",
+                    backgroundColor: platformProperties?.hex
+                }}>
+
+                </div>
+                {platformProperties.wideThumb ?
+                    <img src={thumbnail}
+                        style={{
+                            width: "calc(100% - 10px)",
+                            height: "100%",
+                            objectFit: "cover",
+                            marginLeft: "5px"
+                        }}
+                    /> :
+                    <div style={{
+                        width: "calc(100% - 10px)",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        <img src={thumbnail}
+                            style={{
+                                height: "100%",
+                                // objectFit: "cover",
+                                marginLeft: "5px"
+                            }}
+                        />
+                        <div style={{
+                            height: "100%",
+                            width: "100px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "black"
+                        }}>
+                            <img src={platformProperties?.logo} style={{
+                                width: "50px",
+                                height: "50px",
+                                // borderRadius: "25px",
+                                objectFit: "cover"
+                            }} />
+                        </div>
+                    </div>
+                }
+            </motion.div>
+        )
+    }
 
 const ContentDetails: React.FC<{ logo: string, data: string }> = ({ logo, data }) => {
     return (
@@ -77,7 +128,11 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
             display: "flex",
             position: "relative"
         }}>
-            <ContentThumbnail thumbnail={content.thumbnail} />
+            <ContentThumbnail
+                thumbnail={content.thumbnail}
+                vod_id={content.vod_id}
+                platformProperties={Object.values(platforms).find(element => element.name.toLocaleLowerCase() === content.platform.toLocaleLowerCase())}
+            />
             <div style={{
                 width: "calc(100% - 240px)",
                 marginLeft: "20px",
@@ -100,8 +155,14 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                     width: "150px",
                     justifyContent: "space-between"
                 }}>
-                    <ContentDetails logo="watch_later" data="2 hours ago" />
-                    <ContentDetails logo="person" data="20" />
+                    <ContentDetails
+                        logo="watch_later"
+                        data={convertPublicationDateToPresentableString(content.published_at)}
+                    />
+                    <ContentDetails
+                        logo="person"
+                        data={convertNumericTypeToPresentableString(content.views)}
+                    />
                 </div>
             </div>
             <div style={{
@@ -114,7 +175,7 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                 alignItems: "center"
             }}
                 onClick={() => {
-                    lanuchMenu.emit({ type: MenuType.ContentMenu, display: true })
+                    lanuchMenu.emit({ type: MenuType.ContentMenu, display: true, vod_id: content.vod_id })
                     animateTemplate.emit({
                         display: true
                     })
@@ -129,7 +190,9 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
     )
 }
 
-const ChannelContent: React.FC = () => {
+const ChannelContent: React.FC<{
+    content: any[]
+}> = ({ content }) => {
     return (
         <div style={{
             width: "calc(100% - 40px)",
@@ -137,9 +200,9 @@ const ChannelContent: React.FC = () => {
             overflowY: "scroll"
         }} className="main-content-div">
             {
-                mainContentData.map((content, index) => {
+                content.map((vod, index) => {
                     return (
-                        <ContentCard content={content} key={index} />
+                        <ContentCard content={vod} key={index} />
                     )
                 })
             }
@@ -148,6 +211,11 @@ const ChannelContent: React.FC = () => {
 }
 
 export const Content: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
+    const content = usePulse(core.vod.collections.vods.getGroup('default'))
+    const [renderingContent, setContentToRender] = useState<object[]>(content)
+    useEffect(() => {
+        setContentToRender(content)
+    }, [content])
     return (
         <div style={{
             width: "100%",
@@ -157,8 +225,54 @@ export const Content: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
             position: "sticky",
             top: "100px"
         }}>
-            <ContentFilter />
-            <ChannelContent />
+            <ContentFilter
+                setContent={setContentToRender}
+            />
+            {
+                renderingContent.length === 0 ?
+                    <div style={{
+                        // backgroundColor: "green",
+                        width: "calc(100% - 50px)",
+                        height: "200px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center"
+                    }}>
+                        <h4 style={{
+                            fontFamily: "Poppins",
+                            color: "white",
+                            fontSize: "15px",
+                            fontWeight: "lighter",
+                            lineHeight: "0"
+                        }}>
+                            Looks like there is no content yet...
+                        </h4>
+                        <h4 style={{
+                            fontFamily: "Poppins",
+                            color: "grey",
+                            fontSize: "12px",
+                            fontWeight: "lighter",
+                            lineHeight: "0"
+                        }}>
+                            Start posting so that you can build an audience on our platform
+                        </h4>
+                        <h4 style={{
+                            fontFamily: "Poppins",
+                            color: "grey",
+                            fontSize: "12px",
+                            fontWeight: "lighter",
+                            lineHeight: "0",
+                            position: "relative",
+                            bottom: "10px"
+                        }}>
+                            Posting content will earn you channel points that will help you reach a wider audience.
+                        </h4>
+                    </div>
+                    :
+                    <ChannelContent
+                        content={renderingContent}
+                    />
+            }
         </div>
     )
 }

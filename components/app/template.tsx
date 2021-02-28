@@ -11,7 +11,7 @@ import Nav from '../nav/side/mainNav'
 import Menu from '../nav/top/topNav'
 import { ContentMenu } from '../menu/content'
 import { ConnectionMenu } from '../menu/connections'
-import { ContentPreviewOptions } from '../user/channel/ContentPreview'
+import { ContentPreviewOptions } from '../user/accessories/content.preview/ContentPreview'
 import { ChannelPreview } from '../user/channel/channelPreview'
 import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
 import { ConnectionsOptions } from "../menu/connectionsOptions"
@@ -21,7 +21,7 @@ import { Banner } from '../user/channel/ChannelIntroduction/banner'
 
 import { Settings } from '../settings/main'
 
-const PopUpMenus: React.FC<{
+interface PopUpProps {
     showMenu: showMenuType,
     position: {
         x: number;
@@ -30,48 +30,55 @@ const PopUpMenus: React.FC<{
         height: number;
     },
     references: React.MutableRefObject<any>[],
-    showContentPreview: boolean
-}> = ({
+    contentPreviewDetails: contentPreviewDetails
+}
+
+const PopUpMenus: React.FC<PopUpProps> = ({
     showMenu,
     position,
     references,
-    showContentPreview
+    contentPreviewDetails
 }) => {
-        return (
-            <>
-                <ContentMenu
-                    display={showMenu.ContentMenu}
-                    position={position}
-                    reference={references[0]}
-                />
-                <ConnectionMenu
-                    display={showMenu.ConnectionMenu.display}
-                    domain={showMenu.ConnectionMenu.domain}
-                    color={showMenu.ConnectionMenu.color}
-                    position={position}
-                    reference={references[1]}
-                />
-                <ContentPreviewOptions
-                    display={showContentPreview}
-                    reference={references[2]}
-                />
-                <ChannelPreview
-                    display={showMenu.Profile}
-                    position={position}
-                />
-                <ChannelSettingsDropDownMenu
-                    display={showMenu.ChannelDropDown}
-                />
-                <UploadSection
-                    display={showMenu.ShareLinkComponent}
-                    reference={references[3]}
-                />
-            </>
-        )
-    }
+    return (
+        <>
+            <ContentMenu
+                display={showMenu.ContentMenu.display}
+                position={position}
+                reference={references[0]}
+                vod_id={showMenu.ContentMenu.vod_id}
+            />
+            <ConnectionMenu
+                display={showMenu.ConnectionMenu.display}
+                domain={showMenu.ConnectionMenu.domain}
+                color={showMenu.ConnectionMenu.color}
+                position={position}
+                reference={references[1]}
+            />
+            <ContentPreviewOptions
+                display={contentPreviewDetails.show}
+                vod_id={contentPreviewDetails.vod_id}
+                reference={references[2]}
+            />
+            <ChannelPreview
+                display={showMenu.Profile}
+                position={position}
+            />
+            <ChannelSettingsDropDownMenu
+                display={showMenu.ChannelDropDown}
+            />
+            <UploadSection
+                display={showMenu.ShareLinkComponent}
+                reference={references[3]}
+            />
+        </>
+    )
+}
 
 export type showMenuType = {
-    ContentMenu: boolean,
+    ContentMenu: {
+        display: boolean,
+        vod_id: string
+    },
     ConnectionMenu: {
         display: boolean,
         domain: string,
@@ -81,6 +88,11 @@ export type showMenuType = {
     ChannelDropDown: boolean,
     ShareLinkComponent: boolean,
     Settings: boolean
+}
+
+type contentPreviewDetails = {
+    show: boolean,
+    vod_id: string
 }
 
 interface Props {
@@ -101,7 +113,10 @@ const template: React.FC<Props> = function ({
     banner = false
 }) {
     var initialMenuState: showMenuType = {
-        ContentMenu: false,
+        ContentMenu: {
+            display: false,
+            vod_id: ""
+        },
         ConnectionMenu: {
             display: false,
             domain: "",
@@ -112,10 +127,14 @@ const template: React.FC<Props> = function ({
         ShareLinkComponent: false,
         Settings: false
     }
+    var initialContentPreviewDetails: contentPreviewDetails = {
+        show: false,
+        vod_id: ''
+    }
     const [bannerScale, setBannerScale] = useState<number>(1)
     const [templateAnimate, setTemplateAnimate] = useState<boolean>(false)
     const [showMenu, setShowMenu] = useState<showMenuType>(initialMenuState)
-    const [showContentPreview, setShowContentPreview] = useState<boolean>(false)
+    const [contentPreviewDetails, setContentPreviewDetails] = useState<contentPreviewDetails>(initialContentPreviewDetails)
     const [renderCount, setRenderCount] = useState<number>(0)
 
     const ContentMenuRef = useRef<any>(null)
@@ -137,7 +156,7 @@ const template: React.FC<Props> = function ({
     useEvent(animateTemplate, ({ display }) => {
         setTemplateAnimate(display)
     })
-    useEvent(lanuchMenu, ({ type, display, domain, color }) => {
+    useEvent(lanuchMenu, ({ type, display, domain, color, vod_id }) => {
         setShowMenu(prev => {
             let newMenu = { ...prev }
             if (type === MenuType.ConnectionMenu) {
@@ -153,11 +172,18 @@ const template: React.FC<Props> = function ({
                         color
                     }
                 }
+            } else if (type === MenuType.ContentMenu) {
+                newMenu[type] = {
+                    display,
+                    vod_id: vod_id!
+                }
             } else newMenu[type] = display
             return newMenu
         })
     })
-    useEvent(contentPreview, ({ show }) => setShowContentPreview(show))
+    useEvent(contentPreview, (details) => {
+        setContentPreviewDetails(details)
+    })
     useEffect(() => {
         function handleScrollEvent(event: any) {
             if (reference!.current) setBannerScale(scrollPos => {
@@ -231,7 +257,7 @@ const template: React.FC<Props> = function ({
                     ContentPreviewRef,
                     shareLinkComponentRef
                 ]}
-                showContentPreview={showContentPreview}
+                contentPreviewDetails={contentPreviewDetails}
                 showMenu={showMenu}
             />
             <Settings

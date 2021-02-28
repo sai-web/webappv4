@@ -24,6 +24,18 @@ async function setBanner(file: File) {
     })
 }
 
+//set banner for channel
+async function setChannelTrailer(file: File) {
+    const form: FormData = await new FormData()
+    await form.append('trailer', file)
+    console.log(file)
+    return await Api.post('channel-trailer', form, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}
+
 //subscribe to a creator
 async function subscribe(user_id: string, payload: { creator: creatorInfo, viewer_type: string }) {
     return (await Api.post(`app/subscription/subscribe?${user_id}`, payload))
@@ -39,5 +51,6 @@ export default {
     getViewers,
     subscribe,
     unsubscribe,
-    setBanner
+    setBanner,
+    setTrailer: setChannelTrailer
 }

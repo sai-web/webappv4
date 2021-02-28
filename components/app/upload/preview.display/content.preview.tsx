@@ -78,42 +78,7 @@ export const ContentDisplay: React.FC<ContentDisplayProps> = ({
                 display: "flex"
             }}>
                 <ContentPreview data={data} />
-                <div style={{
-                    width: "calc(100% - 320px)",
-                    // backgroundColor: "red"
-                }}>
-                    <h4 style={{
-                        fontFamily: "Poppins",
-                        color: "grey",
-                        fontSize: "12px",
-                        lineHeight: "0",
-                        marginTop: "70px"
-                    }}>
-                        Content Tags
-                    </h4>
-                    <MultiSelectInput
-                        options={ContentTypes}
-                        placeholder="choose tags to represent your content"
-                        setState={(tags: string[]) => {
-                            setContentInfo(prev => {
-                                const newState = { ...prev }
-                                newState.tags = tags
-                                return newState
-                            })
-                        }}
-                        multiple
-                    />
-                    <MainCredentialUpdate
-                        type="Notification Title"
-                        value={data.title}
-                        placeholder="notification title"
-                        cols={40}
-                        resize
-                        // rows={1}
-                        // stateType={stateTypes.description}
-                        stateSetter={setContentInfo}
-                    />
-                </div>
+                <ContentDetailsMutation data={data} setContentInfo={setContentInfo} />
             </div>
             <motion.button
                 whileTap={{
@@ -201,3 +166,50 @@ const ContentPreview: React.FC<{
             </div>
         )
     }
+
+const ContentDetailsMutation:React.FC<{
+    data:any,
+    setContentInfo:React.Dispatch<React.SetStateAction<contentInformation>>
+}> = ({
+    data,
+    setContentInfo
+}) => {
+    return (
+        <div style={{
+            width: "calc(100% - 320px)",
+            // backgroundColor: "red"
+        }}>
+            <h4 style={{
+                fontFamily: "Poppins",
+                color: "grey",
+                fontSize: "12px",
+                lineHeight: "0",
+                marginTop: "70px"
+            }}>
+                Content Tags
+            </h4>
+            <MultiSelectInput
+                options={ContentTypes}
+                placeholder="choose tags to represent your content"
+                setState={(tags: string[]) => {
+                    setContentInfo(prev => {
+                        const newState = { ...prev }
+                        newState.tags = tags
+                        return newState
+                    })
+                }}
+                multiple
+            />
+            <MainCredentialUpdate
+                type="Notification Title"
+                value={data.title}
+                placeholder="notification title"
+                cols={40}
+                resize
+                // rows={1}
+                // stateType={stateTypes.description}
+                stateSetter={setContentInfo}
+            />
+        </div>
+    )
+}

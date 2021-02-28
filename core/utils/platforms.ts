@@ -91,6 +91,7 @@ export const platforms = {
         url: 'spotify.com',
         hex: '#1DB954',
         wideThumb: false,
+        logo: "/spotify.png",
         urlMatch: /http(?:s)?:\/\/(?:www\.)?open.spotify\.com\/([a-zA-Z0-9_]+)/,
         extract: undefined,
         parseHTML: (doc: Document) => ({
@@ -127,6 +128,7 @@ export const platforms = {
         url: 'youtube.com',
         hex: '#ff0000',
         wideThumb: true,
+        logo: "/youtube.jpg",
         urlMatch: /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/,
         extract: (link: string) => link.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/)!.filter(result => result.length === 11)[0],
         parseHTML: (doc: Document) => ({

@@ -7,7 +7,7 @@ export function onMouseClick(menu: showMenuType) {
         function handleScroll(event: any) {
             if (!(
                 menu.ChannelDropDown ||
-                menu.ContentMenu ||
+                menu.ContentMenu.display ||
                 menu.Profile ||
                 menu.ShareLinkComponent ||
                 menu.ConnectionMenu.display
