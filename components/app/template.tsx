@@ -14,7 +14,6 @@ import { ConnectionMenu } from '../menu/connections'
 import { ContentPreviewOptions } from '../user/accessories/content.preview/ContentPreview'
 import { ChannelPreview } from '../user/channel/channelPreview'
 import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
-import { ConnectionsOptions } from "../menu/connectionsOptions"
 import { closeOnOutwardClick } from '../../utils/auth'
 import { UploadSection } from './upload'
 import { Banner } from '../user/channel/ChannelIntroduction/banner'

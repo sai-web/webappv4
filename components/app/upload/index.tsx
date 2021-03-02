@@ -7,65 +7,10 @@ import { closeOnOutwardClick } from '../../../utils/auth'
 
 import { PostSection } from './post.section'
 import { ContentDisplay } from './preview.display/content.preview'
+import { AdvancedPostOptions } from './advanced.options'
 
 import { Platforms } from './platforms'
 
-
-interface AdvancedOptionsProps {
-    name: string,
-    logo: JSX.Element,
-    description: string,
-    color: string
-}
-
-const AdvancedPostOptions: React.FC<AdvancedOptionsProps> = ({
-    name,
-    logo,
-    description,
-    color
-}) => {
-    return (
-        <div style={{
-            marginLeft: "10px"
-        }}>
-            <motion.div
-                whileTap={{ scale: 0.9 }}
-                style={{
-                    width: "130px",
-                    height: "170px",
-                    backgroundColor: color,
-                    borderRadius: "5px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    cursor: "pointer"
-                }}
-            >
-                {logo}
-                <h4 style={{
-                    fontFamily: "Whitney",
-                    color: "white",
-                    fontSize: "17px",
-                    lineHeight: "0"
-                }}>
-                    {name}
-                </h4>
-                <h4 style={{
-                    fontFamily: "Roboto Condensed",
-                    color: "white",
-                    fontSize: "10px",
-                    fontWeight: "lighter",
-                    width: "calc(100% - 10px)"
-                    // lineHeight: "0"
-                }}>
-                    {description}
-                    <br />
-                        You must have your YouTube account connected in order to use this service.
-                    </h4>
-            </motion.div>
-        </div>
-    )
-}
 
 const AnimationVariants = {
     visible: {
@@ -91,12 +36,15 @@ export const UploadSection: React.FC<UploadProps> = ({
     const [url, setUrl] = useState<string>("")
     const [displayMainDiv, setDisplayMainDiv] = useState<boolean>(display)
     const shareLinkInputRef = useRef<any>(null)
+
     closeOnOutwardClick(setState, [shareLinkInputRef])
+
     const closeMenu = (value: boolean) => {
         setContentState({ state: false, data: {} })
         lanuchMenu.emit({ type: MenuType.ShareLinkComponent, display: value })
     }
     closeOnOutwardClick(closeMenu, [reference])
+
     useEffect(() => {
         if (renderCount < 2) setRenderCount(prev => (prev + 1))
     })

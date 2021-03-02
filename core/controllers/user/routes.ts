@@ -6,13 +6,13 @@ import { user_data, user_state } from './interface'
 
 //get validated user info
 async function info(payload: Record<string, boolean>, me: boolean = false, domain?: string) {
-    if (!me) return await Api.post(`user/info?domain=${domain}`, { info: payload, csrf: authStates.csrf_token._value, me })
-    return await Api.post(`user/info`, { info: payload, csrf: authStates.csrf_token._value, me })
+    if (!me) return await Api.post(`user/info/${domain}?csrf=${authStates.csrf_token.value}`, { info: payload })
+    return await Api.post(`user/info/@me?csrf=${authStates.csrf_token.value}`, { info: payload })
 }
 
 //update non credentials
 async function update(payload: { data: user_data }) {
-    return (await Api.post('user/update', { ...payload, csrf: authStates.csrf_token._value }))
+    return (await Api.put(`user/update?csrf=${authStates.csrf_token.value}`, { ...payload }))
 }
 
 //set photo for channel
@@ -27,7 +27,7 @@ async function setProfilePhoto(file: File) {
 }
 
 async function getMetaData(url: string) {
-    return await Api.post('vod/meta-data', { url, csrf: authStates.csrf_token._value })
+    return await Api.get(`vod/meta-data?url=${url}&csrf=${authStates.csrf_token.value}`)
 }
 
 //get state

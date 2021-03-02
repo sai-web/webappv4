@@ -13,3 +13,10 @@
 .menu-options-div-light:hover{
     background-color: #202020;
 }
+/* 
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .container {
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+  } */

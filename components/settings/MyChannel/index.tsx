@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { BannerSettings } from './main/banner'
-import { TrailerSettings } from './main/channelTrailer'
-import { AccountRemovalSettings } from './main/accountRemoval'
-import { AccounCredentialSettings } from './main/accountCreds'
+import { TrailerSettings } from './main/channel.trailer'
+import { AccountRemovalSettings } from './main/account.removal'
+import { AccounCredentialSettings } from './main/account.creds'
 
 export const AccountUpdateDisplay: React.FC = () => {
     return (

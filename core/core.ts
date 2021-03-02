@@ -8,6 +8,7 @@ import platforms from './controllers/platforms'
 // import stream from './controllers/stream'
 import user from './controllers/user'
 import vod from './controllers/vod'
+import settings from './controllers/settings'
 
 export const core = App.Core({
     activity,
@@ -15,7 +16,8 @@ export const core = App.Core({
     channel,
     platforms,
     user,
-    vod
+    vod,
+    settings
 })
 
 export type ICore = typeof core

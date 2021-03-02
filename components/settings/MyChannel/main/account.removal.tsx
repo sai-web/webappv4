@@ -4,7 +4,8 @@ import { motion } from 'framer-motion'
 export const AccountRemovalSettings: React.FC = () => {
     return (
         <div style={{
-            width: "calc(100% - 100px)"
+            width: "calc(100% - 100px)",
+            marginTop: "30px"
         }}>
             <h4 style={{
                 fontFamily: "Poppins",

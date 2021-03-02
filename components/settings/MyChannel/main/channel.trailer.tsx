@@ -1,34 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { core } from '../../../../core'
 
 import { usePulse } from '@pulsejs/react'
 
 import { IOSButton } from '../../../../utils/app/ios-switch-button'
 
-interface RenderBannerProps {
-    setBannerState: React.Dispatch<React.SetStateAction<boolean>>,
-    banner?: JSX.Element
+interface RenderTrailerProps {
+    setTrailerState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SelectedBannerToRender: React.FC<RenderBannerProps> = ({
-    setBannerState,
-    banner
+const SelectedChannelTrailerToRender: React.FC<RenderTrailerProps> = ({
+    setTrailerState,
+    children
 }) => {
     return (
         <div style={{
             width: "100%",
             height: "100%",
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
+            alignItems: "center"
         }}>
-            {banner || <img src="" id="banner-image"
-                style={{
-                    // width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    opacity: 0.5
-                }}
-            />}
+            {children ||
+                <video
+                    width="100%"
+                    height="240"
+                    controls
+                    src=""
+                    id="channel-trailer"
+                >
+
+                </video>
+            }
             <div style={{
                 position: "absolute",
                 top: "50%",
@@ -48,7 +51,7 @@ const SelectedBannerToRender: React.FC<RenderBannerProps> = ({
                     }}
                 >
                     cloud_upload
-                </span>
+                    </span>
             </div>
             <input type="file"
                 style={{
@@ -64,25 +67,25 @@ const SelectedBannerToRender: React.FC<RenderBannerProps> = ({
                     if (FileReader && files && files.length) {
                         var fr = new FileReader();
                         fr.onload = function () {
-                            const imageRenderer: HTMLImageElement = document.getElementById("banner-image") as HTMLImageElement
-                            imageRenderer.src = fr.result as string;
+                            const TrailerRenderer: HTMLVideoElement = document.getElementById("channel-trailer") as HTMLVideoElement
+                            TrailerRenderer.src = fr.result as string;
                         }
                         fr.readAsDataURL(files[0]);
-                        core.channel.setBanner(files[0])
+                        core.channel.setChannelTrailer(files[0])
                     }
-                    setBannerState(true)
+                    setTrailerState(true)
                 }}
             />
         </div>
     )
 }
 
-interface SelectBannerProps {
-    setBannerState: React.Dispatch<React.SetStateAction<boolean>>
+interface SelectTrailerProps {
+    setTrailerState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SelectBanner: React.FC<SelectBannerProps> = ({
-    setBannerState
+const SelectTrailer: React.FC<SelectTrailerProps> = ({
+    setTrailerState
 }) => {
     return (
         <div style={{
@@ -117,23 +120,23 @@ const SelectBanner: React.FC<SelectBannerProps> = ({
                     if (FileReader && files && files.length) {
                         var fr = new FileReader();
                         fr.onload = function () {
-                            const imageRenderer: HTMLImageElement = document.getElementById("banner-image") as HTMLImageElement
-                            imageRenderer.src = fr.result as string;
+                            const TrailerRenderer: HTMLSourceElement = document.getElementById("channel-trailer") as HTMLSourceElement
+                            TrailerRenderer.src = fr.result as string;
                         }
                         fr.readAsDataURL(files[0]);
-                        core.channel.setBanner(files[0])
+                        core.channel.setChannelTrailer(files[0])
                     }
-                    setBannerState(true)
+                    setTrailerState(true)
                 }}
             />
         </div>
     )
 }
 
-export const BannerSettings: React.FC = () => {
-    const [bannerPresent, setBannerState] = useState<boolean>(false)
-    const { banner } = usePulse(core.user.state.info)
-    const { disable_banner } = usePulse(core.settings.state.settings)
+export const TrailerSettings: React.FC = () => {
+    const [trailerPresent, setTrailerState] = useState<boolean>(false)
+    const { channel_trailer } = usePulse(core.user.state.info)
+    const { disable_trailer } = usePulse(core.settings.state.settings)
     return (
         <div style={{
             width: "calc(100% - 100px)",
@@ -144,15 +147,15 @@ export const BannerSettings: React.FC = () => {
                 fontSize: "10px",
                 color: "grey"
             }}>
-                BANNER
+                CHANNEL TRAILER
             </h4>
             <h4 style={{
                 fontFamily: "Poppins",
                 fontSize: "10px",
                 color: "silver"
             }}>
-                Your banner will be the center of attraction on your channel page,
-                so choose it wisely. Choose any file on your PC and drop it on in the box
+                Your channel trailer will be rendered on top of your banner and explains almost everything about your channel.
+                The video should be less than 20 minutes. Choose any video supported file on your PC and drop it on in the box
                 below.
             </h4>
             <div style={{
@@ -164,16 +167,16 @@ export const BannerSettings: React.FC = () => {
                     fontSize: "10px",
                     color: "silver"
                 }}>
-                    Disable your banner temporarily.
+                    Disable your channel trailer temporarily.
                 </h4>
                 <IOSButton
-                    checked={disable_banner}
-                    setState={(state: boolean) => core.settings.state.settings.patch({ disable_banner: state })}
+                    checked={disable_trailer}
+                    setState={(state: boolean) => core.settings.state.settings.patch({ disable_trailer: state })}
                 />
             </div>
             <div style={{
-                width: "100%",
-                height: "150px",
+                width: "300px",
+                height: "170px",
                 backgroundColor: "#0E0E10",
                 borderRadius: "5px",
                 display: "flex",
@@ -182,23 +185,23 @@ export const BannerSettings: React.FC = () => {
                 overflow: "hidden",
                 position: "relative"
             }}>
-                {bannerPresent ?
-                    <SelectedBannerToRender setBannerState={setBannerState} /> :
-                    banner ?
-                        <SelectedBannerToRender
-                            setBannerState={setBannerState}
-                            banner={
-                                <img src={banner}
-                                    style={{
-                                        // width: "100%",
-                                        height: "100%",
-                                        objectFit: "cover",
-                                        opacity: 0.5
-                                    }}
-                                />
-                            }
-                        /> :
-                        <SelectBanner setBannerState={setBannerState} />
+                {trailerPresent ?
+                    <SelectedChannelTrailerToRender setTrailerState={setTrailerState} /> :
+                    channel_trailer ?
+                        <SelectedChannelTrailerToRender
+                            setTrailerState={setTrailerState}
+                        >
+                            <video
+                                width="320"
+                                height="240"
+                                controls
+                                src={channel_trailer}
+                                id="channel-trailer"
+                            >
+
+                            </video>
+                        </SelectedChannelTrailerToRender> :
+                        <SelectTrailer setTrailerState={setTrailerState} />
                 }
             </div>
         </div>

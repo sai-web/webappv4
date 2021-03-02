@@ -3,13 +3,13 @@ import authStates from '../auth/states'
 
 //get all the vods
 async function getVods(user_id?: string) {
-    if (!user_id) return (await Api.post(`vod/vods?me=true`, { csrf: authStates.csrf_token.value }))
-    else return (await Api.post(`vod/vods?user_id=${user_id}`, { csrf: authStates.csrf_token.value }))
+    if (!user_id) return (await Api.get(`vod/vods/@me?csrf=${authStates.csrf_token.value}`))
+    else return (await Api.get(`vod/vods/${user_id}?csrf=${authStates.csrf_token.value}`))
 }
 
 //watch a specific vod
-async function watch(payload: { vod_id: string, user_id: string }) {
-    return (await Api.post(`watch`, payload))
+async function watch(vod_id: string) {
+    return (await Api.put(`vod/watch/${vod_id}?csrf=${authStates.csrf_token.value}`))
 }
 
 export interface vodInfo {
@@ -23,12 +23,12 @@ export interface vodInfo {
 
 //create a new vod
 async function create(payload: vodInfo) {
-    return (await Api.post(`vod/create`, { vod_info: payload, csrf: authStates.csrf_token.value }))
+    return (await Api.post(`vod/create?csrf=${authStates.csrf_token.value}`, { vod_info: payload }))
 }
 
 //remove a vod
-async function remove(payload: { vod_id: string }) {
-    return (await Api.post(`vod/delete`, { ...payload, csrf: authStates.csrf_token.value }))
+async function remove(vod_id: string) {
+    return (await Api.post(`vod/delete?${vod_id}?csrf=${authStates.csrf_token.value}`))
 }
 
 export default {

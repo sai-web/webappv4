@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import { EditAccountDetails } from './editAccount'
-import { DisplayAccountDetails } from './displayAccount'
+import { EditAccountDetails } from './edit.account'
+import { DisplayAccountDetails } from './display.account'
 
 export const AccounCredentialSettings: React.FC = () => {
     const [editAccount, setEditStatus] = useState<boolean>(false)

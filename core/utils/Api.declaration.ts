@@ -23,10 +23,9 @@ export class API {
     public async get(
         endpoint: string,
         options: APIConfigOptions = this.defaultRequestConfig,
-        data?: Record<string, any>
     ): Promise<any> {
         const fullURL: string = this.base + '/' + (options.overridePath ? '' : this.path + '/') + endpoint
-        return await axios.get(fullURL, { withCredentials: true, data })
+        return await axios.get(fullURL, { withCredentials: true })
             .then(data => (data.data))
             .catch(err => (err.response))
     }
@@ -40,6 +39,38 @@ export class API {
         return await axios.post(
             fullURL,
             payload,
+            { withCredentials: true, ...options }
+        )
+            .then(data => {
+                return data.data
+            })
+            .catch(err => (err.response))
+    }
+
+    public async put(
+        endpoint: string,
+        payload: Record<string, any> = {},
+        options: APIConfigOptions = this.defaultRequestConfig
+    ): Promise<any> {
+        const fullURL: string = this.base + '/' + (options.overridePath ? '' : this.path + '/') + endpoint
+        return await axios.put(
+            fullURL,
+            payload,
+            { withCredentials: true, ...options }
+        )
+            .then(data => {
+                return data.data
+            })
+            .catch(err => (err.response))
+    }
+
+    public async delete(
+        endpoint: string,
+        options: APIConfigOptions = this.defaultRequestConfig
+    ): Promise<any> {
+        const fullURL: string = this.base + '/' + (options.overridePath ? '' : this.path + '/') + endpoint
+        return await axios.delete(
+            fullURL,
             { withCredentials: true, ...options }
         )
             .then(data => {
