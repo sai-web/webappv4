@@ -6,9 +6,27 @@ import Template from '../../../components/app/template'
 const Pages: React.FC = () => {
     return (
         <>
-            <PageModes name="Channel" page="Community" url="/app/channel/@me" logo={<i className="fa fa-user" style={{ fontSize: "10px" }}></i>} />
-            <PageModes name="Community" page="Community" url="/app/channel/community" logo={<i className="fa fa-group" style={{ fontSize: "10px" }}></i>} />
-            <PageModes name="Content" page="Community" url="/app/channel/content" logo={<span className="material-icons" style={{ fontSize: "15px" }}>layers</span>} />
+            <PageModes
+                name="Channel"
+                page="Community"
+                url="/app/channel/@me"
+                logo={<i className="fa fa-user"
+                    style={{ fontSize: "10px" }}></i>}
+            />
+            <PageModes
+                name="Community"
+                page="Community"
+                url="/app/channel/community"
+                logo={<i className="fa fa-group"
+                    style={{ fontSize: "10px" }}></i>}
+            />
+            <PageModes
+                name="Content"
+                page="Community"
+                url="/app/channel/content"
+                logo={<span className="material-icons"
+                    style={{ fontSize: "15px" }}>layers</span>}
+            />
         </>
     )
 }

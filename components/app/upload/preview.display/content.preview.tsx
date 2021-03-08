@@ -12,30 +12,28 @@ import { BonusPoints, PlatformIcon, NotificationInformation } from './addtional.
 import { MainCredentialUpdate } from './content.details'
 
 const ContentTypes = [
-    {
-        value: 'Vlog',
-        chosen: false
-    },
-    {
-        value: 'Gamming',
-        chosen: false
-    },
-    {
-        value: 'Streaming',
-        chosen: false
-    },
-    {
-        value: 'Programming',
-        chosen: false
-    },
-    {
-        value: 'Science',
-        chosen: false
-    },
-    {
-        value: 'Just Chat',
-        chosen: false
-    }
+    'Vlog',
+    'Gaming',
+    'Programming',
+    'Streaming',
+    'Science',
+    'Commentary',
+    'Music',
+    'Comedy',
+    'Just Chat',
+    'Podcast',
+    'Meme',
+    'Educational',
+    'Sports',
+    'Anime',
+    'Unboxing',
+    'Q&A',
+    'Prank',
+    'Health & Fitness',
+    'Dubsmash',
+    'Tweet',
+    'Art & Design',
+    'Photos'
 ]
 
 interface contentInformation {
@@ -47,7 +45,12 @@ interface contentInformation {
 }
 
 interface ContentDisplayProps {
-    data: any,
+    data: {
+        title?: string,
+        thumbnail?: string,
+        name?: string,
+        tags?: string[]
+    },
     url: string,
     setDisplayState: Function
 }
@@ -59,11 +62,11 @@ export const ContentDisplay: React.FC<ContentDisplayProps> = ({
 }) => {
     // console.log(url)
     const initialContentInfo: contentInformation = {
-        title: data.title,
-        thumbnail: data.thumbnail,
+        title: (data?.title as string),
+        thumbnail: (data?.thumbnail as string),
         tags: [],
         archived: false,
-        platform: (data.name as string).toLocaleLowerCase()
+        platform: (data?.name as string).toLocaleLowerCase()
     }
     const [contentInfo, setContentInfo] = useState<contentInformation>(initialContentInfo)
     return (
@@ -168,7 +171,12 @@ const ContentPreview: React.FC<{
     }
 
 const ContentDetailsMutation: React.FC<{
-    data: any,
+    data: {
+        title?: string,
+        thumbnail?: string,
+        name?: string,
+        tags?: string[]
+    },
     setContentInfo: React.Dispatch<React.SetStateAction<contentInformation>>
 }> = ({
     data,
@@ -187,9 +195,22 @@ const ContentDetailsMutation: React.FC<{
                     marginTop: "70px"
                 }}>
                     Content Tags
-            </h4>
+                </h4>
                 <MultiSelectInput
-                    options={ContentTypes}
+                    options={
+                        ContentTypes.map(type => {
+                            if (data.tags?.includes(type)) {
+                                return ({
+                                    value: type,
+                                    chosen: true
+                                })
+                            }
+                            return ({
+                                value: type,
+                                chosen: false
+                            })
+                        })
+                    }
                     placeholder="choose tags to represent your content"
                     setState={(tags: string[]) => {
                         setContentInfo(prev => {
@@ -202,7 +223,7 @@ const ContentDetailsMutation: React.FC<{
                 />
                 <MainCredentialUpdate
                     type="Notification Title"
-                    value={data.title}
+                    value={data.title!}
                     placeholder="notification title"
                     cols={40}
                     resize

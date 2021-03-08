@@ -22,18 +22,13 @@ import '../styles/analytics-circle.css'
 import '../styles/settings.css'
 import '../styles/channel.css'
 
-function Main({ Component, pageProps }: AppProps) {
-  const csrf = usePulse(core.auth.state.csrf_token)
+function Main({ Component, pageProps, props }: AppProps & { props: any }) {
   useEvent(Token, ({ token }) => {
     if (token === "access") core.auth.refreshAccessToken()
     else if (token === "refresh") Router.push('/auth/login')
   })
-  useEffect(() => {
-    if (csrf.length === 0 && !Router.pathname.includes('auth')) core.auth.csrf()
-  }, [Router])
-  // useEffect(() => {
-  //   console.log(core.user.state.info._value)
-  // }, [core.user.state.info])
+  core.auth.state.csrf_token.set(props._csrf)
+  core.user.info()
   return (
     <DndProvider backend={HTML5Backend}>
       <AnimatePresence>
@@ -42,6 +37,14 @@ function Main({ Component, pageProps }: AppProps) {
       </AnimatePresence>
     </DndProvider>
   )
+}
+
+Main.getInitialProps = async () => {
+  return {
+    props: {
+      _csrf: await core.auth.csrf()
+    }
+  }
 }
 
 export default Main

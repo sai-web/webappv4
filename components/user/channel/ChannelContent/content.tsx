@@ -157,7 +157,7 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                 }}>
                     <ContentDetails
                         logo="watch_later"
-                        data={convertPublicationDateToPresentableString(content.published_at)}
+                        data={convertPublicationDateToPresentableString(new Date(content.published_at))}
                     />
                     <ContentDetails
                         logo="person"
@@ -175,7 +175,11 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                 alignItems: "center"
             }}
                 onClick={() => {
-                    lanuchMenu.emit({ type: MenuType.ContentMenu, display: true, vod_id: content.vod_id })
+                    lanuchMenu.emit({
+                        type: MenuType.ContentMenu,
+                        display: true,
+                        vod_id: content.vod_id
+                    })
                     animateTemplate.emit({
                         display: true
                     })

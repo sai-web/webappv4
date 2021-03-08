@@ -1,4 +1,17 @@
-export const platforms = {
+type platform = {
+    key: string,
+    name: string,
+    url: string,
+    hex: string,
+    wideThumb: boolean,
+    urlMatch: RegExp,
+    extract?: (link: string) => any,
+    defaultTags: string[],
+    parseHTML: (doc: Document) => any,
+    logo?: string
+}
+
+export const platforms: Record<string, platform> = {
     discord: {
         key: 'discord',
         name: 'Discord',
@@ -7,6 +20,10 @@ export const platforms = {
         wideThumb: false,
         urlMatch: /^(?:https?:\/\/)?(?:www\.)?(?:discord\.gg\/|discordapp\.com\/invite)(?:\S+)?$/,
         extract: (link: string) => (link.includes('discordapp.com/invite') ? link.split('discordapp.com/invite')[1].split('/')[1] : link.split('discord.gg/')[1].split('/')[0]),
+        defaultTags: [
+            'Gamming',
+            'Just Chat'
+        ],
         parseHTML: (doc: Document) => null,
     },
     dlive: {
@@ -17,6 +34,9 @@ export const platforms = {
         wideThumb: false,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?dlive\.tv\/([a-zA-Z0-9_]+)/,
         extract: (link: string) => link.split('dlive.tv/')[1].split('/')[1],
+        defaultTags: [
+
+        ],
         parseHTML: (doc: Document) => null,
     },
     facebook: {
@@ -27,6 +47,9 @@ export const platforms = {
         wideThumb: false,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?facebook\.com\/([a-zA-Z0-9_]+)/,
         extract: undefined,
+        defaultTags: [
+            'Photos'
+        ],
         parseHTML: (doc: Document) => null,
     },
     github: {
@@ -37,6 +60,9 @@ export const platforms = {
         wideThumb: true,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?(?:gist\.)?github\.com\/([a-zA-Z0-9_]+)/,
         extract: undefined,
+        defaultTags: [
+            'Programming'
+        ],
         parseHTML: (doc: Document) => null,
     }, instagram: {
         key: 'instagram',
@@ -46,6 +72,9 @@ export const platforms = {
         wideThumb: false,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?instagram\.com\/([a-zA-Z0-9_]+)/,
         extract: undefined,
+        defaultTags: [
+            'Photos'
+        ],
         parseHTML: (doc: Document) => null,
     }, patreon: {
         key: 'patreon',
@@ -55,6 +84,9 @@ export const platforms = {
         wideThumb: false,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?patreon\.com\/([a-zA-Z0-9_]+)/,
         extract: undefined,
+        defaultTags: [
+
+        ],
         parseHTML: (doc: Document) => null,
     }, pinterest: {
         key: 'pinterest',
@@ -64,6 +96,9 @@ export const platforms = {
         wideThumb: true,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?pinterest\.com\/([a-zA-Z0-9_]+)/,
         extract: (link: string) => link.split('pinterest.com/')[1].split('/')[0],
+        defaultTags: [
+            'Art & Design'
+        ],
         parseHTML: (doc: Document) => null,
     }, snapchat: {
         key: 'snapchat',
@@ -73,6 +108,9 @@ export const platforms = {
         wideThumb: true,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?snapchat\.com\/add\/([a-zA-Z0-9_]+)/,
         extract: (link: string) => link.split('snapchat.com/')[1].split('/')[0],
+        defaultTags: [
+            'Dubsmash'
+        ],
         parseHTML: (doc: Document) => null,
     },
     soundcloud: {
@@ -83,6 +121,10 @@ export const platforms = {
         wideThumb: false,
         urlMatch: /((https:\/\/)|(http:\/\/)|(www.)|(m\.)|(\s))+(soundcloud.com\/)+[a-zA-Z0-9\-\.]+(\/)+[a-zA-Z0-9\-\.]+/,
         extract: undefined,
+        defaultTags: [
+            'Music',
+            'Podcast'
+        ],
         parseHTML: (doc: Document) => null,
     },
     spotify: {
@@ -91,16 +133,17 @@ export const platforms = {
         url: 'spotify.com',
         hex: '#1DB954',
         wideThumb: false,
-        logo: "/spotify.png",
         urlMatch: /http(?:s)?:\/\/(?:www\.)?open.spotify\.com\/([a-zA-Z0-9_]+)/,
         extract: undefined,
+        defaultTags: [
+            'Music',
+            'Podcast'
+        ],
+        logo: "/spotify.png",
         parseHTML: (doc: Document) => ({
             title: doc.querySelectorAll("meta[property=\"og:title\"]")[0].attributes[1].value,
             thumbnail: doc.querySelectorAll("meta[property=\"og:image\"]")[0].attributes[1].value,
-            logo: "/spotify.png",
-            name: "Spotify",
-            color: "#1DB954",
-            wideThumb: false,
+            logo: "/spotify.png"
         }),
     },
     twitch: {
@@ -111,6 +154,9 @@ export const platforms = {
         wideThumb: true,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?twitch\.tv\/([a-zA-Z0-9_]+)/,
         extract: (link: string) => link.split('twitch.tv/')[1].split('/')[0],
+        defaultTags: [
+            'Streaming'
+        ],
         parseHTML: (doc: Document) => null,
     },
     twitter: {
@@ -121,6 +167,9 @@ export const platforms = {
         wideThumb: false,
         urlMatch: /http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/,
         extract: undefined,
+        defaultTags: [
+            'Tweet'
+        ],
         parseHTML: (doc: Document) => null,
     }, youtube: {
         key: 'youtube',
@@ -128,16 +177,18 @@ export const platforms = {
         url: 'youtube.com',
         hex: '#ff0000',
         wideThumb: true,
-        logo: "/youtube.jpg",
         urlMatch: /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/,
         extract: (link: string) => link.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/)!.filter(result => result.length === 11)[0],
+        defaultTags: [
+            'Vlog',
+            'Commentary',
+            'Just Chat'
+        ],
+        logo: "/youtube.jpg",
         parseHTML: (doc: Document) => ({
             title: doc.querySelectorAll("meta[property=\"og:title\"]")[0].attributes[1].value,
             thumbnail: doc.querySelectorAll("meta[property=\"og:image\"]")[0].attributes[1].value,
-            logo: "/youtube.jpg",
-            name: "YouTube",
-            color: "#ff0000",
-            wideThumb: true,
+            logo: "/youtube.jpg"
         }),
     },
 }

@@ -9,6 +9,12 @@ const vods = App.Collection()(collection => ({
     }
 }))
 
+const playlists = App.Collection()(collection => ({
+    primaryKey: 'vod_id',
+    defaultGroup: true
+}))
+
 export default {
-    vods
+    vods,
+    playlists
 }

@@ -4,7 +4,12 @@ import { NavigationPageProps } from './interface'
 
 import Link from 'next/link'
 
-export const NavigationPages: React.FC<NavigationPageProps> = ({ name, logo, link, page }) => {
+export const NavigationPages: React.FC<NavigationPageProps> = ({
+    name,
+    logo,
+    link,
+    page
+}) => {
     return (
         <Link href={link}>
             <motion.div
@@ -27,11 +32,24 @@ export const NavigationPages: React.FC<NavigationPageProps> = ({ name, logo, lin
                     alignItems: "center",
                     marginLeft: "5px"
                 }}>
-                    <span className="material-icons" style={{ color: "white", fontSize: "17px" }}>
+                    <span
+                        className="material-icons"
+                        style={{
+                            color: "white",
+                            fontSize: "17px"
+                        }}
+                    >
                         {logo}
                     </span>
                 </div>
-                <h4 style={{ color: "white", fontFamily: "Roboto Condensed", fontSize: "15px", marginLeft: "10px" }}>{name}</h4>
+                <h4 style={{
+                    color: "white",
+                    fontFamily: "Roboto Condensed",
+                    fontSize: "15px",
+                    marginLeft: "10px"
+                }}>
+                    {name}
+                </h4>
             </motion.div>
         </Link>
     )

@@ -10,7 +10,9 @@ export enum MenuType {
     Profile = "Profile",
     ChannelDropDown = "ChannelDropDown",
     ShareLinkComponent = "ShareLinkComponent",
-    Settings = "Settings"
+    Settings = "Settings",
+    ContextMenu = "ContextMenu",
+    SelectPlaylistMenu = "SelectPlaylistMenu"
 }
 
 interface MenuProps {
@@ -19,6 +21,12 @@ interface MenuProps {
     domain?: string
     color?: string
     vod_id?: string
+    position?: {
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    }
 }
 
 export const lanuchMenu = App.Event<MenuProps>({

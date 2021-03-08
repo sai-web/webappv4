@@ -6,7 +6,6 @@ import { core } from '../../../../core'
 // import { mainContentData } from '../../../home/fakeData/home'
 import { categories } from '../../../home/fakeData/browse'
 import { usePulse } from '@pulsejs/react'
-import { isArray } from 'util'
 
 const ContentFilterWord: React.FC<{
     name: string,
@@ -40,12 +39,15 @@ const ContentFilterWord: React.FC<{
                 })}
             >
                 <h4 style={{
-                    lineHeight: "0",
+                    // lineHeight: "0",
                     fontFamily: "sans-serif",
                     color: "silver",
                     fontWeight: "lighter",
-                    fontSize: "13px"
-                }}>{name}</h4>
+                    fontSize: "13px",
+                    whiteSpace: "nowrap"
+                }}>
+                    {name}
+                </h4>
             </motion.div>
         )
     }

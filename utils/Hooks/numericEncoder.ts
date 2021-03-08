@@ -17,31 +17,28 @@ export function convertNumericTypeToPresentableString(value: number) {
     else return String(value)
 }
 
-export function convertPublicationDateToPresentableString(started_at: string, date = new Date()) {
-    const passedDate = started_at.split('-')
-    const passedTime = started_at.split('T')[1]
-    const [year, month, day, hours, minutes] = [
-        eval(passedDate[0]),
-        eval(passedDate[1].charAt(0) === "0" ? passedDate[1].charAt(1) : passedDate[1]),
-        eval(passedDate[2].slice(0, 2).charAt(0) === "0" ? passedDate[2].slice(0, 2).charAt(1) : passedDate[2].slice(0, 2)),
-        eval(passedTime.split(':')[0].charAt(0) === "0" ? passedTime.split(':')[0].charAt(1) : passedTime.split(':')[0]),
-        eval(passedTime.split(':')[1].charAt(0) === "0" ? passedTime.split(':')[1].charAt(1) : passedTime.split(':')[1])
-    ]
-    // console.log(year, month, day, hours, minutes)
-    if (year === eval(date.getFullYear().toString())) {
-        if (month === eval((date.getMonth() + 1).toString())) {
-            if (day === eval(date.getDate().toString())) {
-                if (hours === eval(date.getHours().toString())) {
-                    if (minutes === eval(date.getMinutes().toString())) return "now"
-                    else return String(eval(date.getMinutes().toString()) - minutes) + (eval(date.getMinutes().toString()) - minutes === 1 ? ' minute ago' : " minutes ago")
-                } else return String(eval(date.getHours().toString()) - hours) + (eval(date.getHours().toString()) - hours === 1 ? ' hour ago' : ' hours ago')
-            } else {
-                var dif = eval(date.getDate().toString()) - day
-                if (dif % 7 === 0) return String(dif / 7) + ' weeks ago'
-                else return String(dif) + (dif === 1 ? " day ago" : ' days ago')
+export function convertPublicationDateToPresentableString(started_at: Date, date = new Date()) {
+    started_at.setHours(started_at.getHours() - 4)
+    const [min1, min2] = [Math.floor(started_at.getTime() / 60000), Math.floor(date.getTime() / 60000)]
+    const minutes = (min2 - min1)
+    if (minutes < 1) return "now"
+    else if (minutes < 60) return `${minutes} minutes ago`
+    else {
+        const hours = Math.floor(minutes / 60)
+        if (hours < 24) return `${hours} hours ago`
+        else {
+            const days = Math.floor(hours / 24)
+            if (days < 30) return `${days} days ago`
+            else {
+                const months = Math.floor(days / 30)
+                if (months < 12) return `${months} months ago`
+                else {
+                    const years = Math.floor(months / 12)
+                    return `${years} years ago`
+                }
             }
-        } else return String(eval((date.getMonth() + 1).toString()) - month) + (eval(date.getMonth().toString() + 1) - month === 1 ? ' month ago' : " months ago")
-    } else return String(eval(date.getFullYear().toString()) - year) + (eval(date.getFullYear().toString()) - year === 1 ? ' year ago' : " years ago")
+        }
+    }
 }
 
 export function compileAvgPublishTime(vods: any[]) {

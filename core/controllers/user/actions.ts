@@ -12,6 +12,8 @@ import { platforms } from '../../utils/platforms'
 import vodActions from '../vod/actions'
 import settingsActions from '../settings/actions'
 
+import { rest_api as Api } from '../../api'
+
 //get user info and update state
 const defaultParam = {
     payload: {
@@ -33,30 +35,38 @@ const defaultParam = {
         integrations: true,
         banner: true
     },
-    me: true
+    me: true,
+    cred: "@me",
+    type: "domain"
 }
 
-function info(
+async function info(
     params?: {
         payload?: Record<string, boolean>,
         me?: boolean,
-        domain?: string
-    }
+        cred?: string,
+        type?: "domain" | "id",
+    },
+    set: boolean = true
 ) {
-    if (authStates.csrf_token._value.length > 0) {
-        const { payload, domain, me } = { ...defaultParam, ...params }
-        routes.info(payload, me, domain)
+    function executable() {
+        const { payload, cred, me, type } = { ...defaultParam, ...params }
+        return routes.info(payload, me, cred, type)
             .then(data => {
                 if (data.status === 401) Error.emit({ type: "Account Error", message: "we we're not able to fetch your account. If this was an unexpected behaviour please report it on our discord server." })
                 else {
-                    if (me) {
-                        states.info.set(data)
-                        states.state.set(data.activity.state)
-                    }
-                    ChannelStates.current_channel.set(data)
-                    ChannelStates.current_channel_state.set(data.activity.state)
-                    vodActions.getVods()
-                    settingsActions.getSettings()
+                    if (set) {
+                        if (me) {
+                            states.info.set(data)
+                            states.state.set(data.activity.state)
+                        }
+                        (async () => {
+                            ChannelStates.current_channel.set(data)
+                            ChannelStates.current_channel_state.set(data.activity.state)
+                            vodActions.getVods()
+                            settingsActions.getSettings()
+                        })()
+                    } else return data
                 }
             })
             .catch(() => {
@@ -64,6 +74,7 @@ function info(
                 return false
             })
     }
+    return executable()
 }
 
 //update user info and state
@@ -116,7 +127,15 @@ const getVodDetails = (parser: DOMParser, url: string) => {
                 const doc = parser.parseFromString(data.html, 'text/html')
                 const filteredPlatform = Object.values(platforms)
                     .find(platform => platform.urlMatch.test(url))
-                if (filteredPlatform) return filteredPlatform?.parseHTML(doc)
+                if (filteredPlatform) {
+                    return ({
+                        ...filteredPlatform?.parseHTML(doc),
+                        name: filteredPlatform.name,
+                        color: filteredPlatform.hex,
+                        wideThumb: filteredPlatform.wideThumb,
+                        tags: filteredPlatform.defaultTags
+                    })
+                }
                 return false
             })
             .catch(() => {

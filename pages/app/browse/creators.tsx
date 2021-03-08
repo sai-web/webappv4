@@ -8,8 +8,20 @@ import Template from '../../../components/app/template'
 const Pages: React.FC = () => {
     return (
         <>
-            <PageModes name="Creators" page="Creators" url="/app/browse/creators" logo={<i className="fa fa-user" style={{ fontSize: "10px" }}></i>} />
-            <PageModes name="Categories" page="Creators" url="/app/browse/categories" logo={<span className="material-icons" style={{ fontSize: "12px" }}>bookmark</span>} />
+            <PageModes
+                name="Creators"
+                page="Creators"
+                url="/app/browse/creators"
+                logo={<i className="fa fa-user"
+                    style={{ fontSize: "10px" }}></i>}
+            />
+            <PageModes
+                name="Categories"
+                page="Creators"
+                url="/app/browse/categories"
+                logo={<span className="material-icons"
+                    style={{ fontSize: "12px" }}>bookmark</span>}
+            />
         </>
     )
 }

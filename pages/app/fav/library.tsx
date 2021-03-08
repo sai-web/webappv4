@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { core } from '../../../core'
 
 import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
+
+import { WatchLater } from '../../../components/fav/library/watch_later'
+import { PlayList } from '../../../components/fav/library/playlists'
 
 const Pages: React.FC = () => {
     return (
         <>
             <PageModes
                 name="Creators"
-                page="Creators"
+                page="Library"
                 url="/app/fav/favourite"
                 logo={
                     <span className="material-icons"
@@ -20,7 +24,7 @@ const Pages: React.FC = () => {
             />
             <PageModes
                 name="Library"
-                page="Creators"
+                page="Library"
                 url="/app/fav/library"
                 logo={
                     <span className="material-icons"
@@ -34,35 +38,30 @@ const Pages: React.FC = () => {
     )
 }
 
-function FavCreators() {
+function Library() {
+    useEffect(() => {
+        core.vod.getPlaylist()
+        core.vod.getPlaylist('watch_later')
+    }, [])
     return (
         <Template PageMode={<Pages />} width="200px" page="Favourite" >
             <div style={{
-                marginTop: "50px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center"
+                width: "100%",
+                height: "100%",
+                // backgroundColor: "green"
             }}>
-                <h4 style={{
-                    fontFamily: "sans-serif",
-                    color: "silver",
-                    fontSize: "20px",
-                    lineHeight: "0"
-                }}>
-                    Realtime API will come out soon.
-                </h4>
-                <h4 style={{
-                    fontFamily: "sans-serif",
-                    color: "grey",
-                    fontSize: "15px",
-                    lineHeight: "0"
-                }}>
-                    This feature will be available then.
-                </h4>
+                <WatchLater />
+                <hr
+                    color="#1F1F23"
+                    style={{
+                        width: "calc(100% - 100px)",
+                        marginTop: "10px"
+                    }}
+                />
+                <PlayList />
             </div>
         </Template>
     )
 }
 
-export default FavCreators
+export default Library

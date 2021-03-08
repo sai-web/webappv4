@@ -33,7 +33,8 @@ class MyDocument extends Document {
                     alignItems: "center",
                     width: "100%",
                     height: "100%",
-                    overflow: "hidden"
+                    overflow: "hidden",
+                    backgroundColor: "black"
                 }}>
                     <Main />
                     <NextScript />

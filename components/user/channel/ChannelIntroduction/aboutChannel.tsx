@@ -1,9 +1,14 @@
-import React from 'react'
-import { usePulse } from '@pulsejs/react'
+import React, { useState } from 'react'
+import { usePulse, useEvent } from '@pulsejs/react'
 import { core } from '../../../../core'
+import { animateTemplate } from '../../../../core/utils/Events'
 
 export const AboutChannel: React.FC = () => {
     const { description } = usePulse(core.user.state.info)
+    const [templateAnimated, setTemplateAnimate] = useState(false)
+    useEvent(animateTemplate, ({ display }) => {
+        setTemplateAnimate(display)
+    })
     return (
         <div style={{
             width: "100%",
@@ -11,7 +16,7 @@ export const AboutChannel: React.FC = () => {
             marginTop: "70px",
             position: "sticky",
             top: "110px",
-            scrollSnapAlign: "start",
+            scrollSnapAlign: templateAnimated ? "" : "start",
             height: "500px",
             // backgroundColor: "green"
         }}>

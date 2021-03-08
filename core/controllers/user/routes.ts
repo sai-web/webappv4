@@ -5,9 +5,9 @@ import authStates from '../auth/states'
 import { user_data, user_state } from './interface'
 
 //get validated user info
-async function info(payload: Record<string, boolean>, me: boolean = false, domain?: string) {
-    if (!me) return await Api.post(`user/info/${domain}?csrf=${authStates.csrf_token.value}`, { info: payload })
-    return await Api.post(`user/info/@me?csrf=${authStates.csrf_token.value}`, { info: payload })
+async function info(payload: Record<string, boolean>, me: boolean = false, domain: string, type: string) {
+    if (!me) return await Api.post(`user/info/${type}/${domain}?csrf=${authStates.csrf_token.value}`, { info: payload })
+    return await Api.post(`user/info/${type}/@me?csrf=${authStates.csrf_token.value}`, { info: payload })
 }
 
 //update non credentials

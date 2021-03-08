@@ -76,7 +76,7 @@ export const PostSection: React.FC<PostProps> = ({
                             } else Error.emit({ type: "Unsupported Platform", message: "the platform chosen is currently not supported by us, you can host a poll for this and let us know." })
                         })
                 }}
-                onChange={e => setUrl(e.target.value)}
+                readOnly
                 ref={shareLinkInputRef}
             />
         </div>

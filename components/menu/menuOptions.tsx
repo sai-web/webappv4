@@ -13,13 +13,30 @@ interface MenuOptionProperties {
     logo: () => JSX.Element | null
 }
 
-export const MenuOptions: React.FC<{
+interface MenuProps {
     options: Record<string, MenuOptionProperties>,
     type: MenuType,
-    reference: React.MutableRefObject<any>
-}> = ({ options, type, reference }) => {
+    reference: React.MutableRefObject<any>,
+    position?: {
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    }
+}
+
+export const MenuOptions: React.FC<MenuProps> = ({
+    options,
+    type,
+    reference,
+    position
+}) => {
     closeOnOutwardClick((value: boolean) => {
-        lanuchMenu.emit({ type, display: value })
+        lanuchMenu.emit({
+            type,
+            display: value,
+            position
+        })
     }, [reference])
     return (
         <div

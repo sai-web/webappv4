@@ -8,13 +8,10 @@ import userStates from '../user/states'
 
 //funciton to handle the csrf tokens
 function csrf() {
-    routes.csrf()
+    return routes.csrf()
         .then(data => {
             if (data.status === 400) Token.emit({ token: "access" })
-            else {
-                states.csrf_token.set(data._csrf)
-                userActions.info()
-            }
+            else return data._csrf
         })
         .catch(() => {
             Error.emit({ type: "Invalid Behaviour", message: "the csrf token could not be set. Please report this issue as soon as possible." })

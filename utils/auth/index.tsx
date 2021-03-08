@@ -9,10 +9,11 @@ export function closeOnOutwardClick(
     useEffect(() => {
         function handleClickOutside(event: any) {
             let mappedChanges: boolean[] = ref.map(reference => {
-                if (reference.current && !reference.current.contains(event.target)) return true
-                return false
+                if (reference.current && !reference.current.contains(event.target)) return false
+                return true
             })
-            if (!mappedChanges.includes(false)) stateSetter(false)
+            if (ref.length === 5) console.log(mappedChanges)
+            if (!mappedChanges.includes(true)) stateSetter(false)
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {

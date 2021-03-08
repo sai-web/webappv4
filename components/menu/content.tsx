@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 
 import { core } from '../../core'
 
-import { onMouseClick } from '../../utils/Hooks/mousePosition'
 import { animateTemplate, lanuchMenu, MenuType } from '../../core/utils/Events'
 import { MenuOptions } from './menuOptions'
 
@@ -39,7 +38,7 @@ function getPosition(position: {
     return coordinates
 }
 
-export const ContentMenu: React.FC<{
+interface ContentMenuProps {
     display: boolean,
     position: {
         x: number,
@@ -47,52 +46,53 @@ export const ContentMenu: React.FC<{
         width: number,
         height: number
     },
-    reference: React.MutableRefObject<any>,
-    vod_id: string
-}> = ({
+    vod_id: string,
+    reference: React.MutableRefObject<any>
+}
+
+export const ContentMenu: React.FC<ContentMenuProps> = ({
     display,
     position,
-    reference,
-    vod_id
+    vod_id,
+    reference
 }) => {
-        // useEffect(() => {
-        //     console.log(x, y)
-        // }, [x, y])
-        // useEffect(() => {
-        //     const contentMenuParentElement = document.getElementById('content-menu-parent')
-        //     if (contentMenuParentElement) {
-        //         if (display) contentMenuParentElement.style.display = "flex"
-        //         else setTimeout(() => contentMenuParentElement.style.display = "none", 1000)
-        //     }
-        // })
-        const { x, y } = getPosition(position, {
-            width: 150,
-            height: 120
-        })
-        return (
-            <motion.div
-                initial={display ? "hidden" : "visible"}
-                animate={display ? "visible" : "hidden"}
-                transition={{
-                    type: "spring",
-                    damping: 10
-                }}
-                variants={displayVariants}
-                style={{
-                    position: "absolute",
-                    left: `${x}px`,
-                    top: `${y}px`,
-                    zIndex: 2,
-                    // backgroundColor: "red",
-                    // display: "flex"
-                    // width: "100px",
-                    // height: "100px"
-                }}
-                id="content-menu-parent"
-            >
-                <MenuOptions options={{
+    const { x, y } = getPosition(position, {
+        width: 150,
+        height: 120
+    })
+    return (
+        <motion.div
+            initial={display ? "hidden" : "visible"}
+            animate={display ? "visible" : "hidden"}
+            transition={{
+                type: "spring",
+                duration: 0.5,
+                bounce: 0.35
+            }}
+            variants={displayVariants}
+            style={{
+                position: "absolute",
+                left: `${x}px`,
+                top: `${y}px`,
+                zIndex: 2,
+                // backgroundColor: "red",
+                // display: "flex"
+                // width: "100px",
+                // height: "100px"
+            }}
+            id="content-menu-parent"
+        >
+            <MenuOptions
+                options={{
                     "Watch later": {
-                        do: () => null,
+                        do: () => {
+                            core.vod.addVodToPlaylist({
+                                vod_id: vod_id!,
+                                playlists: ["watch_later"]
+                            })
+                            lanuchMenu.emit({ type: MenuType.ContentMenu, display: false })
+                            animateTemplate.emit({ display: false })
+                        },
                         color: "dark",
                         logo: () => (
                             <span className="material-icons"
@@ -107,7 +107,14 @@ export const ContentMenu: React.FC<{
                         )
                     },
                     "Add to playlist": {
-                        do: () => null,
+                        do: () => {
+                            lanuchMenu.emit({
+                                display: true,
+                                type: MenuType.SelectPlaylistMenu,
+                                vod_id: vod_id!,
+                                position
+                            })
+                        },
                         color: "dark",
                         logo: () => (
                             <span className="material-icons"
@@ -153,7 +160,7 @@ export const ContentMenu: React.FC<{
                     },
                     Delete: {
                         do: () => {
-                            core.vod.remove({ vod_id })
+                            core.vod.remove(vod_id!)
                             lanuchMenu.emit({ type: MenuType.ContentMenu, display: false })
                             animateTemplate.emit({ display: false })
                         },
@@ -171,9 +178,9 @@ export const ContentMenu: React.FC<{
                         )
                     }
                 }}
-                    type={MenuType.ContentMenu}
-                    reference={reference}
-                />
-            </motion.div>
-        )
-    }
+                type={MenuType.ContentMenu}
+                reference={reference}
+            />
+        </motion.div>
+    )
+}

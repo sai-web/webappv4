@@ -21,7 +21,7 @@ const RenderMultipleValues: React.FC<RenderMultipleValuesProps> = ({
         }} className="main-content-div">
             {values.map((value: any) => {
                 return (
-                    <span
+                    <div
                         key={value}
                         onClick={stopPropagation}
                         className="multiple value"
@@ -29,16 +29,17 @@ const RenderMultipleValues: React.FC<RenderMultipleValuesProps> = ({
                             paddingRight: "30px",
                             marginRight: "5px",
                             background: "#1F1F23",
-                            color: "white",
                             height: "12px",
-                            fontFamily: "Poppins",
                             display: "flex",
                             alignItems: "center",
                             borderRadius: "10px",
+                            color: "white",
+                            fontFamily: "Poppins",
                             fontSize: "12px",
+                            whiteSpace: "nowrap"
                         }}
                     >
-                        { value}
+                        {value}
                         <span
                             data-value={value}
                             onClick={onDeleteOption}
@@ -55,7 +56,7 @@ const RenderMultipleValues: React.FC<RenderMultipleValuesProps> = ({
                         >
                             <X />
                         </span>
-                    </span>
+                    </div>
                 )
             })}
         </div>

@@ -26,12 +26,22 @@ interface UploadProps {
     reference: React.MutableRefObject<any>
 }
 
+interface ContentPosted {
+    state: boolean,
+    data: {
+        name?: string,
+        thumbnail?: string,
+        title?: string,
+        tags?: string[]
+    }
+}
+
 export const UploadSection: React.FC<UploadProps> = ({
     display,
     reference
 }) => {
     const [active, setState] = useState<boolean>(false)
-    const [contentPosted, setContentState] = useState<{ state: boolean, data: any }>({ state: false, data: {} })
+    const [contentPosted, setContentState] = useState<ContentPosted>({ state: false, data: {} })
     const [renderCount, setRenderCount] = useState<number>(0)
     const [url, setUrl] = useState<string>("")
     const [displayMainDiv, setDisplayMainDiv] = useState<boolean>(display)

@@ -19,8 +19,8 @@ function getVods(user_id?: string) {
 }
 
 //watch a vod 
-function watch(payload: { vod_id: string, user_id: string }) {
-    routes.watch(payload)
+function watch(vod_id: string) {
+    routes.watch(vod_id)
 }
 
 export interface vodInfo {
@@ -46,11 +46,11 @@ function create(payload: vodInfo) {
 }
 
 //remove the vod and update the collection
-function remove(payload: { vod_id: string }) {
-    routes.remove(payload)
+function remove(vod_id: string) {
+    routes.remove(vod_id)
         .then(data => {
             if (data.status !== 404) {
-                collections.vods.remove(payload.vod_id).everywhere()
+                collections.vods.remove(vod_id).everywhere()
                 channelStates.current_channel.patch({
                     vods: channelStates.current_channel.value.vods! - 1
                 })
@@ -58,9 +58,53 @@ function remove(payload: { vod_id: string }) {
         })
 }
 
+//get your playlists or a certain playlist
+function getPlaylist(playlist_name?: string) {
+    routes.getPlaylist(playlist_name)
+        .then(data => {
+            data.forEach((playlist: any) => {
+                if (!collections.playlists.getGroup(playlist.name)._value) collections.playlists.createGroup(playlist)
+                collections.playlists.collect(playlist, playlist.name)
+            })
+        })
+}
+
+//add content to your playlist
+function addVodToPlaylist(payload: { vod_id: string, playlists: string[] }) {
+    routes.addVodToPlaylist(payload)
+        .then(data => {
+            payload.playlists.forEach(playlist_name => {
+                collections.playlists.collect(data, playlist_name, {
+                    method: "unshift"
+                })
+            });
+        })
+        .catch(() => null)
+}
+
+//delete content from playlist
+function deleteVodFromPlaylist(playlist_name: string, vod_id: string) {
+    routes.deleteVodFromPlaylist(playlist_name, vod_id)
+        .then(() => {
+            collections.playlists.remove(vod_id).everywhere()
+        })
+}
+
+//delete the entire playlist
+function deletePlaylist(playlist_name: string) {
+    routes.deletePlaylist(playlist_name)
+        .then(data => {
+
+        })
+}
+
 export default {
     getVods,
     watch,
     create,
-    remove
+    remove,
+    getPlaylist,
+    addVodToPlaylist,
+    deleteVodFromPlaylist,
+    deletePlaylist
 }

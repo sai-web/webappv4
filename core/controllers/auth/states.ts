@@ -6,7 +6,7 @@ const loggedIn: State<boolean> = App.State<boolean>(false)
 const emailVerification: State<boolean> = App.State<boolean>(false)
 
 //csrf token that is required as a query param in all app routes
-const csrf_token: State<string> = App.State<string>("")
+const csrf_token: State<string> = App.State<string>("").key('_csrf')
 
 //totp related data
 const otp_url: State<string> = App.State<string>("")

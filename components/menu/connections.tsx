@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
-import { onMouseClick } from '../../utils/Hooks/mousePosition'
 import { ConnectionsOptions } from './connectionsOptions'
 
 const displayVariants = {

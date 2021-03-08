@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useEvent } from '@pulsejs/react'
+import { motion } from 'framer-motion'
 import Router from 'next/router'
 
 import { core } from '../../core'
@@ -14,6 +15,8 @@ import { ConnectionMenu } from '../menu/connections'
 import { ContentPreviewOptions } from '../user/accessories/content.preview/ContentPreview'
 import { ChannelPreview } from '../user/channel/channelPreview'
 import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
+import { SelectPlaylistMenu } from '../menu/selectPlaylistMenu'
+import { ContextMenu } from '../menu/contextMenu'
 import { closeOnOutwardClick } from '../../utils/auth'
 import { UploadSection } from './upload'
 import { Banner } from '../user/channel/ChannelIntroduction/banner'
@@ -38,20 +41,35 @@ const PopUpMenus: React.FC<PopUpProps> = ({
     references,
     contentPreviewDetails
 }) => {
+    const [renderType, setRenderType] = useState("")
+    useEffect(() => {
+        if (Router.pathname.includes('/channel/')) setRenderType("channel")
+    }, [Router])
     return (
         <>
-            <ContentMenu
-                display={showMenu.ContentMenu.display}
-                position={position}
-                reference={references[0]}
-                vod_id={showMenu.ContentMenu.vod_id}
-            />
-            <ConnectionMenu
-                display={showMenu.ConnectionMenu.display}
-                domain={showMenu.ConnectionMenu.domain}
-                color={showMenu.ConnectionMenu.color}
-                position={position}
-                reference={references[1]}
+            {
+                renderType === "channel" ?
+                    <>
+                        <ContentMenu
+                            display={showMenu.ContentMenu.display}
+                            position={position}
+                            reference={references[0]}
+                            vod_id={showMenu.ContentMenu.vod_id}
+                        />
+                        <ConnectionMenu
+                            display={showMenu.ConnectionMenu.display}
+                            domain={showMenu.ConnectionMenu.domain}
+                            color={showMenu.ConnectionMenu.color}
+                            position={position}
+                            reference={references[1]}
+                        />
+                    </> : ""
+            }
+            <ContextMenu
+                display={showMenu.ContextMenu.display}
+                position={showMenu.ContextMenu.position}
+                vod_id={showMenu.ContextMenu.vod_id}
+                reference={references[4]}
             />
             <ContentPreviewOptions
                 display={contentPreviewDetails.show}
@@ -69,6 +87,12 @@ const PopUpMenus: React.FC<PopUpProps> = ({
                 display={showMenu.ShareLinkComponent}
                 reference={references[3]}
             />
+            <SelectPlaylistMenu
+                display={showMenu.SelectPlaylistMenu.display}
+                reference={references[5]}
+                position={showMenu.SelectPlaylistMenu.position}
+                vod_id={showMenu.SelectPlaylistMenu.vod_id}
+            />
         </>
     )
 }
@@ -78,6 +102,26 @@ export type showMenuType = {
         display: boolean,
         vod_id: string
     },
+    SelectPlaylistMenu: {
+        display: boolean,
+        vod_id: string,
+        position: {
+            x: number,
+            y: number,
+            width: number,
+            height: number
+        }
+    },
+    ContextMenu: {
+        display: boolean,
+        vod_id: string,
+        position: {
+            x: number,
+            y: number,
+            width: number,
+            height: number
+        }
+    },
     ConnectionMenu: {
         display: boolean,
         domain: string,
@@ -86,7 +130,7 @@ export type showMenuType = {
     Profile: boolean,
     ChannelDropDown: boolean,
     ShareLinkComponent: boolean,
-    Settings: boolean
+    Settings: boolean,
 }
 
 type contentPreviewDetails = {
@@ -103,6 +147,15 @@ interface Props {
     banner?: boolean
 }
 
+const templateAnimateVariant = {
+    enlarged: {
+        scale: 1
+    },
+    shrunk: {
+        scale: 0.95
+    }
+}
+
 const template: React.FC<Props> = function ({
     PageMode,
     width,
@@ -116,6 +169,26 @@ const template: React.FC<Props> = function ({
             display: false,
             vod_id: ""
         },
+        SelectPlaylistMenu: {
+            display: false,
+            vod_id: "",
+            position: {
+                height: 0,
+                width: 0,
+                x: 0,
+                y: 0
+            }
+        },
+        ContextMenu: {
+            display: false,
+            vod_id: "",
+            position: {
+                height: 0,
+                width: 0,
+                x: 0,
+                y: 0
+            }
+        },
         ConnectionMenu: {
             display: false,
             domain: "",
@@ -124,7 +197,7 @@ const template: React.FC<Props> = function ({
         Profile: false,
         ChannelDropDown: false,
         ShareLinkComponent: false,
-        Settings: false
+        Settings: false,
     }
     var initialContentPreviewDetails: contentPreviewDetails = {
         show: false,
@@ -137,6 +210,8 @@ const template: React.FC<Props> = function ({
     const [renderCount, setRenderCount] = useState<number>(0)
 
     const ContentMenuRef = useRef<any>(null)
+    const SelectPlaylistMenuRef = useRef<any>(null)
+    const ContextMenuRef = useRef<any>(null)
     const ContentPreviewRef = useRef<any>(null)
     const ConnectionOptionsRef = useRef<any>(null)
     const shareLinkComponentRef = useRef<any>(null)
@@ -147,15 +222,24 @@ const template: React.FC<Props> = function ({
         animateTemplate.emit({ display: value })
     }, [
         ContentMenuRef,
-        ContentPreviewRef,
         ConnectionOptionsRef,
-        shareLinkComponentRef
+        ContentPreviewRef,
+        shareLinkComponentRef,
+        ContextMenuRef,
+        SelectPlaylistMenuRef
     ])
 
     useEvent(animateTemplate, ({ display }) => {
         setTemplateAnimate(display)
     })
-    useEvent(lanuchMenu, ({ type, display, domain, color, vod_id }) => {
+    useEvent(lanuchMenu, ({
+        type,
+        display,
+        domain,
+        color,
+        vod_id,
+        position
+    }) => {
         setShowMenu(prev => {
             let newMenu = { ...prev }
             if (type === MenuType.ConnectionMenu) {
@@ -175,6 +259,29 @@ const template: React.FC<Props> = function ({
                 newMenu[type] = {
                     display,
                     vod_id: vod_id!
+                }
+            } else if (type === MenuType.ContextMenu) {
+                newMenu[type] = {
+                    display,
+                    vod_id: vod_id!,
+                    position: {
+                        ...initialMenuState.ContextMenu.position,
+                        ...position
+                    }
+                }
+                if (prev.ContextMenu.display && !display) animateTemplate.emit({ display: false })
+            } else if (type === MenuType.SelectPlaylistMenu) {
+                newMenu.ContentMenu = {
+                    display: false,
+                    vod_id: vod_id!
+                }
+                newMenu[type] = {
+                    display,
+                    vod_id: vod_id!,
+                    position: {
+                        ...initialMenuState.SelectPlaylistMenu.position,
+                        ...position
+                    }
                 }
             } else newMenu[type] = display
             return newMenu
@@ -196,13 +303,18 @@ const template: React.FC<Props> = function ({
         if (renderCount < 2) setRenderCount(prev => (prev + 1))
     })
     return (
-        <div style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            top: "0",
-            right: "0"
-        }}>
+        <motion.div
+            style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: "0",
+                right: "0"
+            }}
+            initial={templateAnimate ? "enlarged" : "shrunk"}
+            animate={templateAnimate ? "shrunk" : "enlarged"}
+            variants={templateAnimateVariant}
+        >
             <div
                 className="main-content-div"
                 style={{
@@ -254,7 +366,9 @@ const template: React.FC<Props> = function ({
                     ContentMenuRef,
                     ConnectionOptionsRef,
                     ContentPreviewRef,
-                    shareLinkComponentRef
+                    shareLinkComponentRef,
+                    ContextMenuRef,
+                    SelectPlaylistMenuRef
                 ]}
                 contentPreviewDetails={contentPreviewDetails}
                 showMenu={showMenu}
@@ -262,7 +376,7 @@ const template: React.FC<Props> = function ({
             <Settings
                 display={showMenu.Settings}
             />
-        </div>
+        </motion.div>
     )
 }
 
