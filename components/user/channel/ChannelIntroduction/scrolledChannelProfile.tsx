@@ -14,7 +14,7 @@ const ProfileElements: React.FC = () => {
             justifyContent: "space-between",
             width: "100% ",
             height: "100%",
-            backgroundColor: "rgba(0,0,0,0.2)"
+            backgroundColor: "rgba(0,0,0,0.7)"
         }}>
             <div style={{
                 display: "flex",
@@ -99,9 +99,10 @@ const BlurEffect: React.FC = () => {
             position: "absolute",
             top: "0",
             left: "0",
-            backgroundImage: "url(https://fsb.zobj.net/crop.php?r=-P6OqVJVtAEn3HWiU44dCF8VtpVjSmB5btM0cUHqUgbi2xFGN3YQ8q3XpEUlOG0hF6rSZas8eX_zBoKWmF3IaPifbkt6ToV-mPQB0-EwU4wUa31Iu5gWsZjCHzaoC73kj1mmSdn2oKc1q0nIrFZCkWHE_fyIsJaPkcw0jDptCxL1Kxt0me-T_Jx8Ts0)",
+            // backgroundImage: "url(https://fsb.zobj.net/crop.php?r=-P6OqVJVtAEn3HWiU44dCF8VtpVjSmB5btM0cUHqUgbi2xFGN3YQ8q3XpEUlOG0hF6rSZas8eX_zBoKWmF3IaPifbkt6ToV-mPQB0-EwU4wUa31Iu5gWsZjCHzaoC73kj1mmSdn2oKc1q0nIrFZCkWHE_fyIsJaPkcw0jDptCxL1Kxt0me-T_Jx8Ts0)",
             zIndex: -1,
-            filter: "blur(3px)",
+            backgroundColor: "#4D6FFF"
+            // filter: "blur(3px)",
             // opacity: "0.95"
         }}>
 

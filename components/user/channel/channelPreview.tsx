@@ -210,6 +210,7 @@ export const ChannelPreview: React.FC<{
                 zIndex: 2,
                 // backgroundColor: "red"
             }}
+            id="channel-profile-menu-parent"
         >
             <ChannelPreviewOptions />
         </motion.div>

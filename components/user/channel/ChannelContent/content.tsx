@@ -39,7 +39,8 @@ const ContentThumbnail: React.FC<{
                     cursor: "pointer"
                 }}
                 onClick={() => {
-                    contentPreview.emit({ show: true, vod_id })
+                    core.vod.collections.vods.selectors.CURRENT.select(vod_id)
+                    contentPreview.emit({ show: true })
                     animateTemplate.emit({ display: true })
                 }}
             >
@@ -175,10 +176,10 @@ const ContentCard: React.FC<{ content: any }> = ({ content }) => {
                 alignItems: "center"
             }}
                 onClick={() => {
+                    core.vod.collections.vods.selectors.CURRENT.select(content.vod_id)
                     lanuchMenu.emit({
                         type: MenuType.ContentMenu,
-                        display: true,
-                        vod_id: content.vod_id
+                        display: true
                     })
                     animateTemplate.emit({
                         display: true

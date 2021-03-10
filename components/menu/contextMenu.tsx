@@ -40,7 +40,6 @@ function getPosition(position: {
 
 interface ContextMenuProps {
     display: boolean,
-    vod_id: string,
     position: {
         x: number,
         y: number,
@@ -52,7 +51,6 @@ interface ContextMenuProps {
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({
     display,
-    vod_id,
     position,
     reference
 }) => {
@@ -130,7 +128,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
                 },
                 remove: {
                     do: () => {
-                        core.vod.deleteVodFromPlaylist('watch_later', vod_id)
+                        core.vod.deleteVodFromPlaylist('watch_later', core.vod.collections.vods.selectors.CURRENT.value.vod_id)
                         lanuchMenu.emit({
                             type: MenuType.ContextMenu,
                             display: false,

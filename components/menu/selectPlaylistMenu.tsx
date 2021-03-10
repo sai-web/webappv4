@@ -1,35 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { core } from '../../core'
+
 import { closeOnOutwardClick } from '../../utils/auth'
 import { lanuchMenu, MenuType } from '../../core/utils/Events'
-
-const fakeData = [
-    {
-        name: "favourites",
-        chosen: true
-    },
-    {
-        name: "chill music",
-        chosen: false
-    },
-    {
-        name: "pop music",
-        chosen: false
-    }
-]
-
-type PlaylistItem = { name: string, chosen: boolean }
+import { usePulse } from '@pulsejs/react'
 
 interface PlaylistTypeProps {
     name: string
     defaultSelected: boolean
-    setState: React.Dispatch<React.SetStateAction<PlaylistItem[]>>
 }
 
 const PlaylistType: React.FC<PlaylistTypeProps> = ({
     name,
-    defaultSelected: selected,
-    setState
+    defaultSelected: selected
 }) => {
     return (
         <motion.div
@@ -47,11 +31,45 @@ const PlaylistType: React.FC<PlaylistTypeProps> = ({
                 scale: 0.9
             }}
             onClick={() => {
-                setState(prev => {
-                    const newState = [...prev]
-                    newState.find(item => item.name === name)!.chosen = !prev.find(item => item.name === name)?.chosen
-                    return newState
-                })
+                const element = document.getElementById('playlist-selected-recog')?.style
+                if (element!.display === "flex") {
+                    if (core.vod.collections.playlists.getGroup(name).has(core.vod.collections.vods.selectors.CURRENT.value.vod_id)) {
+                        let prevPlaylists = core.vod.state.vodPlaylistMutation.value
+                        if (prevPlaylists.find(playlist => playlist.name === name)) {
+                            prevPlaylists = prevPlaylists.map(playlist => {
+                                if (playlist.name === name) return { ...playlist, method: "delete" }
+                                return playlist
+                            })
+                        } else {
+                            prevPlaylists.push({
+                                name,
+                                method: "delete",
+                                vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id
+                            })
+                        }
+                        core.vod.state.vodPlaylistMutation.set(prevPlaylists)
+                    }
+                    element!.display = "none"
+                }
+                else {
+                    if (!core.vod.collections.playlists.getGroup(name).has(core.vod.collections.vods.selectors.CURRENT.value.vod_id)) {
+                        let prevPlaylists = core.vod.state.vodPlaylistMutation.value
+                        if (prevPlaylists.find(playlist => playlist.name === name)) {
+                            prevPlaylists = prevPlaylists.map(playlist => {
+                                if (playlist.name === name) return { ...playlist, method: "create" }
+                                return playlist
+                            })
+                        } else {
+                            prevPlaylists.push({
+                                name,
+                                method: "create",
+                                vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id
+                            })
+                        }
+                        core.vod.state.vodPlaylistMutation.set(prevPlaylists)
+                    }
+                    element!.display = "flex"
+                }
             }}
         >
             <div style={{
@@ -63,17 +81,15 @@ const PlaylistType: React.FC<PlaylistTypeProps> = ({
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-                {
-                    selected ?
-                        <div style={{
-                            width: "11px",
-                            height: "11px",
-                            borderRadius: "3px",
-                            backgroundColor: "#4D6FFF"
-                        }}>
+                <div style={{
+                    width: "11px",
+                    height: "11px",
+                    borderRadius: "3px",
+                    backgroundColor: "#4D6FFF",
+                    display: selected ? "flex" : "none"
+                }} id="playlist-selected-recog">
 
-                        </div> : ""
-                }
+                </div>
             </div>
             <h4 style={{
                 fontFamily: "Roboto Condensed",
@@ -128,28 +144,33 @@ interface SelectPlaylistsProps {
         width: number,
         height: number
     },
-    vod_id: string,
     reference: React.MutableRefObject<any>
 }
 
 export const SelectPlaylistMenu: React.FC<SelectPlaylistsProps> = ({
     display,
     position,
-    vod_id,
     reference
 }) => {
-    const [playlists, setPlaylists] = useState(fakeData)
+    const allPlaylists = usePulse(core.vod.state.playlists)
+    const playlists = allPlaylists
+        .reduce((finalArr: { name: string, chosen: boolean }[], playlist) => {
+            if (playlist.name !== 'watch_later') {
+                finalArr.push({
+                    name: playlist.name,
+                    chosen: core.vod.collections.playlists
+                        .getGroup(playlist.name)
+                        .output
+                        .map(playlist => (playlist.vod_id))
+                        .includes(core.vod.collections.vods.selectors.CURRENT.value.vod_id)
+                })
+            }
+            return finalArr
+        }, [])
     function onKeyPress(event: any) {
         if (event.keyCode === 13 && event.target.value.length > 0) {
-            setPlaylists((prev) => {
-                const newState = [...prev]
-                newState.unshift({
-                    name: event.target.value,
-                    chosen: true
-                })
-                event.target.value = ""
-                return newState
-            })
+            core.vod.createPlaylist(event.target.value)
+            event.target.value = ""
         }
     }
     const { x, y } = getPosition(position, {
@@ -157,13 +178,16 @@ export const SelectPlaylistMenu: React.FC<SelectPlaylistsProps> = ({
         height: 200
     })
     closeOnOutwardClick((value: boolean) => {
+        // console.log(position)
         lanuchMenu.emit({
             type: MenuType.SelectPlaylistMenu,
             display: value,
             position
         })
-    }, [reference])
-    useEffect(() => console.log(playlists), [playlists])
+        const mutation = core.vod.state.vodPlaylistMutation.value
+        if (mutation.length > 0) core.vod.playlistUpdateMutations(mutation)
+    }, [reference], [position])
+    useEffect(() => console.log('rendered playlist thingy'))
     return (
         <motion.div
             initial={display ? "hidden" : "visible"}
@@ -224,14 +248,15 @@ export const SelectPlaylistMenu: React.FC<SelectPlaylistsProps> = ({
                     overflowY: "scroll"
                 }} className="main-content-div">
                     {
-                        playlists.map((playlist, index) => (
-                            <PlaylistType
-                                name={playlist.name}
-                                defaultSelected={playlist.chosen}
-                                key={`playlist-menu-type-${index}`}
-                                setState={setPlaylists}
-                            />
-                        ))
+                        playlists.map((playlist, index) => {
+                            return (
+                                <PlaylistType
+                                    name={playlist.name}
+                                    defaultSelected={playlist.chosen}
+                                    key={`playlist-menu-type-${index}`}
+                                />
+                            )
+                        })
                     }
                 </div>
             </div>

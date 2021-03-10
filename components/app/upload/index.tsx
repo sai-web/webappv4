@@ -75,7 +75,7 @@ export const UploadSection: React.FC<UploadProps> = ({
             display: displayMainDiv ? "flex" : "none",
             justifyContent: "center",
             // backgroundColor: "red"
-        }}>
+        }} id="share-link-component-parent">
             <motion.div
                 initial={display ? "hidden" : renderCount > 0 ? "visible" : "hidden"}
                 animate={display ? "visible" : "hidden"}

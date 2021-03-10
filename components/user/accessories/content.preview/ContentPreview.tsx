@@ -71,7 +71,6 @@ type PreviewDetails = {
 interface ContentPreviewOptionsProps {
     display: boolean
     reference: React.MutableRefObject<any>
-    vod_id: string
 }
 
 {/* <iframe src="https://open.spotify.com/embed/album/4AdZV63ycxFLF6Hcol0QnB" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
@@ -81,7 +80,6 @@ https://open.spotify.com/album/4AdZV63ycxFLF6Hcol0QnB?highlight=spotify:track:7l
 export const ContentPreviewOptions: React.FC<ContentPreviewOptionsProps> = ({
     display,
     reference,
-    vod_id
 }) => {
     var initialPreviewDetails: PreviewDetails = {
         show: false,
@@ -108,13 +106,13 @@ export const ContentPreviewOptions: React.FC<ContentPreviewOptionsProps> = ({
                     title: ""
                 }
                 const requiredVod = (content.find(vod => {
-                    return vod.vod_id === vod_id
+                    return vod.vod_id === core.vod.collections.vods.selectors.CURRENT.value.vod_id
                 }))
 
-                newState.url = requiredVod?.url
-                newState.thumbnail = requiredVod?.thumbnail
-                newState.platform = requiredVod?.platform
-                newState.title = requiredVod?.title
+                newState.url = requiredVod?.url!
+                newState.thumbnail = requiredVod?.thumbnail!
+                newState.platform = requiredVod?.platform!
+                newState.title = requiredVod?.title!
 
                 return newState
             })
@@ -127,7 +125,7 @@ export const ContentPreviewOptions: React.FC<ContentPreviewOptionsProps> = ({
     //     console.log(previewDetails)
     // }, [previewDetails])
     closeOnOutwardClick((value: boolean) => {
-        contentPreview.emit({ show: value, vod_id })
+        contentPreview.emit({ show: value })
     }, [reference])
     return (
         <div style={{

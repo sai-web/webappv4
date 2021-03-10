@@ -57,6 +57,15 @@ async function info(
                 else {
                     if (set) {
                         if (me) {
+                            (async () => {
+                                settingsActions.getSettings()
+                                vodActions.getPlaylists()
+                                    .then(playlistArr => {
+                                        playlistArr.forEach((playlist: string) => {
+                                            vodActions.getPlaylist(playlist)
+                                        });
+                                    })
+                            })()
                             states.info.set(data)
                             states.state.set(data.activity.state)
                         }
@@ -64,7 +73,6 @@ async function info(
                             ChannelStates.current_channel.set(data)
                             ChannelStates.current_channel_state.set(data.activity.state)
                             vodActions.getVods()
-                            settingsActions.getSettings()
                         })()
                     } else return data
                 }

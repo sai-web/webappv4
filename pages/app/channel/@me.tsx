@@ -44,7 +44,7 @@ const Pages: React.FC = () => {
 function UserChannel() {
     const { ref, scrolled } = onScroll(410)
     useEffect(() => {
-        if (!Router.pathname.includes('@me')) core.user.info({ me: false, domain: Router.pathname.replace('/app/channel/', '') })
+        if (!Router.pathname.includes('@me')) core.user.info({ me: false, cred: Router.pathname.replace('/app/channel/', ''), type: "domain" })
         else core.channel.state.current_channel.patch(core.user.state.info._value)
     }, [])
     return (

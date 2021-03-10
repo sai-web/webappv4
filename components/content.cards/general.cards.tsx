@@ -71,11 +71,11 @@ const ContentCard: React.FC<contentCardProps> = ({
                 }}
                 onContextMenu={e => {
                     e.preventDefault()
+                    core.vod.collections.vods.selectors.CURRENT.select(vod_id)
                     animateTemplate.emit({ display: true })
                     lanuchMenu.emit({
                         display: true,
                         type: MenuType.ContextMenu,
-                        vod_id,
                         position: {
                             x: e.pageX,
                             y: e.pageY,

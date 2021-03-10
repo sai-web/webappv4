@@ -40,7 +40,6 @@ const Pages: React.FC = () => {
 
 function Library() {
     useEffect(() => {
-        core.vod.getPlaylist()
         core.vod.getPlaylist('watch_later')
     }, [])
     return (

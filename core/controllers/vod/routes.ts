@@ -47,9 +47,20 @@ async function deleteVodFromPlaylist(playlist_name: string, vod_id: string) {
     return await Api.delete(`vod/playlists/delete/vod?playlist=${playlist_name}&vod=${vod_id}&csrf=${authStates.csrf_token._value}`)
 }
 
+//create playlist
+async function createPlaylist(playlist_name: string) {
+    return await Api.put(`vod/playlists/add/playlist?csrf=${authStates.csrf_token._value}`, { playlist_name })
+}
+
 //delete the entire playlist
 async function deletePlaylist(playlist_name: string) {
     return await Api.delete(`vod/playlists/delete/playlist?playlist=${playlist_name}&csrf=${authStates.csrf_token._value}`)
+}
+
+type playlistMutation = { vod_id: string, name: string, method: "delete" | "create" }
+
+async function updatePlaylists(mutations: playlistMutation[]) {
+    return await Api.post(`vod/playlists/mutations?csrf=${authStates.csrf_token.value}`, { mutations })
 }
 
 export default {
@@ -60,5 +71,7 @@ export default {
     getPlaylist,
     addVodToPlaylist,
     deleteVodFromPlaylist,
-    deletePlaylist
+    deletePlaylist,
+    createPlaylist,
+    updatePlaylists
 }

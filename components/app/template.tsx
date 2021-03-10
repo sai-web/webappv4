@@ -1,110 +1,83 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useEvent } from '@pulsejs/react'
 import { motion } from 'framer-motion'
-import Router from 'next/router'
-
-import { core } from '../../core'
 
 import { animateTemplate, lanuchMenu, MenuType, contentPreview } from '../../core/utils/Events'
 import { onMouseClick } from '../../utils/Hooks/mousePosition'
 
 import Nav from '../nav/side/mainNav'
 import Menu from '../nav/top/topNav'
-import { ContentMenu } from '../menu/content'
-import { ConnectionMenu } from '../menu/connections'
-import { ContentPreviewOptions } from '../user/accessories/content.preview/ContentPreview'
-import { ChannelPreview } from '../user/channel/channelPreview'
-import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
-import { SelectPlaylistMenu } from '../menu/selectPlaylistMenu'
-import { ContextMenu } from '../menu/contextMenu'
 import { closeOnOutwardClick } from '../../utils/auth'
-import { UploadSection } from './upload'
 import { Banner } from '../user/channel/ChannelIntroduction/banner'
 
 import { Settings } from '../settings/main'
+import { PopUpMenus } from './popupMenus'
+import next from "next"
 
-interface PopUpProps {
-    showMenu: showMenuType,
+type computationProps = {
     position: {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
+        x: number,
+        y: number,
+        width: number,
+        height: number
     },
     references: React.MutableRefObject<any>[],
-    contentPreviewDetails: contentPreviewDetails
+    contentPreviewDetails: contentPreviewDetails,
+    showMenu: showMenuType
 }
 
-const PopUpMenus: React.FC<PopUpProps> = ({
-    showMenu,
+const ExpensiveComputations = React.memo(({
     position,
     references,
-    contentPreviewDetails
-}) => {
-    const [renderType, setRenderType] = useState("")
-    useEffect(() => {
-        if (Router.pathname.includes('/channel/')) setRenderType("channel")
-    }, [Router])
+    contentPreviewDetails,
+    showMenu
+}: computationProps) => {
     return (
         <>
-            {
-                renderType === "channel" ?
-                    <>
-                        <ContentMenu
-                            display={showMenu.ContentMenu.display}
-                            position={position}
-                            reference={references[0]}
-                            vod_id={showMenu.ContentMenu.vod_id}
-                        />
-                        <ConnectionMenu
-                            display={showMenu.ConnectionMenu.display}
-                            domain={showMenu.ConnectionMenu.domain}
-                            color={showMenu.ConnectionMenu.color}
-                            position={position}
-                            reference={references[1]}
-                        />
-                    </> : ""
-            }
-            <ContextMenu
-                display={showMenu.ContextMenu.display}
-                position={showMenu.ContextMenu.position}
-                vod_id={showMenu.ContextMenu.vod_id}
-                reference={references[4]}
-            />
-            <ContentPreviewOptions
-                display={contentPreviewDetails.show}
-                vod_id={contentPreviewDetails.vod_id}
-                reference={references[2]}
-            />
-            <ChannelPreview
-                display={showMenu.Profile}
+            <PopUpMenus
                 position={position}
+                references={references}
+                contentPreviewDetails={contentPreviewDetails}
+                showMenu={showMenu}
             />
-            <ChannelSettingsDropDownMenu
-                display={showMenu.ChannelDropDown}
-            />
-            <UploadSection
-                display={showMenu.ShareLinkComponent}
-                reference={references[3]}
-            />
-            <SelectPlaylistMenu
-                display={showMenu.SelectPlaylistMenu.display}
-                reference={references[5]}
-                position={showMenu.SelectPlaylistMenu.position}
-                vod_id={showMenu.SelectPlaylistMenu.vod_id}
+            <Settings
+                display={showMenu.Settings}
             />
         </>
     )
-}
+}, (prevProps, nextProps) => {
+    return prevProps.showMenu === nextProps.showMenu && prevProps.contentPreviewDetails === nextProps.contentPreviewDetails && prevProps.position === nextProps.position
+})
+
+const ExpensivePageComputations = React.memo(({
+    page,
+    PageMode,
+    width
+}: {
+    page: string,
+    PageMode: JSX.Element,
+    width: string
+}) => {
+    return (
+        <>
+            <Nav page={page} />
+            <Menu
+                pageModes={PageMode}
+                width={width}
+                page={page}
+            />
+        </>
+    )
+}, (prevProps, nextProps) => {
+    return prevProps.PageMode === nextProps.PageMode && prevProps.page === nextProps.page && prevProps.width === nextProps.width
+})
 
 export type showMenuType = {
     ContentMenu: {
         display: boolean,
-        vod_id: string
     },
     SelectPlaylistMenu: {
         display: boolean,
-        vod_id: string,
         position: {
             x: number,
             y: number,
@@ -114,7 +87,6 @@ export type showMenuType = {
     },
     ContextMenu: {
         display: boolean,
-        vod_id: string,
         position: {
             x: number,
             y: number,
@@ -133,9 +105,8 @@ export type showMenuType = {
     Settings: boolean,
 }
 
-type contentPreviewDetails = {
+export type contentPreviewDetails = {
     show: boolean,
-    vod_id: string
 }
 
 interface Props {
@@ -167,11 +138,9 @@ const template: React.FC<Props> = function ({
     var initialMenuState: showMenuType = {
         ContentMenu: {
             display: false,
-            vod_id: ""
         },
         SelectPlaylistMenu: {
             display: false,
-            vod_id: "",
             position: {
                 height: 0,
                 width: 0,
@@ -181,7 +150,6 @@ const template: React.FC<Props> = function ({
         },
         ContextMenu: {
             display: false,
-            vod_id: "",
             position: {
                 height: 0,
                 width: 0,
@@ -201,7 +169,6 @@ const template: React.FC<Props> = function ({
     }
     var initialContentPreviewDetails: contentPreviewDetails = {
         show: false,
-        vod_id: ''
     }
     const [bannerScale, setBannerScale] = useState<number>(1)
     const [templateAnimate, setTemplateAnimate] = useState<boolean>(false)
@@ -237,7 +204,6 @@ const template: React.FC<Props> = function ({
         display,
         domain,
         color,
-        vod_id,
         position
     }) => {
         setShowMenu(prev => {
@@ -258,12 +224,10 @@ const template: React.FC<Props> = function ({
             } else if (type === MenuType.ContentMenu) {
                 newMenu[type] = {
                     display,
-                    vod_id: vod_id!
                 }
             } else if (type === MenuType.ContextMenu) {
                 newMenu[type] = {
                     display,
-                    vod_id: vod_id!,
                     position: {
                         ...initialMenuState.ContextMenu.position,
                         ...position
@@ -273,11 +237,9 @@ const template: React.FC<Props> = function ({
             } else if (type === MenuType.SelectPlaylistMenu) {
                 newMenu.ContentMenu = {
                     display: false,
-                    vod_id: vod_id!
                 }
                 newMenu[type] = {
                     display,
-                    vod_id: vod_id!,
                     position: {
                         ...initialMenuState.SelectPlaylistMenu.position,
                         ...position
@@ -311,7 +273,7 @@ const template: React.FC<Props> = function ({
                 top: "0",
                 right: "0"
             }}
-            initial={templateAnimate ? "enlarged" : "shrunk"}
+            initial={templateAnimate ? "enlarged" : renderCount > 1 ? "shrunk" : "enlarged"}
             animate={templateAnimate ? "shrunk" : "enlarged"}
             variants={templateAnimateVariant}
         >
@@ -344,8 +306,11 @@ const template: React.FC<Props> = function ({
                     {banner ? <Banner scaleVal={bannerScale} /> : ""}
                     {children}
                 </div>
-                <Nav page={page} />
-                <Menu pageModes={PageMode} width={width} page={page} />
+                <ExpensivePageComputations
+                    PageMode={PageMode}
+                    page={page}
+                    width={width}
+                />
             </div>
             {templateAnimate ?
                 <div style={{
@@ -360,7 +325,8 @@ const template: React.FC<Props> = function ({
 
                 </div> : ""
             }
-            <PopUpMenus
+            <ExpensiveComputations
+                contentPreviewDetails={contentPreviewDetails}
                 position={position}
                 references={[
                     ContentMenuRef,
@@ -370,11 +336,7 @@ const template: React.FC<Props> = function ({
                     ContextMenuRef,
                     SelectPlaylistMenuRef
                 ]}
-                contentPreviewDetails={contentPreviewDetails}
                 showMenu={showMenu}
-            />
-            <Settings
-                display={showMenu.Settings}
             />
         </motion.div>
     )

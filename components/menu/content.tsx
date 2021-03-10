@@ -46,14 +46,12 @@ interface ContentMenuProps {
         width: number,
         height: number
     },
-    vod_id: string,
     reference: React.MutableRefObject<any>
 }
 
 export const ContentMenu: React.FC<ContentMenuProps> = ({
     display,
     position,
-    vod_id,
     reference
 }) => {
     const { x, y } = getPosition(position, {
@@ -87,7 +85,7 @@ export const ContentMenu: React.FC<ContentMenuProps> = ({
                     "Watch later": {
                         do: () => {
                             core.vod.addVodToPlaylist({
-                                vod_id: vod_id!,
+                                vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id,
                                 playlists: ["watch_later"]
                             })
                             lanuchMenu.emit({ type: MenuType.ContentMenu, display: false })
@@ -111,7 +109,6 @@ export const ContentMenu: React.FC<ContentMenuProps> = ({
                             lanuchMenu.emit({
                                 display: true,
                                 type: MenuType.SelectPlaylistMenu,
-                                vod_id: vod_id!,
                                 position
                             })
                         },
@@ -160,7 +157,7 @@ export const ContentMenu: React.FC<ContentMenuProps> = ({
                     },
                     Delete: {
                         do: () => {
-                            core.vod.remove(vod_id!)
+                            core.vod.remove(core.vod.collections.vods.selectors.CURRENT.value.vod_id)
                             lanuchMenu.emit({ type: MenuType.ContentMenu, display: false })
                             animateTemplate.emit({ display: false })
                         },

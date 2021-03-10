@@ -5,11 +5,13 @@ import Link from 'next/link'
 export function closeOnOutwardClick(
     stateSetter: React.Dispatch<React.SetStateAction<boolean>> | Function,
     ref: React.MutableRefObject<any>[],
+    extraRef: any[] = []
 ) {
     useEffect(() => {
         function handleClickOutside(event: any) {
             let mappedChanges: boolean[] = ref.map(reference => {
                 if (reference.current && !reference.current.contains(event.target)) return false
+                else if (!reference.current) return false
                 return true
             })
             if (ref.length === 5) console.log(mappedChanges)
@@ -19,7 +21,7 @@ export function closeOnOutwardClick(
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [...ref]);
+    }, [...ref, ...extraRef]);
 }
 
 export function createInput(

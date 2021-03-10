@@ -28,7 +28,7 @@ function Main({ Component, pageProps, props }: AppProps & { props: any }) {
     else if (token === "refresh") Router.push('/auth/login')
   })
   core.auth.state.csrf_token.set(props._csrf)
-  core.user.info()
+  useEffect(() => { core.user.info() }, [])
   return (
     <DndProvider backend={HTML5Backend}>
       <AnimatePresence>

@@ -20,7 +20,6 @@ interface MenuProps {
     display: boolean
     domain?: string
     color?: string
-    vod_id?: string
     position?: {
         x: number,
         y: number,
@@ -34,8 +33,7 @@ export const lanuchMenu = App.Event<MenuProps>({
 })
 
 interface ContentPreviewProps {
-    show: boolean,
-    vod_id: string
+    show: boolean
 }
 
 export const contentPreview = App.Event<ContentPreviewProps>({
