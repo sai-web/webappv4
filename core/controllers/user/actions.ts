@@ -7,6 +7,7 @@ import { Error } from '../auth/events'
 
 import { user_data, user_state } from './interface'
 import authStates from '../auth/states'
+import vodStates from '../vod/states'
 import { platforms } from '../../utils/platforms'
 
 import vodActions from '../vod/actions'
@@ -60,11 +61,6 @@ async function info(
                             (async () => {
                                 settingsActions.getSettings()
                                 vodActions.getPlaylists()
-                                    .then(playlistArr => {
-                                        playlistArr.forEach((playlist: string) => {
-                                            vodActions.getPlaylist(playlist)
-                                        });
-                                    })
                             })()
                             states.info.set(data)
                             states.state.set(data.activity.state)
@@ -72,7 +68,6 @@ async function info(
                         (async () => {
                             ChannelStates.current_channel.set(data)
                             ChannelStates.current_channel_state.set(data.activity.state)
-                            vodActions.getVods()
                         })()
                     } else return data
                 }

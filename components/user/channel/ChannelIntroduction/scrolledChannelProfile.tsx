@@ -119,9 +119,14 @@ export const ScrolledChannelProfile: React.FC<{
     scrolled: boolean,
 }> = ({ scrolled }) => {
     const [renderCount, setRenderCount] = useState<number>(0)
+    const [displayElement, setDisplay] = useState<boolean>(false)
     useEffect(() => {
         if (renderCount < 2) setRenderCount(prev => (prev + 1))
     }, [])
+    useEffect(() => {
+        if (scrolled) setDisplay(true)
+        else setTimeout(() => setDisplay(false), 500)
+    }, [scrolled])
     return (
         <motion.div
             initial={scrolled ? "hidden" : renderCount > 0 ? "visible" : "hidden"}
@@ -137,7 +142,8 @@ export const ScrolledChannelProfile: React.FC<{
                 zIndex: 1,
                 position: "fixed",
                 top: "40px",
-                overflow: "hidden"
+                overflow: "hidden",
+                display: displayElement ? "flex" : "none"
             }}
         >
             <div style={{

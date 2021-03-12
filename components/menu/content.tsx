@@ -84,7 +84,7 @@ export const ContentMenu: React.FC<ContentMenuProps> = ({
                 options={{
                     "Watch later": {
                         do: () => {
-                            core.vod.addVodToPlaylist({
+                            core.vod.routes.addVodToPlaylist({
                                 vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id,
                                 playlists: ["watch_later"]
                             })

@@ -44,8 +44,17 @@ const Pages: React.FC = () => {
 function UserChannel() {
     const { ref, scrolled } = onScroll(410)
     useEffect(() => {
-        if (!Router.pathname.includes('@me')) core.user.info({ me: false, cred: Router.pathname.replace('/app/channel/', ''), type: "domain" })
-        else core.channel.state.current_channel.patch(core.user.state.info._value)
+        if (Router.query.channel_name !== "@me") {
+            core.user.info({
+                me: false,
+                cred: Router.query.channel_name as string,
+                type: "domain"
+            })
+            core.vod.getVods(Router.query.channel_name as string)
+        } else {
+            core.channel.state.current_channel.patch(core.user.state.info._value)
+            core.vod.getVods()
+        }
     }, [])
     return (
         <Template PageMode={<Pages />} width="320px" page="Channel" reference={ref} banner>

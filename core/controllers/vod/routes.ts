@@ -1,6 +1,8 @@
 import { rest_api as Api } from '../../api'
 import authStates from '../auth/states'
 
+import collections from './collections'
+
 //get all the vods
 async function getVods(user_id?: string) {
     if (!user_id) return (await Api.get(`vod/vods/@me?csrf=${authStates.csrf_token.value}`))
@@ -63,6 +65,13 @@ async function updatePlaylists(mutations: playlistMutation[]) {
     return await Api.post(`vod/playlists/mutations?csrf=${authStates.csrf_token.value}`, { mutations })
 }
 
+async function checkForVodInPlaylists(vod_id: string) {
+    return await Api.post(`vod/playlists/verify?csrf=${authStates.csrf_token.value}`, {
+        vod_id,
+        playlists: collections.playlists.getGroup('default').value
+    })
+}
+
 export default {
     getVods,
     watch,
@@ -73,5 +82,6 @@ export default {
     deleteVodFromPlaylist,
     deletePlaylist,
     createPlaylist,
-    updatePlaylists
+    updatePlaylists,
+    checkForVodInPlaylists
 }

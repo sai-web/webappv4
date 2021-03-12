@@ -6,75 +6,7 @@ import { core } from '../../../core'
 import { platforms } from '../../../core/utils/platforms'
 
 import { GeneralCard } from '../../content.cards/general.cards'
-
-interface NonWideThumbnailProps {
-    data: {
-        color: string,
-        thumbnail: string,
-        logo: string,
-        url: string,
-        wideThumb: boolean,
-        title: string,
-        views: number,
-        published_at: Date,
-        creator_id: string
-    }
-}
-
-export const NonWideThumbnail: React.FC<NonWideThumbnailProps> = ({ data }) => {
-    return (
-        <motion.div
-            whileTap={{ scale: 0.9 }}
-            style={{
-                display: "flex",
-                alignItems: "center",
-                // backgroundColor: "black",
-                height: "140px",
-                cursor: "pointer"
-            }}
-        >
-            <div style={{
-                width: "5px",
-                height: "100%",
-                backgroundColor: data.color,
-                marginLeft: "20px"
-            }}>
-
-            </div>
-            <a href={data.url} target="_blank"
-                style={{
-                    height: "100%",
-                    width: "250px",
-                    backgroundColor: "black",
-                    display: "flex"
-                }}
-            >
-                <img src={data.thumbnail}
-                    style={{
-                        width: "calc(100% - 100px)",
-                        marginLeft: "5px",
-                        height: "100%",
-                        objectFit: "cover"
-                    }}
-                />
-                <div style={{
-                    height: "100%",
-                    width: "100px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                }}>
-                    <img src={data.logo} style={{
-                        width: "50px",
-                        height: "50px",
-                        // borderRadius: "25px",
-                        objectFit: "cover"
-                    }} />
-                </div>
-            </a>
-        </motion.div>
-    )
-}
+import { NonWideCard } from '../../content.cards/nonwideCard'
 
 const ContentPreview: React.FC<{
     data: any
@@ -88,7 +20,7 @@ const ContentPreview: React.FC<{
                         <GeneralCard
                             data={data}
                         /> :
-                        <NonWideThumbnail
+                        <NonWideCard
                             data={data}
                         />
                 }
@@ -125,23 +57,33 @@ const WatchLaterHeader: React.FC = () => {
 }
 
 const Content: React.FC = () => {
-    const content = usePulse(core.vod.collections.playlists.getGroup('watch_later'))
-        .map(element => {
-            const requiredPlatform = Object.keys(platforms).find(platform => platform === (element.platform as string).toLocaleLowerCase())!
-            const platform = platforms[requiredPlatform]
-            return ({
-                color: platform.hex,
-                thumbnail: element.thumbnail,
-                logo: platform.logo,
-                url: element.url,
-                wideThumb: platform.wideThumb,
-                title: element.title,
-                views: element.views,
-                published_at: element.published_at,
-                creator_id: element.user_id,
-                vod_id: element.vod_id
+    const [content, setContent] = useState([])
+    useEffect(() => {
+        core.vod.routes.getPlaylist('watch_later')
+            .then(data => {
+                core.vod.collections.vods.reset()
+                const playlistToRender = data.map((element: any) => {
+                    const requiredPlatform = Object.keys(platforms).find(platform => platform === (element.platform as string).toLocaleLowerCase())!
+                    const platform = platforms[requiredPlatform]
+                    const item = {
+                        color: platform.hex,
+                        thumbnail: element.thumbnail,
+                        logo: platform.logo,
+                        url: element.url,
+                        wideThumb: platform.wideThumb,
+                        title: element.title,
+                        views: element.views,
+                        published_at: element.published_at,
+                        creator_id: element.user_id,
+                        vod_id: element.vod_id,
+                        platform: platform.key
+                    }
+                    core.vod.collections.vods.collect(item)
+                    return item
+                })
+                setContent(playlistToRender)
             })
-        })
+    }, [])
     return (
         <div style={{
             display: "flex",

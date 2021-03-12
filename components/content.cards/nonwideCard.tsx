@@ -91,16 +91,17 @@ const ContentCard: React.FC<contentCardProps> = ({
         >
             <img src={thumbnail}
                 style={{
-                    width: "200px",
+                    width: "110px",
                     height: "110px",
                     objectFit: "cover",
-                    borderRadius: "5px"
+                    borderTopLeftRadius: "5px",
+                    borderBottomLeftRadius: "5px"
                 }}
             />
             <div style={{
-                width: "60px",
+                width: "90px",
                 height: "100%",
-                backgroundColor: "rgba(0,0,0,0.9)",
+                backgroundColor: "rgb(0,0,0)",
                 position: "absolute",
                 right: "0",
                 display: "flex",
@@ -120,7 +121,7 @@ const ContentCard: React.FC<contentCardProps> = ({
     )
 }
 
-interface GeneralThumbnailProps {
+interface NonWideThumbnailProps {
     data: {
         color: string,
         thumbnail: string,
@@ -135,7 +136,7 @@ interface GeneralThumbnailProps {
     }
 }
 
-export const GeneralCard: React.FC<GeneralThumbnailProps> = ({ data }) => {
+export const NonWideCard: React.FC<NonWideThumbnailProps> = ({ data }) => {
     const [userInfo, setUserInfo] = useState<any>({})
     core.user.info({
         payload: {

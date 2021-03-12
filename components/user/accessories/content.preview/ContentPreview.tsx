@@ -13,42 +13,6 @@ import { ChatSection } from './chat'
 
 import { Embed } from '../../../../core/utils/embeds'
 
-const YoutubeIframe: React.FC<{ url: string }> = ({ url }) => {
-    return (
-        <iframe
-            src={url}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen={true}
-            width="400px"
-            height="225px"
-            style={{
-                marginTop: "20px"
-            }}
-        >
-
-        </iframe>
-    )
-}
-
-const SpotifyIframe: React.FC<{ url: string }> = ({ url }) => {
-    return (
-        <iframe
-            src={url}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen={true}
-            width="400px"
-            height="225px"
-            style={{
-                marginTop: "20px"
-            }}
-        >
-
-        </iframe>
-    )
-}
-
 const displayVariants = {
     visible: {
         scale: 1,

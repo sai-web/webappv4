@@ -1,4 +1,5 @@
 import { App } from '../../app'
+import collections from '../activity/collections'
 
 interface vod {
     user_id: string
@@ -14,7 +15,7 @@ interface vod {
 }
 
 //collect all vods
-const vods = App.Collection<vod>()(collection => ({
+const vods = App.Collection<Partial<vod>>()(collection => ({
     primaryKey: 'vod_id',
     defaultGroup: true,
     groups: {
@@ -25,11 +26,16 @@ const vods = App.Collection<vod>()(collection => ({
     }
 }))
 
-const playlists = App.Collection()(collection => ({
-    primaryKey: 'vod_id',
-    groups: {
-        watch_later: collection.Group()
-    }
+interface playlist {
+    name: string
+    vods: number
+    vod_id?: string
+    thumbnail?: string
+}
+
+const playlists = App.Collection<playlist>()(() => ({
+    primaryKey: 'name',
+    defaultGroup: true
 }))
 
 export default {

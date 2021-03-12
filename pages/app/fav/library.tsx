@@ -39,9 +39,6 @@ const Pages: React.FC = () => {
 }
 
 function Library() {
-    useEffect(() => {
-        core.vod.getPlaylist('watch_later')
-    }, [])
     return (
         <Template PageMode={<Pages />} width="200px" page="Favourite" >
             <div style={{
