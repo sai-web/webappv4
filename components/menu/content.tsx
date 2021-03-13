@@ -85,7 +85,7 @@ export const ContentMenu: React.FC<ContentMenuProps> = ({
                     "Watch later": {
                         do: () => {
                             core.vod.routes.addVodToPlaylist({
-                                vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id,
+                                vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id!,
                                 playlists: ["watch_later"]
                             })
                             lanuchMenu.emit({ type: MenuType.ContentMenu, display: false })
@@ -157,7 +157,7 @@ export const ContentMenu: React.FC<ContentMenuProps> = ({
                     },
                     Delete: {
                         do: () => {
-                            core.vod.remove(core.vod.collections.vods.selectors.CURRENT.value.vod_id)
+                            core.vod.remove(core.vod.collections.vods.selectors.CURRENT.value.vod_id!)
                             lanuchMenu.emit({ type: MenuType.ContentMenu, display: false })
                             animateTemplate.emit({ display: false })
                         },
@@ -176,7 +176,7 @@ export const ContentMenu: React.FC<ContentMenuProps> = ({
                     }
                 }}
                 type={MenuType.ContentMenu}
-                reference={reference}
+                reference={[reference]}
             />
         </motion.div>
     )

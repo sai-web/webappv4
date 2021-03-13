@@ -25,7 +25,7 @@ export function onMouseClick(
         // }
     }
     useEffect(() => {
-        function handleScroll(event: any) {
+        function handleClick(event: any) {
             if (!(
                 menu.ChannelDropDown ||
                 menu.ContentMenu.display ||
@@ -45,8 +45,8 @@ export function onMouseClick(
                 } else setStateWithTimeStamp(event)
             }
         }
-        document.addEventListener('click', handleScroll)
-        return () => document.removeEventListener('click', handleScroll)
+        document.addEventListener('click', handleClick)
+        return () => document.removeEventListener('click', handleClick)
     }, [menu])
 
     return position

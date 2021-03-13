@@ -128,7 +128,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
                 },
                 remove: {
                     do: () => {
-                        core.vod.deleteVodFromPlaylist('watch_later', core.vod.collections.vods.selectors.CURRENT.value.vod_id)
+                        core.vod.routes.deleteVodFromPlaylist('watch_later', core.vod.collections.vods.selectors.CURRENT.value.vod_id!)
                         lanuchMenu.emit({
                             type: MenuType.ContextMenu,
                             display: false,
@@ -152,7 +152,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
             }}
                 type={MenuType.ContextMenu}
                 position={position}
-                reference={reference}
+                reference={[reference]}
             />
         </motion.div>
     )

@@ -24,6 +24,12 @@ class MyDocument extends Document {
                     />
                     <link rel="preconnect" href="https://fonts.gstatic.com" />
                     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
+                    <meta property="og:url" content="" />
+                    <meta property="og:title" content="" />
+                    <meta property="og:image" content="" />
+                    <meta property="og:video" content="" />
+                    <meta property="og:video:width" content="" />
+                    <meta property="og:video:height" content="" />
                 </Head>
                 <body style={{
                     margin: "0",

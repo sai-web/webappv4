@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { useEvent } from '@pulsejs/react'
 import { motion } from 'framer-motion'
 
-import { animateTemplate, lanuchMenu, MenuType, contentPreview } from '../../core/utils/Events'
+import { animateTemplate, lanuchMenu, MenuType, contentPreview, confirmNotice } from '../../core/utils/Events'
 import { onMouseClick } from '../../utils/Hooks/mousePosition'
 
 import Nav from '../nav/side/mainNav'
@@ -23,14 +23,16 @@ type computationProps = {
     },
     references: React.MutableRefObject<any>[],
     contentPreviewDetails: contentPreviewDetails,
-    showMenu: showMenuType
+    showMenu: showMenuType,
+    confirmNoticeInfo: confirmNoticeDetails
 }
 
 const ExpensiveComputations = React.memo(({
     position,
     references,
     contentPreviewDetails,
-    showMenu
+    showMenu,
+    confirmNoticeInfo
 }: computationProps) => {
     return (
         <>
@@ -39,6 +41,7 @@ const ExpensiveComputations = React.memo(({
                 references={references}
                 contentPreviewDetails={contentPreviewDetails}
                 showMenu={showMenu}
+                confirmNoticeInfo={confirmNoticeInfo}
             />
             <Settings
                 display={showMenu.Settings}
@@ -102,11 +105,20 @@ export type showMenuType = {
     Profile: boolean,
     ChannelDropDown: boolean,
     ShareLinkComponent: boolean,
-    Settings: boolean,
+    Settings: boolean
 }
 
 export type contentPreviewDetails = {
     show: boolean,
+}
+
+export type confirmNoticeDetails = {
+    show: boolean,
+    message: {
+        header: string,
+        body: string
+    },
+    do: () => null
 }
 
 interface Props {
@@ -170,16 +182,26 @@ const template: React.FC<Props> = function ({
     var initialContentPreviewDetails: contentPreviewDetails = {
         show: false,
     }
+    var initialConfirmNoticeDetails: confirmNoticeDetails = {
+        show: false,
+        message: {
+            header: "",
+            body: ""
+        },
+        do: () => null
+    }
     const [bannerScale, setBannerScale] = useState<number>(1)
     const [templateAnimate, setTemplateAnimate] = useState<boolean>(false)
     const [showMenu, setShowMenu] = useState<showMenuType>(initialMenuState)
     const [contentPreviewDetails, setContentPreviewDetails] = useState<contentPreviewDetails>(initialContentPreviewDetails)
+    const [confirmNoticeState, setConfirmNotice] = useState<confirmNoticeDetails>(initialConfirmNoticeDetails)
     const [renderCount, setRenderCount] = useState<number>(0)
 
     const ContentMenuRef = useRef<any>(null)
     const SelectPlaylistMenuRef = useRef<any>(null)
     const ContextMenuRef = useRef<any>(null)
     const ContentPreviewRef = useRef<any>(null)
+    const ConfirmNoticeRef = useRef<any>(null)
     const ConnectionOptionsRef = useRef<any>(null)
     const shareLinkComponentRef = useRef<any>(null)
 
@@ -193,7 +215,8 @@ const template: React.FC<Props> = function ({
         ContentPreviewRef,
         shareLinkComponentRef,
         ContextMenuRef,
-        SelectPlaylistMenuRef
+        SelectPlaylistMenuRef,
+        ConfirmNoticeRef
     ])
 
     useEvent(animateTemplate, ({ display }) => {
@@ -251,6 +274,9 @@ const template: React.FC<Props> = function ({
     })
     useEvent(contentPreview, (details) => {
         setContentPreviewDetails(details)
+    })
+    useEvent(confirmNotice, (noticeDetails) => {
+        setConfirmNotice(noticeDetails)
     })
     useEffect(() => {
         function handleScrollEvent(event: any) {
@@ -327,6 +353,7 @@ const template: React.FC<Props> = function ({
             }
             <ExpensiveComputations
                 contentPreviewDetails={contentPreviewDetails}
+                confirmNoticeInfo={confirmNoticeState}
                 position={position}
                 references={[
                     ContentMenuRef,
@@ -334,7 +361,8 @@ const template: React.FC<Props> = function ({
                     ContentPreviewRef,
                     shareLinkComponentRef,
                     ContextMenuRef,
-                    SelectPlaylistMenuRef
+                    SelectPlaylistMenuRef,
+                    ConfirmNoticeRef
                 ]}
                 showMenu={showMenu}
             />

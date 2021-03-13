@@ -215,7 +215,7 @@ const ChannelContent: React.FC<{
     )
 }
 
-export const Content: React.FC<{ scrolled: boolean }> = ({ scrolled }) => {
+export const Content: React.FC = () => {
     const content = usePulse(core.vod.collections.vods.getGroup('default'))
     const [renderingContent, setContentToRender] = useState<object[]>(content)
     useEffect(() => {

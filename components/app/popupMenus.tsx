@@ -8,8 +8,9 @@ import { ChannelPreview } from '../user/channel/channelPreview'
 import { ChannelSettingsDropDownMenu } from '../menu/channelSettingsDropDown'
 import { SelectPlaylistMenu } from '../menu/selectPlaylistMenu'
 import { ContextMenu } from '../menu/contextMenu'
+import { ConfirmNotice } from '../menu/confirmNotice'
 import { UploadSection } from './upload'
-import { showMenuType, contentPreviewDetails } from './template'
+import { showMenuType, contentPreviewDetails, confirmNoticeDetails } from './template'
 
 interface PopUpProps {
     showMenu: showMenuType,
@@ -20,7 +21,8 @@ interface PopUpProps {
         height: number;
     },
     references: React.MutableRefObject<any>[],
-    contentPreviewDetails: contentPreviewDetails
+    contentPreviewDetails: contentPreviewDetails,
+    confirmNoticeInfo: confirmNoticeDetails
 }
 
 enum pages {
@@ -31,7 +33,8 @@ export const PopUpMenus: React.FC<PopUpProps> = ({
     showMenu,
     position,
     references,
-    contentPreviewDetails
+    contentPreviewDetails,
+    confirmNoticeInfo
 }) => {
     const [page, setPage] = useState<pages>()
     useEffect(() => {
@@ -79,6 +82,11 @@ export const PopUpMenus: React.FC<PopUpProps> = ({
                 display={showMenu.SelectPlaylistMenu.display}
                 reference={references[5]}
                 position={showMenu.SelectPlaylistMenu.position}
+            />
+            <ConfirmNotice
+                display={confirmNoticeInfo.show}
+                details={confirmNoticeInfo}
+                reference={references[6]}
             />
         </>
     )

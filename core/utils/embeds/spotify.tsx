@@ -92,6 +92,12 @@ export class Spotify {
 
     public getEmbed(): JSX.Element {
         const details: EmbedDetails = this._getEmbedDetails()
-        return React.createElement('iframe', { ...details, frameBorder: "0", allowtransparency: "true", allow: "encrypted-media" })
+        return React.createElement('iframe', {
+            ...details,
+            frameBorder: "0",
+            allowtransparency: "true",
+            allow: "encrypted-media",
+            className: "custom-embed-player"
+        })
     }
 }

@@ -8,7 +8,7 @@ interface PlatformProps {
 }
 
 const mapPlatformToClass: Record<string, any> = {
-    "spotify": (url: string, thumbnail?: string) => new Spotify(url).getEmbed(),
+    "spotify": (url: string, _?: string) => new Spotify(url).getEmbed(),
     "youtube": (url: string, thumbnail?: string) => new Youtube(url, thumbnail).getEmbed()
 }
 

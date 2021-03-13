@@ -19,7 +19,7 @@ export const ChannelContentSection: React.FC<{
                 right: "0"
             }}>
                 <ChannelDescription />
-                <Content scrolled={scrolled} />
+                <Content />
             </div>
         )
     }

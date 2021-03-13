@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { core } from '../../../core'
+import React, { useEffect, useRef, useState } from 'react'
 
-import { PageModes } from '../../../components/nav/top/components/pageMode'
 import Template from '../../../components/app/template'
-
-import { WatchLater } from '../../../components/fav/library/watch_later'
-import { PlayList } from '../../../components/fav/library/playlists'
+import { MainPlayer } from '../../../components/playlist/mainPlayer/player'
+import { PlaylistItems } from '../../../components/playlist/playlistItems/itemsRender'
 
 const Pages: React.FC = () => {
     return (
@@ -19,9 +16,10 @@ function ChannelPlaylist() {
             <div style={{
                 width: "100%",
                 height: "100%",
-                // backgroundColor: "green"
+                display: "flex"
             }}>
-
+                <MainPlayer />
+                <PlaylistItems />
             </div>
         </Template>
     )

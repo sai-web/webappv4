@@ -71,12 +71,22 @@ async function getPlaylists() {
         })
 }
 
+async function getPlaylist(playlist_name: string) {
+    collections.vods.reset()
+    routes.getPlaylist(playlist_name)
+        .then(data => {
+            (data as string[]).map((item: any, index) => {
+                if (item) {
+                    collections.vods.collect(item)
+                    if (index === 0) collections.vods.selectors.CURRENT.select(item.vod_id)
+                }
+            });
+        })
+}
+
 //delete the entire playlist
 function deletePlaylist(playlist_name: string) {
     routes.deletePlaylist(playlist_name)
-        .then(data => {
-
-        })
 }
 
 //create a new playlist
@@ -114,5 +124,6 @@ export default {
     createPlaylist,
     getPlaylists,
     playlistUpdateMutations,
-    checkForVodInPlaylists
+    checkForVodInPlaylists,
+    getPlaylist
 }

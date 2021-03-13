@@ -16,7 +16,7 @@ interface MenuOptionProperties {
 interface MenuProps {
     options: Record<string, MenuOptionProperties>,
     type: MenuType,
-    reference: React.MutableRefObject<any>,
+    reference: React.MutableRefObject<any>[],
     position?: {
         x: number,
         y: number,
@@ -37,7 +37,7 @@ export const MenuOptions: React.FC<MenuProps> = ({
             display: value,
             position
         })
-    }, [reference])
+    }, reference)
     return (
         <div
             style={{
@@ -49,7 +49,7 @@ export const MenuOptions: React.FC<MenuProps> = ({
                 flexDirection: "column",
                 overflow: "hidden"
             }}
-            ref={reference}
+            ref={reference[0]}
         >
             {
                 Object.keys(options).map((option, index) => {

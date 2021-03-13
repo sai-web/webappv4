@@ -39,3 +39,16 @@ interface ContentPreviewProps {
 export const contentPreview = App.Event<ContentPreviewProps>({
     name: "content-preview"
 })
+
+interface ConfirmNoticeProps {
+    show: boolean
+    message: {
+        header: string,
+        body: string
+    }
+    do: () => null
+}
+
+export const confirmNotice = App.Event<ConfirmNoticeProps>({
+    name: "confirm-notice"
+})

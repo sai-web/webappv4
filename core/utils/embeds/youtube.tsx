@@ -63,7 +63,13 @@ export class Youtube {
 
     public getEmbed(): JSX.Element {
         const details: EmbedDetails = this._getEmbedDetails()
-        if (this.content_type === content_types.content) return React.createElement('iframe', { ...details, frameBorder: "0", allowtransparency: "true", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" })
+        if (this.content_type === content_types.content) return React.createElement('iframe', {
+            ...details,
+            frameBorder: "0",
+            allowtransparency: "true",
+            allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+            className: "custom-embed-player"
+        })
         return (
             <script
                 src={`http://www.gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/youtube.xml&amp;up_channel=${this._id}&amp;synd=open&amp;w=320&amp;h=390&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js`}

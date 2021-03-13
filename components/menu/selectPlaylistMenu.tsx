@@ -42,7 +42,7 @@ const PlaylistType: React.FC<PlaylistTypeProps> = ({
                         prevPlaylists.push({
                             name,
                             method: "delete",
-                            vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id
+                            vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id!
                         })
                     }
                     core.vod.state.vodPlaylistMutation.set(prevPlaylists)
@@ -59,7 +59,7 @@ const PlaylistType: React.FC<PlaylistTypeProps> = ({
                         prevPlaylists.push({
                             name,
                             method: "create",
-                            vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id
+                            vod_id: core.vod.collections.vods.selectors.CURRENT.value.vod_id!
                         })
                     }
                     core.vod.state.vodPlaylistMutation.set(prevPlaylists)
@@ -178,8 +178,8 @@ export const SelectPlaylistMenu: React.FC<SelectPlaylistsProps> = ({
     }, [reference], [position])
     useEffect(() => {
         if (display) {
-            core.vod.checkForVodInPlaylists(core.vod.collections.vods.selectors.CURRENT.value.vod_id)
-                .then(data => {
+            core.vod.checkForVodInPlaylists(core.vod.collections.vods.selectors.CURRENT.value.vod_id!)
+                .then((data) => {
                     const normalizedArr: { name: string, chosen: boolean }[] = []
                     Object.entries(data).forEach(([name, chosen]) => {
                         normalizedArr.push({ name, chosen: chosen as boolean })

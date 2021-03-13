@@ -14,7 +14,6 @@ export function closeOnOutwardClick(
                 else if (!reference.current) return false
                 return true
             })
-            if (ref.length === 5) console.log(mappedChanges)
             if (!mappedChanges.includes(true)) stateSetter(false)
         }
         document.addEventListener("mousedown", handleClickOutside);
